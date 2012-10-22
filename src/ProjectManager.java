@@ -7,7 +7,6 @@ import java.awt.event.*;
 
 /*TODO
  * own class for critical path
- * debug console in gui
  * graphical output?
  * multiprojects ??
  * import/export from text file ??
