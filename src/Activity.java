@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Activity {
 	// private attributes
-	//private Calendar pCal;
 	private String name;
 	private int duration;
 	private int resources;
