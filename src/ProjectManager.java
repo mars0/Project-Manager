@@ -80,7 +80,7 @@ public class ProjectManager implements ActionListener{
     	myProject.removeArc(from, to);
     }
     else if ("criticalPath".equals(e.getActionCommand())) {
-    	myProject.computeCriticalPath();
+    	myProject.getCriticalPath().computeCriticalPath();
     }
     myProject.printActivities();
   }
