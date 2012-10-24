@@ -6,7 +6,7 @@ import java.util.*;
 import java.awt.event.*;
 
 /*TODO
- * own class for critical path
+ * return true or false from compute critical path and optimize computation
  * graphical output?
  * multiprojects ??
  * import/export from text file ??
