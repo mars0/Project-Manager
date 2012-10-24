@@ -14,6 +14,9 @@ import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 
 public class MainWindow{
@@ -39,6 +42,11 @@ public class MainWindow{
 	private JPanel panel;
 	private JScrollPane scrollPane_2;
 	private JTextArea debugOutput;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenu mnEdit;
+	private JMenu mnView;
+	private JMenuItem mntmShow;
 
 
 
@@ -120,7 +128,7 @@ public class MainWindow{
 	private void initialize() {
 		frmProjectManagerPro = new JFrame();
 		frmProjectManagerPro.setTitle("Project Manager PRO");
-		frmProjectManagerPro.setBounds(100, 100, 757, 557);
+		frmProjectManagerPro.setBounds(100, 100, 757, 575);
 		frmProjectManagerPro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProjectManagerPro.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -259,5 +267,20 @@ public class MainWindow{
 		debugOutput.setBackground(Color.BLACK);
 		debugOutput.setEditable(false);
 		scrollPane_2.setViewportView(debugOutput);
+		
+		menuBar = new JMenuBar();
+		frmProjectManagerPro.setJMenuBar(menuBar);
+		
+		mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
+		
+		mnView = new JMenu("Calendar");
+		menuBar.add(mnView);
+		
+		mntmShow = new JMenuItem("Show");
+		mnView.add(mntmShow);
 	}
 }
