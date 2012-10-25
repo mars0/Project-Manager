@@ -74,6 +74,7 @@ public class Project {
 		Activity newActivity = null;
 		if (this.isUnique(activityName)) {
 			newActivity = new Activity(activityName, activityDuration, activityResources);
+			// the predecessors of START are NULL
 			if (predecessors != null) {
 				if (predecessors.length == 0) {
 					Activity current = getActivityByName("START");
@@ -83,9 +84,13 @@ public class Project {
 				else {
 					for (int i = 0; i < predecessors.length; i++) {
 						Activity current = getActivityByName(predecessors[i]);
-						newActivity.addPredecessor(current);
-						current.addSuccessor(newActivity);
-						
+						if (current != null) {
+							newActivity.addPredecessor(current);
+							current.addSuccessor(newActivity);
+						}
+						else {
+							view.printDebugln("Cannot add predecessor relation to non-exisiting node " + predecessors[i]);
+						}
 					}
 				}
 			}
