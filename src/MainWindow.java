@@ -47,6 +47,8 @@ public class MainWindow{
 	private JMenu mnEdit;
 	private JMenu mnView;
 	private JMenuItem mntmShow;
+	private JMenuItem mntmOpen;
+	private JMenuItem mntmSaveAs;
 
 
 
@@ -273,6 +275,12 @@ public class MainWindow{
 		
 		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		mntmOpen = new JMenuItem("Open");
+		mnFile.add(mntmOpen);
+		
+		mntmSaveAs = new JMenuItem("Save as..");
+		mnFile.add(mntmSaveAs);
 		
 		mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
