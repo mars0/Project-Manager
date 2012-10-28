@@ -180,6 +180,9 @@ public class CalendarView {
 	  		else if (delegate.isStartDate(value)) {
 	  			cell.setBackground(Color.green);
 	  		}
+	  		else if (delegate.isEndDate(value)) {
+	  			cell.setBackground(Color.magenta);
+	  		}
 	  		else if (isSelected) {
 	  			cell.setBackground(Color.blue);
 	  		} 

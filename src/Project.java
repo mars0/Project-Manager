@@ -43,15 +43,9 @@ public class Project {
 		this.startDate = startDate;
 		view.printDebugln("Set start date to " + startDate.getTime());
 	}
-	public Calendar calculateEndDate() {
-		if (startDate != null) {
-			criticalPath.computeCriticalPath();
-			if(criticalPath.getLength() > 0) {
-				this.endDate = projectCalendar.calculateEndDate(startDate, criticalPath.getLength());
-				return this.endDate;
-			}
-		}
-		return null;
+
+	public Calendar getEndDate() {
+		return this.endDate;
 	}
 
 	public List<Activity> getActivities() {
@@ -76,6 +70,17 @@ public class Project {
 			Activity current = it.next();
 			if (activityName.equals(current.getName())) {
 				return current;
+			}
+		}
+		return null;
+	}
+	
+	public Calendar calculateEndDate() {
+		if (startDate != null) {
+			criticalPath.computeCriticalPath();
+			if(criticalPath.getLength() > 0) {
+				this.endDate = projectCalendar.calculateEndDate(startDate, criticalPath.getLength());
+				return this.endDate;
 			}
 		}
 		return null;

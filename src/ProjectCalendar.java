@@ -79,6 +79,16 @@ public class ProjectCalendar implements ActionListener{
 		return false;
 	}
 	
+	public boolean isEndDate(String value) {
+		Calendar endDate = project.getEndDate();
+		if (endDate != null && 
+				Integer.parseInt(value) == endDate.get(Calendar.DAY_OF_MONTH) && 
+				pCal.get(Calendar.MONTH) == endDate.get(Calendar.MONTH) && 
+				pCal.get(Calendar.YEAR) == endDate.get(Calendar.YEAR))
+			return true;
+		return false;
+	}
+	
 	public void printDays() {
 		// clear table
 		cView.getTableModel().setRowCount(0);
@@ -113,7 +123,7 @@ public class ProjectCalendar implements ActionListener{
 	
 	public Calendar calculateEndDate(Calendar startDate, int length) {
 		Calendar endDate = Calendar.getInstance();
-		endDate.set(Calendar.DAY_OF_MONTH, startDate.get(Calendar.DAY_OF_MONTH));
+		endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
 		while(length > 0) {
 		  endDate.add(Calendar.DAY_OF_MONTH, 1);
 			if(!isHoliday(((Integer)endDate.get(Calendar.DAY_OF_MONTH)).toString(), endDate))
@@ -139,18 +149,22 @@ public class ProjectCalendar implements ActionListener{
   		int row = cView.getTable().getSelectedRow();
       int col = cView.getTable().getSelectedColumn();
       try {
-      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
-      if(!isStartDate(day.toString())) 
-      	addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
+      	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
+      	if(!isStartDate(day.toString())) {
+      		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
+      		project.calculateEndDate();
+      	}
       } catch (ClassCastException exception) {}
   	}
   	else if("deleteHoliday".equals(e.getActionCommand())) {
   		int row = cView.getTable().getSelectedRow();
       int col = cView.getTable().getSelectedColumn();
       try {
-      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
-      if(!isStartDate(day.toString()))
-      	addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
+      	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
+      	if(!isStartDate(day.toString())) {
+      		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
+      		project.calculateEndDate();
+      	}
       } catch (ClassCastException exception) {}
   	}
   	else if("setStartDate".equals(e.getActionCommand())) {
@@ -162,7 +176,8 @@ public class ProjectCalendar implements ActionListener{
 	      date.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day);
 	      if(!isHoliday(day.toString(), null)) {
 	      	project.setStartDate(date);
-	      	System.out.println("End date: " + project.calculateEndDate().getTime());
+	      	project.calculateEndDate();
+	      	//System.out.println("End date: " + project.calculateEndDate().getTime());
 	      }
       } catch (ClassCastException exception) {}
 	  }
@@ -172,8 +187,11 @@ public class ProjectCalendar implements ActionListener{
   public void openCalendarWindow() {
   	if (this.cView == null)
   		this.cView = new CalendarView(this);
-  	else
+  	else {
   		cView.openWindow();
+  		//pCal = Calendar.getInstance(); // reset to current date
+  	}
+  	project.calculateEndDate();
   	printDays();
   }
 
