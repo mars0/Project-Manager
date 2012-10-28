@@ -46,9 +46,12 @@ public class ProjectCalendar implements ActionListener{
 		return dateKey;
 	}
 	
-	public boolean isHoliday(String day) {
+	public boolean isHoliday(String day, Calendar refCal) {
 		Calendar currCal = Calendar.getInstance();
-		currCal.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), Integer.parseInt(day));
+		if(refCal == null)
+			currCal.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), Integer.parseInt(day));
+		else
+			currCal.set(refCal.get(Calendar.YEAR), refCal.get(Calendar.MONTH), Integer.parseInt(day));
 		boolean res = false;
 		if (day.length() == 0) {
 			res = false;
@@ -108,6 +111,17 @@ public class ProjectCalendar implements ActionListener{
 		cView.renderCell();
 	}
 	
+	public Calendar calculateEndDate(Calendar startDate, int length) {
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(Calendar.DAY_OF_MONTH, startDate.get(Calendar.DAY_OF_MONTH));
+		while(length > 0) {
+		  endDate.add(Calendar.DAY_OF_MONTH, 1);
+			if(!isHoliday(((Integer)endDate.get(Calendar.DAY_OF_MONTH)).toString(), endDate))
+				length--;
+		}
+		return endDate;
+	}
+	
   public void actionPerformed(ActionEvent e) {
   	if("prevMonth".equals(e.getActionCommand())) {
   		pCal.set(Calendar.MONTH, (pCal.get(Calendar.MONTH)+11)%12);
@@ -146,8 +160,10 @@ public class ProjectCalendar implements ActionListener{
 	      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
 	      Calendar date = Calendar.getInstance();
 	      date.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day);
-	      if(!isHoliday(day.toString()))
+	      if(!isHoliday(day.toString(), null)) {
 	      	project.setStartDate(date);
+	      	System.out.println("End date: " + project.calculateEndDate().getTime());
+	      }
       } catch (ClassCastException exception) {}
 	  }
   	printDays();

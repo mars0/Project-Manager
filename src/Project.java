@@ -43,11 +43,15 @@ public class Project {
 		this.startDate = startDate;
 		view.printDebugln("Set start date to " + startDate.getTime());
 	}
-	public Calendar getEndDate() {
-		return this.endDate;
-	}
-	public void setEndDate(Calendar endDate) {
-		this.endDate = endDate;
+	public Calendar calculateEndDate() {
+		if (startDate != null) {
+			criticalPath.computeCriticalPath();
+			if(criticalPath.getLength() > 0) {
+				this.endDate = projectCalendar.calculateEndDate(startDate, criticalPath.getLength());
+				return this.endDate;
+			}
+		}
+		return null;
 	}
 
 	public List<Activity> getActivities() {

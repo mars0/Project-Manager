@@ -163,6 +163,7 @@ public class CriticalPath {
 		}
 		else {
 			project.getView().printDebugln("Cannot compute critical path: END-activity is missing.");
+			this.length = -1;
 		}
 	}
 

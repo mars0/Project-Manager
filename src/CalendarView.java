@@ -67,7 +67,7 @@ public class CalendarView {
 		 tColumn = table.getColumnModel().getColumn(i);
 		 CustomTableCellRenderer ctcr = new CustomTableCellRenderer(delegate);
 		 ctcr.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-		 tColumn.setCellRenderer(ctcr);
+		 tColumn.setCellRenderer(ctcr);;
 		}
 	}
 
@@ -103,14 +103,8 @@ public class CalendarView {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		tableModel = new DefaultTableModel(); 
-		tableModel.addColumn("Mon"); 
-		tableModel.addColumn("Tue");
-		tableModel.addColumn("Wed");
-		tableModel.addColumn("Thu");
-		tableModel.addColumn("Fri");
-		tableModel.addColumn("Sat");
-		tableModel.addColumn("Sun");
+		String[] colText = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+		tableModel = new DefaultTableModel(null, colText); 
 		
 		lblMonth = new JLabel("Month");
 		frmProjectCalendar.getContentPane().add(lblMonth, "4, 2");
@@ -180,7 +174,7 @@ public class CalendarView {
 	  	Component cell = super.getTableCellRendererComponent(table, obj, isSelected, hasFocus, row, column);
 	  	String value = obj.toString();
 	  	if (value.length() > 0) {
-	  		if (delegate.isHoliday(value)) {
+	  		if (delegate.isHoliday(value, null)) {
 	  			cell.setBackground(Color.red);
 	  		}
 	  		else if (delegate.isStartDate(value)) {
