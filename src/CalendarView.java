@@ -30,7 +30,7 @@ public class CalendarView {
 	private JButton btnAdd;
 	private JButton btnDelete;
 	private JLabel lblHolidays;
-	private JButton btnSetStartDate;
+	private JButton btnStartDate;
 	private JLabel lblStartDate;
 
 	/**
@@ -65,7 +65,9 @@ public class CalendarView {
 	public void renderCell() {
 		for (int i=0; i<7; i++) {
 		 tColumn = table.getColumnModel().getColumn(i);
-		 tColumn.setCellRenderer(new CustomTableCellRenderer(delegate));
+		 CustomTableCellRenderer ctcr = new CustomTableCellRenderer(delegate);
+		 ctcr.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		 tColumn.setCellRenderer(ctcr);
 		}
 	}
 
@@ -136,6 +138,8 @@ public class CalendarView {
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowHeight(25);
+		table.setFont(new Font("Lucida Grande", Font.BOLD, 14));
 		
 		lblStartDate = new JLabel("Start Date:");
 		frmProjectCalendar.getContentPane().add(lblStartDate, "4, 6");
@@ -143,8 +147,11 @@ public class CalendarView {
 		lblHolidays = new JLabel("Holidays:");
 		frmProjectCalendar.getContentPane().add(lblHolidays, "10, 6");
 		
-		btnSetStartDate = new JButton("Set");
-		frmProjectCalendar.getContentPane().add(btnSetStartDate, "4, 8");
+		btnStartDate = new JButton("Set");
+		frmProjectCalendar.getContentPane().add(btnStartDate, "4, 8");
+		btnStartDate.setActionCommand("setStartDate");
+		btnStartDate.addActionListener(delegate);
+		
 		
 		splitPane_1 = new JSplitPane();
 		frmProjectCalendar.getContentPane().add(splitPane_1, "10, 8, center, center");
@@ -175,6 +182,9 @@ public class CalendarView {
 	  	if (value.length() > 0) {
 	  		if (delegate.isHoliday(value)) {
 	  			cell.setBackground(Color.red);
+	  		}
+	  		else if (delegate.isStartDate(value)) {
+	  			cell.setBackground(Color.green);
 	  		}
 	  		else if (isSelected) {
 	  			cell.setBackground(Color.blue);

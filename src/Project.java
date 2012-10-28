@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Project {
 	private String name;
-	private Date startDate;
-	private Date endDate;
+	private Calendar startDate;
+	private Calendar endDate;
 	private List<Activity> activities = new ArrayList<Activity>();
 	private MainWindow view;
 	private CriticalPath criticalPath;
@@ -21,7 +21,7 @@ public class Project {
 	public Project(String name, MainWindow view) {
 		this.name = name;
 		this.view = view;
-		this.projectCalendar = new ProjectCalendar();
+		this.projectCalendar = new ProjectCalendar(this);
 		criticalPath = new CriticalPath(this);
 		// add start activity
 		Activity a = addActivity("START", 0, null, 0);
@@ -36,16 +36,17 @@ public class Project {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getStartDate() {
+	public Calendar getStartDate() {
 		return this.startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(Calendar startDate) {
 		this.startDate = startDate;
+		view.printDebugln("Set start date to " + startDate.getTime());
 	}
-	public Date getEndDate() {
+	public Calendar getEndDate() {
 		return this.endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
 	}
 

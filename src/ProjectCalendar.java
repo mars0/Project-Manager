@@ -4,9 +4,11 @@ import java.awt.event.*;
 public class ProjectCalendar implements ActionListener{
 	private static Calendar pCal;
 	private CalendarView cView;
+	private Project project;
 	private Map<Integer,Boolean> customDays;
 	
-	public ProjectCalendar() {
+	public ProjectCalendar(Project p) {
+		this.project = p;
 		pCal = Calendar.getInstance();
 		customDays = new HashMap<Integer,Boolean>();
 	}
@@ -64,6 +66,16 @@ public class ProjectCalendar implements ActionListener{
 		return res;
 	}
 	
+	public boolean isStartDate(String value) {
+		Calendar startDate = project.getStartDate();
+		if (startDate != null && 
+				Integer.parseInt(value) == startDate.get(Calendar.DAY_OF_MONTH) && 
+				pCal.get(Calendar.MONTH) == startDate.get(Calendar.MONTH) && 
+				pCal.get(Calendar.YEAR) == startDate.get(Calendar.YEAR))
+			return true;
+		return false;
+	}
+	
 	public void printDays() {
 		// clear table
 		cView.getTableModel().setRowCount(0);
@@ -112,16 +124,32 @@ public class ProjectCalendar implements ActionListener{
   	else if("addHoliday".equals(e.getActionCommand())) {
   		int row = cView.getTable().getSelectedRow();
       int col = cView.getTable().getSelectedColumn();
+      try {
       Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
-      //System.out.println("Add Holiday: " + day);
-  		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
+      if(!isStartDate(day.toString())) 
+      	addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
+      } catch (ClassCastException exception) {}
   	}
   	else if("deleteHoliday".equals(e.getActionCommand())) {
   		int row = cView.getTable().getSelectedRow();
       int col = cView.getTable().getSelectedColumn();
+      try {
       Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
-  		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
+      if(!isStartDate(day.toString()))
+      	addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
+      } catch (ClassCastException exception) {}
   	}
+  	else if("setStartDate".equals(e.getActionCommand())) {
+  		int row = cView.getTable().getSelectedRow();
+      int col = cView.getTable().getSelectedColumn();
+      try {
+	      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
+	      Calendar date = Calendar.getInstance();
+	      date.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day);
+	      if(!isHoliday(day.toString()))
+	      	project.setStartDate(date);
+      } catch (ClassCastException exception) {}
+	  }
   	printDays();
   }
   
