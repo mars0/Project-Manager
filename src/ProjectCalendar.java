@@ -12,8 +12,7 @@ public class ProjectCalendar implements ActionListener{
 	}
 	
 	private void addCustomDay(Integer year, Integer month, Integer day, Boolean isHoliday) {
-		String sYear, sMonth, sDay, sDate;
-		sYear = year.toString();
+		String sMonth, sDay, sDate;
 		if (month < 10)
 			sMonth = "0" + month.toString();
 		else
@@ -22,19 +21,43 @@ public class ProjectCalendar implements ActionListener{
 			sDay = "0" + day.toString();
 		else
 			sDay = day.toString();
-		sDate = sYear + sMonth + sDay;
+		sDate = year.toString() + sMonth + sDay;
 		Integer date = Integer.parseInt(sDate);
 		customDays.put(date, isHoliday);
 	}
 	
+	private Integer getCustomDayKey(Calendar currDay) {
+		String sMonth, sDay, sDate;
+		Integer day = currDay.get(Calendar.DAY_OF_MONTH);
+		Integer month = currDay.get(Calendar.MONTH);
+		Integer year = currDay.get(Calendar.YEAR);
+		if (month < 10)
+			sMonth = "0" + month.toString();
+		else
+			sMonth = month.toString();
+		if (day < 10) 
+			sDay = "0" + day.toString();
+		else
+			sDay = day.toString();
+		sDate = year.toString() + sMonth + sDay;
+		Integer dateKey = Integer.parseInt(sDate);
+		return dateKey;
+	}
+	
 	public boolean isHoliday(String day) {
+		Calendar currCal = Calendar.getInstance();
+		currCal.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), Integer.parseInt(day));
 		boolean res = false;
 		if (day.length() == 0) {
 			res = false;
 		}
 		else {
-			pCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
-			if (pCal.get(Calendar.DAY_OF_WEEK) == 1 || pCal.get(Calendar.DAY_OF_WEEK) == 7) {
+			Integer dateKey = getCustomDayKey(currCal);
+			if (customDays.containsKey(dateKey)) {
+				res = customDays.get(dateKey);
+			}
+			else if (currCal.get(Calendar.DAY_OF_WEEK) == 1 || currCal.get(Calendar.DAY_OF_WEEK) == 7) {
+				// a normal week end day
 				res = true;
 			}
 		}
@@ -86,12 +109,18 @@ public class ProjectCalendar implements ActionListener{
   			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)+1);
   		}
   	}
-  	else if("btnAdd".equals(e.getActionCommand())) {
-
-  		//addCustomDay(Integer year, Integer month, Integer day, true);
+  	else if("addHoliday".equals(e.getActionCommand())) {
+  		int row = cView.getTable().getSelectedRow();
+      int col = cView.getTable().getSelectedColumn();
+      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
+      //System.out.println("Add Holiday: " + day);
+  		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
   	}
-  	else if("btnDelete".equals(e.getActionCommand())) {
-  		
+  	else if("deleteHoliday".equals(e.getActionCommand())) {
+  		int row = cView.getTable().getSelectedRow();
+      int col = cView.getTable().getSelectedColumn();
+      Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
+  		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
   	}
   	printDays();
   }

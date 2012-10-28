@@ -42,6 +42,10 @@ public class CalendarView {
 		frmProjectCalendar.setVisible(true);
 	}
 	
+	public JTable getTable() {
+		return table;
+	}
+
 	public JLabel getLblMonth() {
 		return lblMonth;
 	}
@@ -147,10 +151,12 @@ public class CalendarView {
 		
 		btnAdd = new JButton("Add");
 		splitPane_1.setLeftComponent(btnAdd);
+		btnAdd.setActionCommand("addHoliday");
 		btnAdd.addActionListener(delegate);
 		
 		btnDelete = new JButton("Delete");
 		splitPane_1.setRightComponent(btnDelete);
+		btnDelete.setActionCommand("deleteHoliday");
 		btnDelete.addActionListener(delegate);
 	}
 	
@@ -166,13 +172,16 @@ public class CalendarView {
 		public Component getTableCellRendererComponent (JTable table, Object obj, boolean isSelected, boolean hasFocus, int row, int column) {
 	  	Component cell = super.getTableCellRendererComponent(table, obj, isSelected, hasFocus, row, column);
 	  	String value = obj.toString();
-	  	boolean isHoliday = delegate.isHoliday(value);
-	  	if (isHoliday) {
-	  		cell.setBackground(Color.red);
+	  	if (value.length() > 0) {
+	  		if (delegate.isHoliday(value)) {
+	  			cell.setBackground(Color.red);
+	  		}
+	  		else if (isSelected) {
+	  			cell.setBackground(Color.blue);
+	  		} 
+	  		else
+	  			cell.setBackground(Color.white);
 	  	}
-	  	else if (isSelected && value.length() > 0) {
-	  		cell.setBackground(Color.blue);
-  	  } 
 	  	else {
 	  		cell.setBackground(Color.white);
 	  	}
