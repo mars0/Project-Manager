@@ -1,4 +1,3 @@
-//import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.jgoodies.forms.layout.FormLayout;
@@ -19,7 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 
-public class MainWindow{
+public class MainWindow {
 
 	private JFrame frmProjectManagerPro;
 	private JTextField txtName;
@@ -32,7 +31,7 @@ public class MainWindow{
 	private JButton deleteActivityButton;
 	private JButton addArcButton;
 	private JButton removeArcButton;
-	ProjectManager delegate;
+	private ProjectManager delegate;
 	private JScrollPane scrollPane;
 	private JTextField txtFrom;
 	private JTextField txtTo;
@@ -50,10 +49,8 @@ public class MainWindow{
 	private JMenuItem mntmOpen;
 	private JMenuItem mntmSaveAs;
 
-
-
 	public MainWindow(ProjectManager del) {
-		delegate = del;
+		this.delegate = del;
 		initialize();
 		frmProjectManagerPro.setVisible(true);
 	}
@@ -290,5 +287,7 @@ public class MainWindow{
 		
 		mntmShow = new JMenuItem("Show");
 		mnView.add(mntmShow);
+		mntmShow.addActionListener(delegate);
+	  mntmShow.setActionCommand("showCal");
 	}
 }

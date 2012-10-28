@@ -1,4 +1,4 @@
-import java.util.*;
+//import java.util.*;
 
 //GUI stuff
 //import javax.swing.*;
@@ -14,7 +14,7 @@ import java.awt.event.*;
 
 public class ProjectManager implements ActionListener{
 	
-	private static Calendar pCal;
+	//private static Calendar pCal;
 	private Project myProject;
 	private MainWindow view;
 	
@@ -22,7 +22,7 @@ public class ProjectManager implements ActionListener{
 		this.view = new MainWindow(this);
 		myProject = new Project("Test Project", view);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
-		view.printDebugln("Today is " + pCal.getTime());
+		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case:
 		String[] preds = new String[0];
 		myProject.addActivity("A", 5, preds, 0);
@@ -82,11 +82,14 @@ public class ProjectManager implements ActionListener{
     else if ("criticalPath".equals(e.getActionCommand())) {
     	myProject.getCriticalPath().computeCriticalPath();
     }
+    else if("showCal".equals(e.getActionCommand())) {
+    	myProject.getProjectCalendar().openCalendarWindow();
+    }
     myProject.printActivities();
   }
 	
 	public static void main(String[] args) {
-		pCal = Calendar.getInstance();
+	//	pCal = Calendar.getInstance();
 		new ProjectManager();
 	}
 

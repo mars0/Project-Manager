@@ -7,6 +7,7 @@ public class Project {
 	private List<Activity> activities = new ArrayList<Activity>();
 	private MainWindow view;
 	private CriticalPath criticalPath;
+	private ProjectCalendar projectCalendar;
 	
 	private boolean isUnique(String activityName) {
 		Iterator<Activity> it = activities.iterator();
@@ -20,6 +21,7 @@ public class Project {
 	public Project(String name, MainWindow view) {
 		this.name = name;
 		this.view = view;
+		this.projectCalendar = new ProjectCalendar();
 		criticalPath = new CriticalPath(this);
 		// add start activity
 		Activity a = addActivity("START", 0, null, 0);
@@ -57,6 +59,10 @@ public class Project {
 	
 	public CriticalPath getCriticalPath() {
 		return this.criticalPath;
+	}
+	
+	public ProjectCalendar getProjectCalendar() {
+		return this.projectCalendar;
 	}
 	
 	public Activity getActivityByName(String activityName) {
@@ -157,16 +163,7 @@ public class Project {
 			}
 			// print row
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors, a.getResources()});
-			/*System.out.println();
-			System.out.print("SUCCESSORS: ");
-			relationsIter = current.getSuccessors().iterator();
-			while (relationsIter.hasNext()){
-				System.out.print(relationsIter.next().getName() + " ");
-			}
-			System.out.println();*/
 		}
 	}
-	
-	
 
 }
