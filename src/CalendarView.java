@@ -4,17 +4,21 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JTable;
+import javax.swing.table.*;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+import java.awt.*;
 
 public class CalendarView {
 
 	private JFrame frmProjectCalendar;
 	private ProjectCalendar delegate;
 	private JTable table;
+	private TableColumn tColumn;
 	private DefaultTableModel tableModel;
 	private JLabel lblMonth;
 	private JLabel lblYear;
@@ -23,7 +27,7 @@ public class CalendarView {
 	private JButton buttonNext;
 	private JScrollPane scrollPane;
 	private JSplitPane splitPane_1;
-	private JButton btnAddHoliday;
+	private JButton btnAdd;
 	private JButton btnDelete;
 	private JLabel lblHolidays;
 	private JButton btnSetStartDate;
@@ -52,6 +56,13 @@ public class CalendarView {
 	
 	public void openWindow() {
 		frmProjectCalendar.setVisible(true);	
+	}
+	
+	public void renderCell() {
+		for (int i=0; i<7; i++) {
+		 tColumn = table.getColumnModel().getColumn(i);
+		 tColumn.setCellRenderer(new CustomTableCellRenderer(delegate));
+		}
 	}
 
 	/**
@@ -119,6 +130,8 @@ public class CalendarView {
 		
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
+		table.setCellSelectionEnabled(true);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		lblStartDate = new JLabel("Start Date:");
 		frmProjectCalendar.getContentPane().add(lblStartDate, "4, 6");
@@ -132,11 +145,39 @@ public class CalendarView {
 		splitPane_1 = new JSplitPane();
 		frmProjectCalendar.getContentPane().add(splitPane_1, "10, 8, center, center");
 		
-		btnAddHoliday = new JButton("Add");
-		splitPane_1.setLeftComponent(btnAddHoliday);
+		btnAdd = new JButton("Add");
+		splitPane_1.setLeftComponent(btnAdd);
+		btnAdd.addActionListener(delegate);
 		
 		btnDelete = new JButton("Delete");
 		splitPane_1.setRightComponent(btnDelete);
+		btnDelete.addActionListener(delegate);
 	}
+	
+	public class CustomTableCellRenderer extends DefaultTableCellRenderer{
+		private static final long serialVersionUID = 1L;
+		private ProjectCalendar delegate;
+		
+		public CustomTableCellRenderer(ProjectCalendar del) {
+			super();
+			delegate = del;
+		}
+		
+		public Component getTableCellRendererComponent (JTable table, Object obj, boolean isSelected, boolean hasFocus, int row, int column) {
+	  	Component cell = super.getTableCellRendererComponent(table, obj, isSelected, hasFocus, row, column);
+	  	String value = obj.toString();
+	  	boolean isHoliday = delegate.isHoliday(value);
+	  	if (isHoliday) {
+	  		cell.setBackground(Color.red);
+	  	}
+	  	else if (isSelected && value.length() > 0) {
+	  		cell.setBackground(Color.blue);
+  	  } 
+	  	else {
+	  		cell.setBackground(Color.white);
+	  	}
+	  	return cell;
+		}
+		}
 
 }

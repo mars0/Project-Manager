@@ -4,33 +4,64 @@ import java.awt.event.*;
 public class ProjectCalendar implements ActionListener{
 	private static Calendar pCal;
 	private CalendarView cView;
+	private Map<Integer,Boolean> customDays;
 	
 	public ProjectCalendar() {
 		pCal = Calendar.getInstance();
+		customDays = new HashMap<Integer,Boolean>();
 	}
 	
-	public void printDays(Calendar date) {
+	private void addCustomDay(Integer year, Integer month, Integer day, Boolean isHoliday) {
+		String sYear, sMonth, sDay, sDate;
+		sYear = year.toString();
+		if (month < 10)
+			sMonth = "0" + month.toString();
+		else
+			sMonth = month.toString();
+		if (day < 10) 
+			sDay = "0" + day.toString();
+		else
+			sDay = day.toString();
+		sDate = sYear + sMonth + sDay;
+		Integer date = Integer.parseInt(sDate);
+		customDays.put(date, isHoliday);
+	}
+	
+	public boolean isHoliday(String day) {
+		boolean res = false;
+		if (day.length() == 0) {
+			res = false;
+		}
+		else {
+			pCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
+			if (pCal.get(Calendar.DAY_OF_WEEK) == 1 || pCal.get(Calendar.DAY_OF_WEEK) == 7) {
+				res = true;
+			}
+		}
+		return res;
+	}
+	
+	public void printDays() {
 		// clear table
 		cView.getTableModel().setRowCount(0);
-		date.set(Calendar.DAY_OF_MONTH, 1);
+		pCal.set(Calendar.DAY_OF_MONTH, 1);
 		// set labels
-		cView.getLblMonth().setText(date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US));
-		Integer year = date.get(Calendar.YEAR);
+		cView.getLblMonth().setText(pCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US));
+		Integer year = pCal.get(Calendar.YEAR);
 		cView.getLblYear().setText(year.toString());
 		// Sunday == 1, Monday == 2 etc.
-		int column = (date.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+		int column = (pCal.get(Calendar.DAY_OF_WEEK) + 5) % 7;
 		int row = 0;
-		int numberOfDays = date.getActualMaximum(Calendar.DATE);
+		int numberOfDays = pCal.getActualMaximum(Calendar.DATE);
 		int currentDay = 1;
 		boolean firstColumn = true;
-		cView.getTableModel().addRow(new Object[]{});
 		while(numberOfDays > 0) {
 			if (firstColumn) {
 				firstColumn = false;
-				cView.getTableModel().addRow(new Object[]{});
+				cView.getTableModel().addRow(new Object[]{"", "", "", "", "", "", ""});
 			}
 			else if (column == 0) {
-				cView.getTableModel().addRow(new Object[]{});
+				cView.getTableModel().addRow(new Object[]{"", "", "", "", "", "", ""});
 				row++;
 			}
 			cView.getTableModel().setValueAt(currentDay, row, column);
@@ -38,6 +69,8 @@ public class ProjectCalendar implements ActionListener{
 			currentDay++;
 			numberOfDays--;
 		}
+		// render cells
+		cView.renderCell();
 	}
 	
   public void actionPerformed(ActionEvent e) {
@@ -53,7 +86,14 @@ public class ProjectCalendar implements ActionListener{
   			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)+1);
   		}
   	}
-  	printDays(pCal);
+  	else if("btnAdd".equals(e.getActionCommand())) {
+
+  		//addCustomDay(Integer year, Integer month, Integer day, true);
+  	}
+  	else if("btnDelete".equals(e.getActionCommand())) {
+  		
+  	}
+  	printDays();
   }
   
   public void openCalendarWindow() {
@@ -61,7 +101,7 @@ public class ProjectCalendar implements ActionListener{
   		this.cView = new CalendarView(this);
   	else
   		cView.openWindow();
-  	printDays(pCal);
+  	printDays();
   }
 
 }
