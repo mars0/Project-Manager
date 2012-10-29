@@ -93,10 +93,10 @@ public class ProjectCalendar implements ActionListener{
 		// clear table
 		cView.getTableModel().setRowCount(0);
 		pCal.set(Calendar.DAY_OF_MONTH, 1);
-		// set labels
-		cView.getLblMonth().setText(pCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US));
+		// set label
 		Integer year = pCal.get(Calendar.YEAR);
-		cView.getLblYear().setText(year.toString());
+		cView.getLblMonth().setText(pCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) +
+				"   " + year.toString());
 		// Sunday == 1, Monday == 2 etc.
 		int column = (pCal.get(Calendar.DAY_OF_WEEK) + 5) % 7;
 		int row = 0;
@@ -154,7 +154,8 @@ public class ProjectCalendar implements ActionListener{
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
       		project.calculateEndDate();
       	}
-      } catch (ClassCastException exception) {}
+      } catch (ClassCastException excep) {}
+      catch (ArrayIndexOutOfBoundsException excep) {}
   	}
   	else if("deleteHoliday".equals(e.getActionCommand())) {
   		int row = cView.getTable().getSelectedRow();
@@ -165,7 +166,8 @@ public class ProjectCalendar implements ActionListener{
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
       		project.calculateEndDate();
       	}
-      } catch (ClassCastException exception) {}
+      } catch (ClassCastException excep) {}
+      catch (ArrayIndexOutOfBoundsException excep) {}
   	}
   	else if("setStartDate".equals(e.getActionCommand())) {
   		int row = cView.getTable().getSelectedRow();
@@ -179,8 +181,29 @@ public class ProjectCalendar implements ActionListener{
 	      	project.calculateEndDate();
 	      	//System.out.println("End date: " + project.calculateEndDate().getTime());
 	      }
-      } catch (ClassCastException exception) {}
+      } catch (ClassCastException excep) {}
+      catch (ArrayIndexOutOfBoundsException excep) {}
 	  }
+  	else if("showStart".equals(e.getActionCommand())) {
+  		Calendar sDate = project.getStartDate();
+  		if(sDate.get(Calendar.MONTH) == pCal.get(Calendar.MONTH) && sDate.get(Calendar.YEAR) == pCal.get(Calendar.YEAR)) {
+  			return;
+  		}
+  		else if(pCal.get(Calendar.YEAR) < sDate.get(Calendar.YEAR) || (pCal.get(Calendar.YEAR) <= sDate.get(Calendar.YEAR) && pCal.get(Calendar.MONTH) < sDate.get(Calendar.MONTH))) {
+  			do {
+  	  		pCal.set(Calendar.MONTH, (pCal.get(Calendar.MONTH)+1)%12);
+  	  		if(pCal.get(Calendar.MONTH) == 0 )
+  	  			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)+1);
+  			} while (sDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || sDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
+  		}
+  		else {
+  			do {
+  	  		pCal.set(Calendar.MONTH, (pCal.get(Calendar.MONTH)+11)%12);
+  	  		if(pCal.get(Calendar.MONTH) == 11 )
+  	  			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)-1);
+  			} while (sDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || sDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
+  		}
+  	}
   	printDays();
   }
   

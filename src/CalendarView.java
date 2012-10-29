@@ -21,7 +21,6 @@ public class CalendarView {
 	private TableColumn tColumn;
 	private DefaultTableModel tableModel;
 	private JLabel lblMonth;
-	private JLabel lblYear;
 	private JSplitPane splitPane;
 	private JButton buttonPrev;
 	private JButton buttonNext;
@@ -32,6 +31,8 @@ public class CalendarView {
 	private JLabel lblHolidays;
 	private JButton btnStartDate;
 	private JLabel lblStartDate;
+	private JSplitPane splitPane_2;
+	private JButton btnShow;
 
 	/**
 	 * Create the application.
@@ -48,10 +49,6 @@ public class CalendarView {
 
 	public JLabel getLblMonth() {
 		return lblMonth;
-	}
-
-	public JLabel getLblYear() {
-		return lblYear;
 	}
 
 	public DefaultTableModel getTableModel() {
@@ -77,43 +74,35 @@ public class CalendarView {
 	private void initialize() {
 		frmProjectCalendar = new JFrame();
 		frmProjectCalendar.setTitle("Calendar");
-		frmProjectCalendar.setBounds(100, 100, 432, 298);
+		frmProjectCalendar.setBounds(100, 100, 411, 307);
 		frmProjectCalendar.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(9dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(32dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(26dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(8dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(76dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(0dlu;default)"),},
+				ColumnSpec.decode("max(9dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(18dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(99dlu;default):grow"),
+				RowSpec.decode("max(105dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(11dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(11dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("max(16dlu;default)"),}));
 		
 		String[] colText = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 		tableModel = new DefaultTableModel(null, colText); 
 		
-		lblMonth = new JLabel("Month");
-		frmProjectCalendar.getContentPane().add(lblMonth, "4, 2");
-		
-		lblYear = new JLabel("Year");
-		frmProjectCalendar.getContentPane().add(lblYear, "6, 2");
+		lblMonth = new JLabel("");
+		frmProjectCalendar.getContentPane().add(lblMonth, "3, 2, center, default");
 		
 		splitPane = new JSplitPane();
-		frmProjectCalendar.getContentPane().add(splitPane, "10, 2, center, center");
+		frmProjectCalendar.getContentPane().add(splitPane, "5, 2, left, center");
 		
 		buttonPrev = new JButton("<-");
 		splitPane.setLeftComponent(buttonPrev);
@@ -126,7 +115,7 @@ public class CalendarView {
 		buttonNext.addActionListener(delegate);
 		
 		scrollPane = new JScrollPane();
-		frmProjectCalendar.getContentPane().add(scrollPane, "4, 4, 7, 1, fill, fill");
+		frmProjectCalendar.getContentPane().add(scrollPane, "3, 4, 3, 1, fill, fill");
 		
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
@@ -136,26 +125,33 @@ public class CalendarView {
 		table.setFont(new Font("Lucida Grande", Font.BOLD, 14));
 		
 		lblStartDate = new JLabel("Start Date:");
-		frmProjectCalendar.getContentPane().add(lblStartDate, "4, 6");
+		frmProjectCalendar.getContentPane().add(lblStartDate, "3, 6");
 		
 		lblHolidays = new JLabel("Holidays:");
-		frmProjectCalendar.getContentPane().add(lblHolidays, "10, 6");
+		frmProjectCalendar.getContentPane().add(lblHolidays, "5, 6");
+		
+		splitPane_2 = new JSplitPane();
+		frmProjectCalendar.getContentPane().add(splitPane_2, "3, 8, left, fill");
 		
 		btnStartDate = new JButton("Set");
-		frmProjectCalendar.getContentPane().add(btnStartDate, "4, 8");
+		splitPane_2.setLeftComponent(btnStartDate);
 		btnStartDate.setActionCommand("setStartDate");
-		btnStartDate.addActionListener(delegate);
 		
+		btnShow = new JButton("Show");
+		splitPane_2.setRightComponent(btnShow);
+		btnStartDate.addActionListener(delegate);
+		btnShow.setActionCommand("showStart");
+		btnShow.addActionListener(delegate);
 		
 		splitPane_1 = new JSplitPane();
-		frmProjectCalendar.getContentPane().add(splitPane_1, "10, 8, center, center");
+		frmProjectCalendar.getContentPane().add(splitPane_1, "5, 8, left, center");
 		
 		btnAdd = new JButton("Add");
 		splitPane_1.setLeftComponent(btnAdd);
 		btnAdd.setActionCommand("addHoliday");
 		btnAdd.addActionListener(delegate);
 		
-		btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Del");
 		splitPane_1.setRightComponent(btnDelete);
 		btnDelete.setActionCommand("deleteHoliday");
 		btnDelete.addActionListener(delegate);
