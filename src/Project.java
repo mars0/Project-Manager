@@ -47,6 +47,11 @@ public class Project {
 	public Calendar getEndDate() {
 		return this.endDate;
 	}
+	
+	public void resetDates() {
+		this.endDate = null;
+		this.startDate = null;
+	}
 
 	public List<Activity> getActivities() {
 		return this.activities;
