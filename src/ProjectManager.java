@@ -25,23 +25,23 @@ public class ProjectManager implements ActionListener{
 		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case:
 		String[] preds = new String[0];
-		myProject.addActivity("A", 5, preds, 0);
-		myProject.addActivity("B", 3, preds, 0);
-		myProject.addActivity("C", 4, preds, 0);
+		myProject.addActivity("A", 5, preds, null);
+		myProject.addActivity("B", 3, preds, null);
+		myProject.addActivity("C", 4, preds, null);
 		preds = new String[2];
 		preds[0] = "A";
 		preds[1] = "B";
-		myProject.addActivity("D", 2, preds, 0);
+		myProject.addActivity("D", 2, preds, null);
 		preds = new String[1];
 		preds[0] = "C";
-		myProject.addActivity("E", 1, preds, 0);
+		myProject.addActivity("E", 1, preds, null);
 		preds[0] = "A";
-		myProject.addActivity("F", 2, preds, 0);
+		myProject.addActivity("F", 2, preds, null);
 		preds = new String[3];
 		preds[0] = "D";
 		preds[1] = "E";
 		preds[2] = "F";
-		myProject.addActivity("END", 0, preds, 0);
+		myProject.addActivity("END", 0, preds, null);
 		myProject.printActivities();
 	}
 	
@@ -56,7 +56,11 @@ public class ProjectManager implements ActionListener{
     		predecessors = (view.getTxtPred().getText()).split(" ");
     	else
     		predecessors = new String[0];
-    	int resources = Integer.parseInt(view.getTxtResources().getText());
+    	int[] resources = new int[10];
+    	if (!(view.getTxtResources().getText().equals(""))) {
+    		String[] rString = (view.getTxtResources().getText().split(" "));
+    		for(int i=0; i<rString.length && i<10; i++) resources[i] = Integer.parseInt(rString[i]);
+    	}
     	myProject.addActivity(name, duration, predecessors, resources);
     }
     else if ("deleteActivity".equals(e.getActionCommand())) {

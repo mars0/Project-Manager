@@ -120,6 +120,16 @@ public class MainWindow {
 		debugOutput.append(s + "\n");
 		debugOutput.setCaretPosition(debugOutput.getDocument().getLength());
 	}
+	
+	public void addResource(int i) {
+		tableModel.addColumn("R"+i);
+	}
+	
+	public void deleteResource() {
+		/*TODO:
+		TableColumn tcol = table.getColumnModel().getColumn();
+	  table.removeColumn(tcol);*/
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -168,7 +178,7 @@ public class MainWindow {
 		tableModel.addColumn("Min.");
 		tableModel.addColumn("Max.");
 		tableModel.addColumn("Predecessors");
-		tableModel.addColumn("Resources");
+		tableModel.addColumn("R"+1);
 		
 		scrollPane = new JScrollPane();
 		frmProjectManagerPro.getContentPane().add(scrollPane, "2, 2, 9, 1, fill, fill");

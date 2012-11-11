@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Project {
 	private String name;
+	private int usedResources = 1;
 	private Calendar startDate;
 	private Calendar endDate;
 	private List<Activity> activities = new ArrayList<Activity>();
@@ -24,7 +25,7 @@ public class Project {
 		this.projectCalendar = new ProjectCalendar(this);
 		criticalPath = new CriticalPath(this);
 		// add start activity
-		Activity a = addActivity("START", 0, null, 0);
+		Activity a = addActivity("START", 0, null, null);
 		a.setTimeMin(0);
 		a.setTimeMax(0);
 	}
@@ -51,6 +52,10 @@ public class Project {
 	public void resetDates() {
 		this.endDate = null;
 		this.startDate = null;
+	}
+	
+	public int getUsedResources() {
+		return this.usedResources;
 	}
 
 	public List<Activity> getActivities() {
@@ -91,7 +96,7 @@ public class Project {
 		return null;
 	}
 
-	public Activity addActivity(String activityName, int activityDuration, String[] predecessors, int activityResources) {
+	public Activity addActivity(String activityName, int activityDuration, String predecessors[], int activityResources[]) {
 		Activity newActivity = null;
 		if (this.isUnique(activityName)) {
 			newActivity = new Activity(activityName, activityDuration, activityResources);
@@ -163,6 +168,26 @@ public class Project {
 		else
 			view.printDebugln("Cannot delete arc: at least one activity is currently not present.");
 	}
+	
+	public void addResource() {
+		if(usedResources < 10) {
+			usedResources++;
+			view.addResource(usedResources);
+		}
+		else {
+			view.printDebugln("Cannot add further resources.");
+		}
+	}
+	
+	public void deleteResource() {
+		if(usedResources > 1) {
+			view.deleteResource();
+			usedResources--;
+		}
+		else {
+			view.printDebugln("The project needs at least one resource.");
+		}
+	}
 		
 	public void printActivities() {
 		// clear table
@@ -177,7 +202,7 @@ public class Project {
 				predecessors += relationsIter.next().getName() + " ";
 			}
 			// print row
-			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors, a.getResources()});
+			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors});
 		}
 	}
 
