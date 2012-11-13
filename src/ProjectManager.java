@@ -20,7 +20,7 @@ public class ProjectManager implements ActionListener{
 	
 	public ProjectManager() {
 		this.view = new MainWindow(this);
-		myProject = new Project("Test Project", view);
+		myProject = new Project("Test Project", view, 5);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
 		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case:
@@ -82,6 +82,12 @@ public class ProjectManager implements ActionListener{
     	String from = view.getTxtFrom().getText(); 
     	String to = view.getTxtTo().getText();
     	myProject.removeArc(from, to);
+    }
+    else if("addResource".equals(e.getActionCommand())) {
+    	myProject.addResource();
+    }
+    else if("deleteResource".equals(e.getActionCommand())) {
+    	myProject.deleteResource();
     }
     else if ("criticalPath".equals(e.getActionCommand())) {
     	myProject.getCriticalPath().computeCriticalPath();

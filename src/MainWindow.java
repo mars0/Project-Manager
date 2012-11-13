@@ -16,6 +16,7 @@ import java.awt.Font;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSplitPane;
 
 
 public class MainWindow {
@@ -48,6 +49,10 @@ public class MainWindow {
 	private JMenuItem mntmShow;
 	private JMenuItem mntmOpen;
 	private JMenuItem mntmSaveAs;
+	private JLabel lblAdddeleteResource;
+	private JSplitPane splitPane;
+	private JButton addResourceButton;
+	private JButton deleteResourceButton;
 
 	public MainWindow(ProjectManager del) {
 		this.delegate = del;
@@ -124,11 +129,13 @@ public class MainWindow {
 	public void addResource(int i) {
 		tableModel.addColumn("R"+i);
 	}
-	
-	public void deleteResource() {
-		/*TODO:
-		TableColumn tcol = table.getColumnModel().getColumn();
-	  table.removeColumn(tcol);*/
+	//dangerous!! 
+	public void deleteResource(int i) {
+		//5 original columns, start counting at 0
+    TableColumn tcol = table.getColumnModel().getColumn(4+i);
+    table.getColumnModel().removeColumn(tcol);
+    //decrement column count 
+    tableModel.setColumnCount(tableModel.getColumnCount()-1);
 	}
 
 	/**
@@ -185,6 +192,7 @@ public class MainWindow {
 		
 		table = new JTable(tableModel); 
 		scrollPane.setViewportView(table);
+		//table.setAutoCreateColumnsFromModel(false); //???
 		
 		scrollPane_1 = new JScrollPane();
 		frmProjectManagerPro.getContentPane().add(scrollPane_1, "12, 2, fill, fill");
@@ -238,6 +246,9 @@ public class MainWindow {
 		txtTo.setText("TO");
 		txtTo.setColumns(10);
 		
+		lblAdddeleteResource = new JLabel("Add/Delete Resource");
+		frmProjectManagerPro.getContentPane().add(lblAdddeleteResource, "10, 8");
+		
 		JLabel lblRecursos = new JLabel(" Resources");
 		frmProjectManagerPro.getContentPane().add(lblRecursos, "2, 10");
 		
@@ -261,6 +272,19 @@ public class MainWindow {
 		removeArcButton.setActionCommand("removeArc");
 		removeArcButton.addActionListener(delegate);
 		addArcButton.addActionListener(delegate);
+		
+		splitPane = new JSplitPane();
+		frmProjectManagerPro.getContentPane().add(splitPane, "10, 10, center, center");
+		
+		addResourceButton = new JButton("+");
+		splitPane.setLeftComponent(addResourceButton);
+		addResourceButton.setActionCommand("addResource");
+		addResourceButton.addActionListener(delegate);
+		
+		deleteResourceButton = new JButton("-");
+		splitPane.setRightComponent(deleteResourceButton);
+		deleteResourceButton.setActionCommand("deleteResource");
+		deleteResourceButton.addActionListener(delegate);
 		
 		addActivityButton = new JButton("Add Activity");
 		frmProjectManagerPro.getContentPane().add(addActivityButton, "4, 12");

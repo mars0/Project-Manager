@@ -3,6 +3,7 @@ import java.util.*;
 public class Project {
 	private String name;
 	private int usedResources = 1;
+	private int maxNumOfResources;
 	private Calendar startDate;
 	private Calendar endDate;
 	private List<Activity> activities = new ArrayList<Activity>();
@@ -19,9 +20,10 @@ public class Project {
 		return true;
 	}
 	
-	public Project(String name, MainWindow view) {
+	public Project(String name, MainWindow view, int maxResources) {
 		this.name = name;
 		this.view = view;
+		this.maxNumOfResources = maxResources;
 		this.projectCalendar = new ProjectCalendar(this);
 		criticalPath = new CriticalPath(this);
 		// add start activity
@@ -36,6 +38,9 @@ public class Project {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getMaxNumOfResources() {
+		return this.maxNumOfResources;
 	}
 	public Calendar getStartDate() {
 		return this.startDate;
@@ -99,7 +104,7 @@ public class Project {
 	public Activity addActivity(String activityName, int activityDuration, String predecessors[], int activityResources[]) {
 		Activity newActivity = null;
 		if (this.isUnique(activityName)) {
-			newActivity = new Activity(activityName, activityDuration, activityResources);
+			newActivity = new Activity(activityName, activityDuration, activityResources, maxNumOfResources);
 			// the predecessors of START are NULL
 			if (predecessors != null) {
 				if (predecessors.length == 0) {
@@ -170,7 +175,7 @@ public class Project {
 	}
 	
 	public void addResource() {
-		if(usedResources < 10) {
+		if(usedResources < maxNumOfResources) {
 			usedResources++;
 			view.addResource(usedResources);
 		}
@@ -181,7 +186,7 @@ public class Project {
 	
 	public void deleteResource() {
 		if(usedResources > 1) {
-			view.deleteResource();
+			view.deleteResource(usedResources);
 			usedResources--;
 		}
 		else {

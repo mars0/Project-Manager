@@ -4,7 +4,7 @@ public class Activity {
 	// private attributes
 	private String name;
 	private int duration;
-	private int resources[] = new int[10];
+	private int resources[];
 	private int timeMin;
 	private int timeMax;
 	private int freeFloat;
@@ -23,11 +23,12 @@ public class Activity {
 		return false;
 	}
 	
-	public Activity(String aName, int aDuration, int[] aResources) {
+	public Activity(String aName, int aDuration, int[] aResources, int maxResources) {
 		//this.pCal = pCalendar;
 		this.name = aName;
 		this.duration = aDuration;
-		if(aResources != null) System.arraycopy(aResources, 0, this.resources, 0, 10);
+		this.resources = new int[maxResources];
+		if(aResources != null) System.arraycopy(aResources, 0, this.resources, 0, maxResources);
 		this.timeMin = -1;
 		this.timeMax = -1;
 		this.totalFloat = -1;
