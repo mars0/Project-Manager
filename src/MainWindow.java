@@ -16,7 +16,6 @@ import java.awt.Font;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JSplitPane;
 
 
 public class MainWindow {
@@ -51,10 +50,10 @@ public class MainWindow {
 	private JMenuItem mntmOpen;
 	private JMenuItem mntmSaveAs;
 	private JLabel lblAdddeleteResource;
-	private JSplitPane splitPane;
 	private JButton addResourceButton;
 	private JButton deleteResourceButton;
 	private JButton editActivityButton;
+	private JPanel panel_1;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -63,7 +62,6 @@ public class MainWindow {
 		frmProjectManagerPro.setVisible(true);
 	}
 	
-	//TODO use this instead of "5"!!!
 	public int getColumnOffset() {
 		return this.columnOffset;
 	}
@@ -120,13 +118,35 @@ public class MainWindow {
 	public void addResource(int i) {
 		tableModel.addColumn("R"+i);
 	}
-	//dangerous!! 
+
 	public void deleteResource(int i) {
-		//5 original columns, start counting at 0
-    TableColumn tcol = table.getColumnModel().getColumn(4+i);
+		//-1, because starting counting at 0
+    TableColumn tcol = table.getColumnModel().getColumn(this.columnOffset+i-1);
     table.getColumnModel().removeColumn(tcol);
     //decrement column count 
     tableModel.setColumnCount(tableModel.getColumnCount()-1);
+	}
+	
+	public void addActivityButtonToSave(boolean enable) {
+		if (enable == true) {
+			addActivityButton.setText("Save");
+			addActivityButton.setForeground(Color.red);
+		}
+		else {
+			addActivityButton.setText("Add Activity");
+			addActivityButton.setForeground(Color.black);
+		}
+	}
+	
+	public void editActivityButtonToAbort(boolean enable) {
+		if (enable == true) {
+			editActivityButton.setText("Abort");
+			editActivityButton.setForeground(Color.red);
+		}
+		else {
+			editActivityButton.setText("Edit Activity");
+			editActivityButton.setForeground(Color.black);
+		}
 	}
 
 	/**
@@ -176,6 +196,7 @@ public class MainWindow {
 		tableModel.addColumn("Min.");
 		tableModel.addColumn("Max.");
 		tableModel.addColumn("Predecessors");
+		this.columnOffset = 5;
 		tableModel.addColumn("R"+1);
 		
 		scrollPane = new JScrollPane();
@@ -269,18 +290,21 @@ public class MainWindow {
 		removeArcButton.addActionListener(delegate);
 		addArcButton.addActionListener(delegate);
 		
-		splitPane = new JSplitPane();
-		frmProjectManagerPro.getContentPane().add(splitPane, "10, 10, center, center");
+		panel_1 = new JPanel();
+		frmProjectManagerPro.getContentPane().add(panel_1, "10, 10, fill, fill");
+		panel_1.setLayout(null);
 		
 		addResourceButton = new JButton("+");
-		splitPane.setLeftComponent(addResourceButton);
+		addResourceButton.setBounds(6, 0, 60, 29);
+		panel_1.add(addResourceButton);
 		addResourceButton.setActionCommand("addResource");
-		addResourceButton.addActionListener(delegate);
 		
 		deleteResourceButton = new JButton("-");
-		splitPane.setRightComponent(deleteResourceButton);
+		deleteResourceButton.setBounds(76, 0, 60, 29);
+		panel_1.add(deleteResourceButton);
 		deleteResourceButton.setActionCommand("deleteResource");
 		deleteResourceButton.addActionListener(delegate);
+		addResourceButton.addActionListener(delegate);
 		
 		addActivityButton = new JButton("Add Activity");
 		frmProjectManagerPro.getContentPane().add(addActivityButton, "4, 12");

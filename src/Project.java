@@ -208,10 +208,9 @@ public class Project {
 				predecessors += relationsIter.next().getName() + " ";
 			}
 			// print row
-			//TODO: print resources in table
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors});
-			for(int i=0; i<this.maxNumOfResources && (i+5)<view.getTableModel().getColumnCount(); i++) {
-				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+5); //a.getResource(i)
+			for(int i=0; i<this.maxNumOfResources && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
+				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+view.getColumnOffset());
 			}
 			currentRow++;
 		}

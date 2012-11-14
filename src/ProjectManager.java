@@ -17,10 +17,12 @@ public class ProjectManager implements ActionListener{
 	//private static Calendar pCal;
 	private Project myProject;
 	private MainWindow view;
+	private boolean editActivity = false;
+	private int selectedRow;
 	
 	public ProjectManager() {
 		this.view = new MainWindow(this);
-		myProject = new Project("Test Project", view, 5);
+		myProject = new Project("Test Project", view, 4);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
 		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case:
@@ -49,20 +51,29 @@ public class ProjectManager implements ActionListener{
   {
     if("addActivity".equals(e.getActionCommand())) {
     	String name = view.getTxtName().getText();
-    	view.printDebugln("Add activity " + name + ".");
-    	int duration = Integer.parseInt(view.getTxtDuration().getText());
-    	String[] predecessors;
-    	if (!(view.getTxtPred().getText().equals("")))
-    		predecessors = (view.getTxtPred().getText()).split(" ");
-    	else
-    		predecessors = new String[0];
-    	int[] resources = new int[myProject.getMaxNumOfResources()];
-    	if (!(view.getTxtResources().getText().equals(""))) {
-    		String[] rString = (view.getTxtResources().getText().split(" "));
-    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) 
-    			resources[i] = Integer.parseInt(rString[i]);
+    	if (editActivity == true) {
+    		//TODO save changes
+    		// call view.clearInputFields()
+    		view.addActivityButtonToSave(false);
+    		view.editActivityButtonToAbort(false);
+    		editActivity = false;
     	}
-    	myProject.addActivity(name, duration, predecessors, resources);
+    	else {
+	    	view.printDebugln("Add activity " + name + ".");
+	    	int duration = Integer.parseInt(view.getTxtDuration().getText());
+	    	String[] predecessors;
+	    	if (!(view.getTxtPred().getText().equals("")))
+	    		predecessors = (view.getTxtPred().getText()).split(" ");
+	    	else
+	    		predecessors = new String[0];
+	    	int[] resources = new int[myProject.getMaxNumOfResources()];
+	    	if (!(view.getTxtResources().getText().equals(""))) {
+	    		String[] rString = (view.getTxtResources().getText().split(" "));
+	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) 
+	    			resources[i] = Integer.parseInt(rString[i]);
+	    	}
+	    	myProject.addActivity(name, duration, predecessors, resources);
+    	}
     }
     else if ("deleteActivity".equals(e.getActionCommand())) {
     	int[] selectedRows = view.getTable().getSelectedRows();
@@ -77,31 +88,50 @@ public class ProjectManager implements ActionListener{
     	}
     }
     else if("editActivity".equals(e.getActionCommand())) {
-    	int[] selectedRows = view.getTable().getSelectedRows();
-    	if (selectedRows.length == 1) {
-    		int row = view.getTable().convertRowIndexToModel(selectedRows[0]);
-    		String aName = (String)view.getTableModel().getValueAt(row, 0);
-    		if ("START".equals(aName)) {
-    			view.printDebugln("Cannot edit the START activity.");
-    			return;
-    		}
-    		Activity a = myProject.getActivityByName(aName);
-    		view.getTxtName().setText(a.getName());
-    		view.getTxtDuration().setText(a.getDuration().toString());
-    		String preds = "";
-    		for (Activity c: a.getPredecessors()) {
-    			preds += c.getName() + " "; 
-    		}
-    		preds = preds.substring(0, preds.length()-1); //delete last blank
-    		view.getTxtPred().setText(preds);
-    		String resString = "";
-    		for (int i=5; i<view.getTableModel().getColumnCount(); i++) {
-    			resString += view.getTableModel().getValueAt(row, i) + " ";
-    		}
-    		view.getTxtResources().setText(resString);
+    	if (editActivity == true) {
+    		// abort editing
+    		// TODO call view.clearInputFields() instead
+    		view.getTxtName().setText("");
+    		view.getTxtDuration().setText("0");
+    		view.getTxtPred().setText("");
+    		view.getTxtResources().setText("0");
+    		// set buttons to default label
+    		view.addActivityButtonToSave(false);
+    		view.editActivityButtonToAbort(false);
+    		editActivity = false;
     	}
     	else {
-    		view.printDebugln("Cannot edit more than one activity at a time.");
+	    	int[] selectedRows = view.getTable().getSelectedRows();
+	    	if (selectedRows.length == 1) {
+	    		selectedRow = view.getTable().convertRowIndexToModel(selectedRows[0]);
+	    		String aName = (String)view.getTableModel().getValueAt(selectedRow, 0);
+	    		if ("START".equals(aName)) {
+	    			view.printDebugln("Cannot edit the START activity.");
+	    			return;
+	    		}
+	    		Activity a = myProject.getActivityByName(aName);
+	    		view.getTxtName().setText(a.getName());
+	    		view.getTxtDuration().setText(a.getDuration().toString());
+	    		String preds = "";
+	    		for (Activity c: a.getPredecessors()) {
+	    			preds += c.getName() + " "; 
+	    		}
+	    		preds = preds.substring(0, preds.length()-1); //delete last blank
+	    		view.getTxtPred().setText(preds);
+	    		String resString = "";
+	    		for (int i=view.getColumnOffset(); i<view.getTableModel().getColumnCount(); i++) {
+	    			resString += view.getTableModel().getValueAt(selectedRow, i) + " ";
+	    		}
+	    		resString = resString.substring(0, resString.length()-1); //delete last blank
+	    		view.getTxtResources().setText(resString);
+	    		// change button labels
+	    		view.addActivityButtonToSave(true);
+	    		view.editActivityButtonToAbort(true);
+	    		editActivity = true;
+	    	}
+	    	else {
+	    		view.printDebugln("Cannot edit more than one activity at a time.");
+	    	}
     	}
     }
     else if ("addArc".equals(e.getActionCommand())) {
