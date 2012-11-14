@@ -20,7 +20,8 @@ import javax.swing.JSplitPane;
 
 
 public class MainWindow {
-
+  
+	private int columnOffset = 0;
 	private JFrame frmProjectManagerPro;
 	private JTextField txtName;
 	private JTextField txtDuration;
@@ -53,6 +54,8 @@ public class MainWindow {
 	private JSplitPane splitPane;
 	private JButton addResourceButton;
 	private JButton deleteResourceButton;
+	private JButton editActivityButton;
+	
 
 	public MainWindow(ProjectManager del) {
 		this.delegate = del;
@@ -60,22 +63,10 @@ public class MainWindow {
 		frmProjectManagerPro.setVisible(true);
 	}
 	
-	/**
-	 * Launch the application.
-	 *
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					window.frmProjectManagerPro.setVisible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	//TODO use this instead of "5"!!!
+	public int getColumnOffset() {
+		return this.columnOffset;
+	}
 
 	public JTextField getTxtName() {
 		return txtName;
@@ -211,10 +202,10 @@ public class MainWindow {
 		JLabel lblAdddeleteArc = new JLabel("Add/Delete Arc");
 		frmProjectManagerPro.getContentPane().add(lblAdddeleteArc, "6, 4");
 		
-		deleteActivityButton = new JButton("Delete Activity");
-		frmProjectManagerPro.getContentPane().add(deleteActivityButton, "10, 4");
-		deleteActivityButton.setActionCommand("deleteActivity");
-		deleteActivityButton.addActionListener(delegate);
+		editActivityButton = new JButton("Edit Activity");
+		frmProjectManagerPro.getContentPane().add(editActivityButton, "10, 4");
+		editActivityButton.setActionCommand("editActivity");
+	  editActivityButton.addActionListener(delegate);
 		
 		criticalPathButton = new JButton("Critical Path");
 		frmProjectManagerPro.getContentPane().add(criticalPathButton, "12, 4");
@@ -233,6 +224,11 @@ public class MainWindow {
 		frmProjectManagerPro.getContentPane().add(txtFrom, "6, 6");
 		txtFrom.setText("FROM");
 		txtFrom.setColumns(10);
+		
+		deleteActivityButton = new JButton("Delete Activity");
+		frmProjectManagerPro.getContentPane().add(deleteActivityButton, "10, 6");
+		deleteActivityButton.setActionCommand("deleteActivity");
+		deleteActivityButton.addActionListener(delegate);
 		
 		JLabel lblPredecessors = new JLabel(" Predecessors");
 		frmProjectManagerPro.getContentPane().add(lblPredecessors, "2, 8");

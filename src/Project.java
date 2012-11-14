@@ -196,7 +196,8 @@ public class Project {
 		
 	public void printActivities() {
 		// clear table
-		view.getTableModel().setRowCount(0);
+		int currentRow = 0;
+		view.getTableModel().setRowCount(currentRow);
 		Iterator<Activity> iter = activities.iterator();
 		while (iter.hasNext()) {
 			Activity a = iter.next();
@@ -207,7 +208,12 @@ public class Project {
 				predecessors += relationsIter.next().getName() + " ";
 			}
 			// print row
+			//TODO: print resources in table
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors});
+			for(int i=0; i<this.maxNumOfResources && (i+5)<view.getTableModel().getColumnCount(); i++) {
+				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+5); //a.getResource(i)
+			}
+			currentRow++;
 		}
 	}
 

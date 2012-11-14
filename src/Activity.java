@@ -51,14 +51,18 @@ public class Activity {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	
-	/*public int getResources() {
-		return resources;
+	// get resource i
+	public int getResource(int i) {
+		if (i < this.resources.length)
+			return resources[i];
+		else 
+			return 0;
 	}
-
-	public void setResources(int resources) {
-		this.resources = resources;
-	}*/
+  // set resource i to value
+	public void setResource(int i, int value) {
+		if (i < this.resources.length)
+			this.resources[i] = value;
+	}
 
 	public int getTimeMin() {
 		return timeMin;
