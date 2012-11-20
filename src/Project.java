@@ -10,6 +10,7 @@ public class Project {
 	private MainWindow view;
 	private CriticalPath criticalPath;
 	private ProjectCalendar projectCalendar;
+	private ResourceManager resourceManager;
 	
 	private boolean isUnique(String activityName) {
 		Iterator<Activity> it = activities.iterator();
@@ -25,6 +26,7 @@ public class Project {
 		this.view = view;
 		this.maxNumOfResources = maxResources;
 		this.projectCalendar = new ProjectCalendar(this);
+		this.resourceManager = new ResourceManager(this);
 		criticalPath = new CriticalPath(this);
 		// add start activity
 		Activity a = addActivity("START", 0, null, null);
@@ -77,6 +79,10 @@ public class Project {
 	
 	public ProjectCalendar getProjectCalendar() {
 		return this.projectCalendar;
+	}
+	
+	public ResourceManager getResourceManager() {
+		return this.resourceManager;
 	}
 	
 	public Activity getActivityByName(String activityName) {

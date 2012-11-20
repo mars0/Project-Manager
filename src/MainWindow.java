@@ -40,14 +40,15 @@ public class MainWindow {
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnEdit;
-	private JMenu mnView;
-	private JMenuItem mntmShow;
+	private JMenu mnShow;
+	private JMenuItem mntmCalendar;
 	private JMenuItem mntmOpen;
 	private JMenuItem mntmSaveAs;
 	private JButton addResourceButton;
 	private JButton deleteResourceButton;
 	private JButton editActivityButton;
 	private JPanel panel_1;
+	private JMenuItem mntmResources;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -295,12 +296,17 @@ public class MainWindow {
 		mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
 		
-		mnView = new JMenu("Calendar");
-		menuBar.add(mnView);
+		mnShow = new JMenu("Show");
+		menuBar.add(mnShow);
 		
-		mntmShow = new JMenuItem("Show");
-		mnView.add(mntmShow);
-		mntmShow.addActionListener(delegate);
-	  mntmShow.setActionCommand("showCal");
+		mntmCalendar = new JMenuItem("Calendar");
+		mnShow.add(mntmCalendar);
+		mntmCalendar.addActionListener(delegate);
+	  mntmCalendar.setActionCommand("showCal");
+	  
+	  mntmResources = new JMenuItem("Resources");
+	  mnShow.add(mntmResources);
+		mntmResources.addActionListener(delegate);
+	  mntmResources.setActionCommand("showRes");
 	}
 }

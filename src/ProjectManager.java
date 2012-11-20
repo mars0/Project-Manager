@@ -156,6 +156,9 @@ public class ProjectManager implements ActionListener{
     else if("showCal".equals(e.getActionCommand())) {
     	myProject.getProjectCalendar().openCalendarWindow();
     }
+    else if("showRes".equals(e.getActionCommand())) {
+    	myProject.getResourceManager().openResourceWindow();
+    }
     myProject.printActivities();
   }
 	
