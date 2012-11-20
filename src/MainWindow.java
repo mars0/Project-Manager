@@ -185,8 +185,8 @@ public class MainWindow {
 		tableModel = new DefaultTableModel(); 
 		tableModel.addColumn("Name"); 
 		tableModel.addColumn("Duration");
-		tableModel.addColumn("Min.");
-		tableModel.addColumn("Max.");
+		tableModel.addColumn("Start");
+		tableModel.addColumn("End");
 		tableModel.addColumn("Predecessors");
 		this.columnOffset = 5;
 		tableModel.addColumn("R"+1);

@@ -16,9 +16,12 @@ public class ProjectCalendar implements ActionListener{
 	public Calendar getNextWorkDay(Calendar date, int offset) {
 		Calendar workDay = Calendar.getInstance();
 		workDay.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-		//TODO: compute next date (offset could also be 0 !!!)
-		
-		
+		// compute next date (offset = 0 ???)
+		while(offset > 0) {
+		  workDay.add(Calendar.DAY_OF_MONTH, 1);
+			if(!isHoliday(((Integer)workDay.get(Calendar.DAY_OF_MONTH)).toString(), workDay))
+				offset--;
+		}
 		return workDay;
 	}
 	

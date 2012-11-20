@@ -158,9 +158,11 @@ public class CriticalPath {
 			// set length of critical path
 			this.length = project.getActivityByName("END").getTimeMax();
 			
-			// set start date
+			// set start date and activity dates
 			if (project.getStartDate() == null)
 				project.setStartDate(Calendar.getInstance());
+      project.calculateEndDate();
+			project.setActivityDates();
 			
 			// clear text area and print new results
 			project.getView().getTextArea().setText("");

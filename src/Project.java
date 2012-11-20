@@ -110,7 +110,7 @@ public class Project {
 	
 	public Calendar calculateEndDate() {
 		if (startDate != null) {
-			criticalPath.computeCriticalPath();
+		//	criticalPath.computeCriticalPath();
 			if(criticalPath.getLength() > 0) {
 				this.endDate = projectCalendar.calculateEndDate(startDate, criticalPath.getLength());
 				return this.endDate;
@@ -244,8 +244,20 @@ public class Project {
 			while (relationsIter.hasNext()) {
 				predecessors += relationsIter.next().getName() + " ";
 			}
+			// get start and end
+			Calendar calStart = a.getStartDate();
+			Calendar calEnd = a.getEndDate();
+			String start, end;
+			if (calStart == null || calEnd == null) {
+				start = "-";
+				end = "-";
+			}
+			else {
+				start = calStart.get(Calendar.DAY_OF_MONTH) + "/" + (calStart.get(Calendar.MONTH)+1) + "/" + calStart.get(Calendar.YEAR);
+				end = calEnd.get(Calendar.DAY_OF_MONTH) + "/" + (calEnd.get(Calendar.MONTH)+1) + "/" + calEnd.get(Calendar.YEAR);
+ 			}
 			// print row
-			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), a.getTimeMin(), a.getTimeMax(), predecessors});
+			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors});
 			for(int i=0; i<this.maxNumOfResources && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
 				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+view.getColumnOffset());
 			}
