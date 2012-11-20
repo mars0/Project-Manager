@@ -144,16 +144,6 @@ public class ProjectManager implements ActionListener{
 	    	}
     	}
     }
-    else if ("addArc".equals(e.getActionCommand())) {
-    	String from = view.getTxtFrom().getText(); 
-    	String to = view.getTxtTo().getText();
-    	myProject.addArc(from, to);
-    }
-    else if ("removeArc".equals(e.getActionCommand())) {
-    	String from = view.getTxtFrom().getText(); 
-    	String to = view.getTxtTo().getText();
-    	myProject.removeArc(from, to);
-    }
     else if("addResource".equals(e.getActionCommand())) {
     	myProject.addResource();
     }

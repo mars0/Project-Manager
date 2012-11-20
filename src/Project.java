@@ -171,7 +171,7 @@ public class Project {
 		}
 	}
 	
-	public void addArc(String from, String to) {
+	private void addArc(String from, String to) {
 		Activity activityFrom = getActivityByName(from); 
 		Activity activityTo = getActivityByName(to);
 		if (activityFrom != null && activityTo != null) {
@@ -182,7 +182,7 @@ public class Project {
 			view.printDebugln("Cannot add arc: at least one activity is currently not present.");
 	}
 	
-	public void removeArc(String from, String to) {
+	private void removeArc(String from, String to) {
 		Activity activityFrom = getActivityByName(from); 
 		Activity activityTo = getActivityByName(to);
 		if (activityFrom != null && activityTo != null) {

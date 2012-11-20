@@ -30,16 +30,11 @@ public class MainWindow {
 	private DefaultTableModel tableModel;
 	private JButton addActivityButton;
 	private JButton deleteActivityButton;
-	private JButton addArcButton;
-	private JButton removeArcButton;
 	private ProjectManager delegate;
 	private JScrollPane scrollPane;
-	private JTextField txtFrom;
-	private JTextField txtTo;
 	private JButton criticalPathButton;
 	private JScrollPane scrollPane_1;
 	private JTextArea textArea;
-	private JPanel panel;
 	private JScrollPane scrollPane_2;
 	private JTextArea debugOutput;
 	private JMenuBar menuBar;
@@ -49,7 +44,6 @@ public class MainWindow {
 	private JMenuItem mntmShow;
 	private JMenuItem mntmOpen;
 	private JMenuItem mntmSaveAs;
-	private JLabel lblAdddeleteResource;
 	private JButton addResourceButton;
 	private JButton deleteResourceButton;
 	private JButton editActivityButton;
@@ -91,14 +85,6 @@ public class MainWindow {
 
 	public DefaultTableModel getTableModel() {
 		return tableModel;
-	}
-
-	public JTextField getTxtFrom() {
-		return txtFrom;
-	}
-
-	public JTextField getTxtTo() {
-		return txtTo;
 	}
 
 	public JTextArea getTextArea() {
@@ -162,7 +148,7 @@ public class MainWindow {
 	private void initialize() {
 		frmProjectManagerPro = new JFrame();
 		frmProjectManagerPro.setTitle("Project Manager PRO");
-		frmProjectManagerPro.setBounds(100, 100, 757, 575);
+		frmProjectManagerPro.setBounds(100, 100, 790, 575);
 		frmProjectManagerPro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProjectManagerPro.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -193,8 +179,6 @@ public class MainWindow {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(14dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(40dlu;default):grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(2dlu;default)"),}));
 		
 		tableModel = new DefaultTableModel(); 
@@ -220,85 +204,23 @@ public class MainWindow {
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
 		
-		JLabel lblName = new JLabel(" Name");
-		frmProjectManagerPro.getContentPane().add(lblName, "2, 4");
-		
-		txtName = new JTextField();
-		frmProjectManagerPro.getContentPane().add(txtName, "4, 4, fill, default");
-		txtName.setColumns(10);
-		
-		JLabel lblAdddeleteArc = new JLabel("Add/Delete Arc");
-		frmProjectManagerPro.getContentPane().add(lblAdddeleteArc, "6, 4");
+		addActivityButton = new JButton("Add Activity");
+		frmProjectManagerPro.getContentPane().add(addActivityButton, "4, 4");
+		addActivityButton.setActionCommand("addActivity");
+		addActivityButton.addActionListener(delegate);
 		
 		editActivityButton = new JButton("Edit Activity");
-		frmProjectManagerPro.getContentPane().add(editActivityButton, "10, 4");
+		frmProjectManagerPro.getContentPane().add(editActivityButton, "6, 4");
 		editActivityButton.setActionCommand("editActivity");
-	  editActivityButton.addActionListener(delegate);
-		
-		criticalPathButton = new JButton("Critical Path");
-		frmProjectManagerPro.getContentPane().add(criticalPathButton, "12, 4");
-		criticalPathButton.setActionCommand("criticalPath");
-		criticalPathButton.addActionListener(delegate);
-		
-		JLabel lblDuration = new JLabel(" Duration");
-		frmProjectManagerPro.getContentPane().add(lblDuration, "2, 6");
-		
-		txtDuration = new JTextField();
-		txtDuration.setText("0");
-		frmProjectManagerPro.getContentPane().add(txtDuration, "4, 6, fill, default");
-		txtDuration.setColumns(10);
-		
-		txtFrom = new JTextField();
-		frmProjectManagerPro.getContentPane().add(txtFrom, "6, 6");
-		txtFrom.setText("FROM");
-		txtFrom.setColumns(10);
+		editActivityButton.addActionListener(delegate);
 		
 		deleteActivityButton = new JButton("Delete Activity");
-		frmProjectManagerPro.getContentPane().add(deleteActivityButton, "10, 6");
+		frmProjectManagerPro.getContentPane().add(deleteActivityButton, "8, 4");
 		deleteActivityButton.setActionCommand("deleteActivity");
 		deleteActivityButton.addActionListener(delegate);
 		
-		JLabel lblPredecessors = new JLabel(" Predecessors");
-		frmProjectManagerPro.getContentPane().add(lblPredecessors, "2, 8");
-		
-		txtPred = new JTextField();
-		frmProjectManagerPro.getContentPane().add(txtPred, "4, 8, fill, default");
-		txtPred.setColumns(10);
-		
-		txtTo = new JTextField();
-		frmProjectManagerPro.getContentPane().add(txtTo, "6, 8");
-		txtTo.setText("TO");
-		txtTo.setColumns(10);
-		
-		lblAdddeleteResource = new JLabel("Add/Delete Resource");
-		frmProjectManagerPro.getContentPane().add(lblAdddeleteResource, "10, 8");
-		
-		JLabel lblRecursos = new JLabel(" Resources");
-		frmProjectManagerPro.getContentPane().add(lblRecursos, "2, 10");
-		
-		txtResources = new JTextField();
-		txtResources.setText("0");
-		frmProjectManagerPro.getContentPane().add(txtResources, "4, 10, fill, default");
-		txtResources.setColumns(10);
-		
-		panel = new JPanel();
-		frmProjectManagerPro.getContentPane().add(panel, "6, 10, fill, fill");
-		panel.setLayout(null);
-		
-		addArcButton = new JButton("+");
-		addArcButton.setBounds(6, 0, 60, 29);
-		panel.add(addArcButton);
-		addArcButton.setActionCommand("addArc");
-		
-		removeArcButton = new JButton("-");
-		removeArcButton.setBounds(74, 0, 60, 29);
-		panel.add(removeArcButton);
-		removeArcButton.setActionCommand("removeArc");
-		removeArcButton.addActionListener(delegate);
-		addArcButton.addActionListener(delegate);
-		
 		panel_1 = new JPanel();
-		frmProjectManagerPro.getContentPane().add(panel_1, "10, 10, fill, fill");
+		frmProjectManagerPro.getContentPane().add(panel_1, "10, 4, fill, fill");
 		panel_1.setLayout(null);
 		
 		addResourceButton = new JButton("+");
@@ -307,26 +229,56 @@ public class MainWindow {
 		addResourceButton.setActionCommand("addResource");
 		
 		deleteResourceButton = new JButton("-");
-		deleteResourceButton.setBounds(76, 0, 60, 29);
+		deleteResourceButton.setBounds(64, 0, 60, 29);
 		panel_1.add(deleteResourceButton);
 		deleteResourceButton.setActionCommand("deleteResource");
 		deleteResourceButton.addActionListener(delegate);
 		addResourceButton.addActionListener(delegate);
 		
-		addActivityButton = new JButton("Add Activity");
-		frmProjectManagerPro.getContentPane().add(addActivityButton, "4, 12");
-		addActivityButton.setActionCommand("addActivity");
-		addActivityButton.addActionListener(delegate);
+		criticalPathButton = new JButton("Critical Path");
+		frmProjectManagerPro.getContentPane().add(criticalPathButton, "12, 4");
+		criticalPathButton.setActionCommand("criticalPath");
+		criticalPathButton.addActionListener(delegate);
+		
+		JLabel lblName = new JLabel(" Name");
+		frmProjectManagerPro.getContentPane().add(lblName, "2, 6");
+		
+		txtName = new JTextField();
+		frmProjectManagerPro.getContentPane().add(txtName, "4, 6, fill, default");
+		txtName.setColumns(10);
 		
 		scrollPane_2 = new JScrollPane();
-		frmProjectManagerPro.getContentPane().add(scrollPane_2, "2, 14, 11, 1, fill, fill");
+		frmProjectManagerPro.getContentPane().add(scrollPane_2, "6, 6, 7, 7, fill, fill");
 		
 		debugOutput = new JTextArea();
+		scrollPane_2.setViewportView(debugOutput);
 		debugOutput.setForeground(Color.GREEN);
 		debugOutput.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		debugOutput.setBackground(Color.BLACK);
 		debugOutput.setEditable(false);
-		scrollPane_2.setViewportView(debugOutput);
+		
+		JLabel lblDuration = new JLabel(" Duration");
+		frmProjectManagerPro.getContentPane().add(lblDuration, "2, 8");
+		
+		txtDuration = new JTextField();
+		txtDuration.setText("0");
+		frmProjectManagerPro.getContentPane().add(txtDuration, "4, 8, fill, default");
+		txtDuration.setColumns(10);
+		
+		JLabel lblPredecessors = new JLabel(" Predecessors");
+		frmProjectManagerPro.getContentPane().add(lblPredecessors, "2, 10");
+		
+		txtPred = new JTextField();
+		frmProjectManagerPro.getContentPane().add(txtPred, "4, 10, fill, default");
+		txtPred.setColumns(10);
+		
+		JLabel lblRecursos = new JLabel(" Resources");
+		frmProjectManagerPro.getContentPane().add(lblRecursos, "2, 12");
+		
+		txtResources = new JTextField();
+		txtResources.setText("0");
+		frmProjectManagerPro.getContentPane().add(txtResources, "4, 12, fill, default");
+		txtResources.setColumns(10);
 		
 		menuBar = new JMenuBar();
 		frmProjectManagerPro.setJMenuBar(menuBar);
