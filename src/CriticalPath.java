@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -154,8 +155,13 @@ public class CriticalPath {
 				backwardPass(it.next());
 			}
 			computeFloats();
-			//set length of critical path
+			// set length of critical path
 			this.length = project.getActivityByName("END").getTimeMax();
+			
+			// set start date
+			if (project.getStartDate() == null)
+				project.setStartDate(Calendar.getInstance());
+			
 			// clear text area and print new results
 			project.getView().getTextArea().setText("");
 			printCriticalPath(s, "");

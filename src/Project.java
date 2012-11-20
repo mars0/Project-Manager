@@ -1,5 +1,5 @@
 import java.util.*;
-
+//TODO: add boolean isValid that indicates if current project can be correctly executed (check graph!!!)
 public class Project {
 	private String name;
 	private int usedResources = 1;
@@ -94,6 +94,18 @@ public class Project {
 			}
 		}
 		return null;
+	}
+	
+	public void setActivityDates() {
+		// check if time table is valid
+		if (startDate != null && endDate != null) { //TODO: check isValid...
+			Iterator<Activity> it = activities.iterator();
+			while (it.hasNext()) {
+				Activity a = it.next();
+				a.setStartDate(projectCalendar.getNextWorkDay(startDate, a.getTimeMin()));
+				a.setEndDate(projectCalendar.getNextWorkDay(startDate,a.getTimeMin()+a.getDuration()));
+			}
+		}
 	}
 	
 	public Calendar calculateEndDate() {

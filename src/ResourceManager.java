@@ -14,9 +14,16 @@ public class ResourceManager implements ActionListener{
 
   }
   
+  public int[] calcDailyResources() {
+  	int[] res = {3, 1, 5, 4, 2, 6};
+  	return res;
+  }
+  
   public void openResourceWindow() {
-  	if (this.rWindow == null)
+  	if (this.rWindow == null) {
   		this.rWindow = new ResourceWindow(this);
+  	  rWindow.openWindow();
+  	}
   	else {
   		rWindow.openWindow();
   	}

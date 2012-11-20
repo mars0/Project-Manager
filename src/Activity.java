@@ -9,8 +9,8 @@ public class Activity {
 	private int timeMax;
 	private int freeFloat;
 	private int totalFloat;
-	private Date startDate;
-	private Date endDate;
+	private Calendar startDate;
+	private Calendar endDate;
 	private List<Activity> predecessors = new ArrayList<Activity>();
 	private List<Activity> successors = new ArrayList<Activity>();
 	
@@ -96,21 +96,19 @@ public class Activity {
 		this.totalFloat = totalFloat;
 	}
 
-	public Date getStartDate() {
-		// what if startDate is null?
+	public Calendar getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(Calendar startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
-		// what if endDate is null?
+	public Calendar getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
 	}
 	

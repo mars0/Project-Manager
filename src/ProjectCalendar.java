@@ -13,6 +13,15 @@ public class ProjectCalendar implements ActionListener{
 		customDays = new HashMap<Integer,Boolean>();
 	}
 	
+	public Calendar getNextWorkDay(Calendar date, int offset) {
+		Calendar workDay = Calendar.getInstance();
+		workDay.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+		//TODO: compute next date (offset could also be 0 !!!)
+		
+		
+		return workDay;
+	}
+	
 	private void addCustomDay(Integer year, Integer month, Integer day, Boolean isHoliday) {
 		String sMonth, sDay, sDate;
 		if (month < 10)
