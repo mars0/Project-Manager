@@ -148,6 +148,13 @@ public class MainWindow {
 			editActivityButton.setForeground(Color.black);
 		}
 	}
+	
+	public void clearInputFields() {
+		this.txtName.setText("");
+		this.txtDuration.setText("0");
+	  this.txtPred.setText("");
+		this.txtResources.setText("0");
+	}
 
 	/**
 	 * Initialize the contents of the frame.

@@ -152,6 +152,25 @@ public class Project {
 		}
 	}
 	
+	public void updatePredecessors(Activity a, String[] newPreds) {
+		List<Activity> oldPreds = new ArrayList<Activity>(a.getPredecessors());
+		for (int i=0; i<newPreds.length; i++) {
+			if (a.inList(oldPreds, newPreds[i])) {
+				// no update
+				oldPreds.remove(this.getActivityByName(newPreds[i]));
+			}
+			else {
+				// add new arcs
+				addArc(newPreds[i], a.getName());
+			}
+		}
+		Iterator<Activity> it = oldPreds.iterator();
+		while(it.hasNext()){
+			// delete old arcs
+			removeArc(it.next().getName(), a.getName());
+		}
+	}
+	
 	public void addArc(String from, String to) {
 		Activity activityFrom = getActivityByName(from); 
 		Activity activityTo = getActivityByName(to);

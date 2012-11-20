@@ -52,8 +52,22 @@ public class ProjectManager implements ActionListener{
     if("addActivity".equals(e.getActionCommand())) {
     	String name = view.getTxtName().getText();
     	if (editActivity == true) {
-    		//TODO save changes
-    		// call view.clearInputFields()
+    		// save changes
+    		String aName = (String)view.getTableModel().getValueAt(selectedRow, 0);
+    		Activity a = myProject.getActivityByName(aName);
+    		a.setName(name);
+    		a.setDuration(Integer.parseInt(view.getTxtDuration().getText()));
+    		if (!(view.getTxtPred().getText().equals("")))
+    	    myProject.updatePredecessors(a, (view.getTxtPred().getText()).split(" "));
+    		else
+    			myProject.updatePredecessors(a, new String[0]);
+	    	if (!(view.getTxtResources().getText().equals(""))) {
+	    		String[] rString = (view.getTxtResources().getText().split(" "));
+	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) 
+	    		  a.setResource(i, Integer.parseInt(rString[i]));
+	    	}
+	    	
+    		view.clearInputFields();
     		view.addActivityButtonToSave(false);
     		view.editActivityButtonToAbort(false);
     		editActivity = false;
@@ -90,11 +104,7 @@ public class ProjectManager implements ActionListener{
     else if("editActivity".equals(e.getActionCommand())) {
     	if (editActivity == true) {
     		// abort editing
-    		// TODO call view.clearInputFields() instead
-    		view.getTxtName().setText("");
-    		view.getTxtDuration().setText("0");
-    		view.getTxtPred().setText("");
-    		view.getTxtResources().setText("0");
+    		view.clearInputFields();
     		// set buttons to default label
     		view.addActivityButtonToSave(false);
     		view.editActivityButtonToAbort(false);

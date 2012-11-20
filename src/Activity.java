@@ -14,7 +14,7 @@ public class Activity {
 	private List<Activity> predecessors = new ArrayList<Activity>();
 	private List<Activity> successors = new ArrayList<Activity>();
 	
-	private boolean inList(List<Activity> activityList, String activityName) {
+	public boolean inList(List<Activity> activityList, String activityName) {
 		Iterator<Activity> it = activityList.iterator();
 		while(it.hasNext()){
 			if(activityName.equals(it.next().getName()))
@@ -117,6 +117,7 @@ public class Activity {
 	public List<Activity> getPredecessors() {
 		return predecessors;
 	}
+	
 
 	public List<Activity> getSuccessors() {
 		return successors;
