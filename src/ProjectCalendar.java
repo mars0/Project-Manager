@@ -190,7 +190,6 @@ public class ProjectCalendar implements ActionListener{
 	      date.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day);
 	      if(!isHoliday(day.toString(), null)) {
 	      	project.setStartDate(date);
-	      	project.calculateEndDate();
 	      	//System.out.println("End date: " + project.calculateEndDate().getTime());
 	      }
       } catch (ClassCastException excep) {}
@@ -216,6 +215,9 @@ public class ProjectCalendar implements ActionListener{
   			} while (sDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || sDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
   		}
   	}
+  	project.calculateEndDate();
+  	project.setActivityDates();
+  	project.printActivities();
   	printDays();
   }
   
