@@ -15,23 +15,27 @@ public class ResourceManager implements ActionListener{
 
   }
   
-  public int[] calcDailyResources() {
-  	int res[];
+  public int[][] calcDailyResources() {
+  	int res[][];
   	int length = project.getLength();
   	if (length > 0) { 
-  		res = new int[length];
+  		res = new int[length][project.getUsedResources()];
   		for (int day=0; day<length; day++) {
   			Iterator<Activity> it = project.getActivities().iterator();
   			while (it.hasNext()) {
   				Activity a = it.next();
-  				if (a.getStartDay() < day && day < a.getStartDay()+a.getDuration()) {
-  					res[day] += a.getResource(0); //TODO for all resources 
+  				if (a.getStartDay() <= day && day < a.getStartDay()+a.getDuration()) {
+  					for (int r=0; r<project.getUsedResources(); r++)
+  						res[day][r] += a.getResource(r); //TODO for all resources 
   				}
   			}
   		}
+  		/* debug output
+  		for (int j=0; j<res.length; j++)
+  			project.getView().printDebugln("res["+j+"] = " + res[j]); */
   	}
   	else {
-  		res = new int[0];
+  		res = new int[0][0];
   	}
   	return res;
   }

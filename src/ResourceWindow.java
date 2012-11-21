@@ -27,23 +27,8 @@ public class ResourceWindow {
 		frmGraph.setBounds(100, 100, 450, 300);
 	}
 	
-  public void drawRecourses(int dailyResources[]) { // [day][resource]
-	/*	double[] value= new double[5];
-	  String[] languages = new String[5];
-	  value[0] = 1;
-	  languages[0] = "Visual Basic";
-	
-	  value[1] = 2;
-	  languages[1] = "PHP";
-	
-	  value[2] = 3;
-	  languages[2] = "C++";
-	
-	  value[3] = 4;
-	  languages[3] = "C";
-	
-	  value[4] = 5;
-	  languages[4] = "Java"; */
+  public void drawRecourses(int dailyResources[][]) { // [day][resource]
+  	frmGraph.getContentPane().removeAll();
 	  frmGraph.getContentPane().add(new ResourceChart(dailyResources, "Resource Usage"));
 	}
 

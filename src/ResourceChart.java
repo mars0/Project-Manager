@@ -2,12 +2,15 @@ import java.awt.*;
 import javax.swing.*;
 
 public class ResourceChart extends JPanel {
-  private int[] dailyResources;
+  private int[][] dailyResources;
   private String title;
+  private Color[] colors;
 
-  public ResourceChart(int[] val, String t) {
+  public ResourceChart(int[][] val, String t) {
 	  this.dailyResources = val;
 	  this.title = t;
+	  this.colors = new Color[]{Color.blue, Color.green, Color.magenta, 
+	  		Color.yellow, Color.cyan, Color.orange, Color.gray, Color.darkGray};
   }
   
   public void paintComponent(Graphics graphics) {
@@ -18,17 +21,22 @@ public class ResourceChart extends JPanel {
 	  double mindailyResources = 0;
 	  double maxdailyResources = 0;
 	  
-	  for (int i = 0; i < dailyResources.length; i++) {
-	  	if (mindailyResources > dailyResources[i])
-	  			mindailyResources = dailyResources[i];
-	  	if (maxdailyResources < dailyResources[i])
-	  			maxdailyResources = dailyResources[i];
+	  for (int i=0; i < dailyResources.length; i++) {
+	  	for (int j=0; j < dailyResources[i].length; j++) {
+		  	if (mindailyResources > dailyResources[i][j])
+		  			mindailyResources = dailyResources[i][j];
+		  	if (maxdailyResources < dailyResources[i][j])
+		  			maxdailyResources = dailyResources[i][j];
+	  	}
 	  }
 	  Dimension dim = getSize();
 	  int clientWidth = dim.width;
 	  int clientHeight = dim.height;
-	  int barWidth = clientWidth / dailyResources.length;
-	  
+	  int leftBoarder = 0; // is this necessary ??
+	  //int barWidth = clientWidth / (dailyResources.length * dailyResources[0].length);
+	  int dayWidth = (clientWidth - leftBoarder) / dailyResources.length;
+	  int barWidth = dayWidth / dailyResources[0].length;
+	  		
 	  Font titleFont = new Font("Book Antiqua", Font.BOLD, 15);
 	  FontMetrics titleFontMetrics = graphics.getFontMetrics(titleFont);
 	  Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
@@ -50,24 +58,25 @@ public class ResourceChart extends JPanel {
 	  double scale = (clientHeight - top - bottom) / (maxdailyResources - mindailyResources);
 	  q = clientHeight - labelFontMetrics.getDescent();
 	  graphics.setFont(labelFont);
-	  for (int j = 0; j < dailyResources.length; j++) {
-	  	int dailyResourcesP = j * barWidth + 1;
-	  	int dailyResourcesQ = top;
-	  	int height = (int) (dailyResources[j] * scale);
-	  	if (dailyResources[j] >= 0)
-	  		dailyResourcesQ += (int) ((maxdailyResources - dailyResources[j]) * scale);
-	  	else {
-	  		dailyResourcesQ += (int) (maxdailyResources * scale);
-	  		height = -height;
+	  for (int i=0; i < dailyResources.length; i++) {
+	  	for (int j=0; j < dailyResources[i].length; j++) {
+		  	int dailyResourcesP = (i * dailyResources[i].length + j) * barWidth + 1 + leftBoarder;
+		  	int dailyResourcesQ = top;
+		  	int height = (int) (dailyResources[i][j] * scale);
+		  	if (dailyResources[i][j] >= 0)
+		  		dailyResourcesQ += (int) ((maxdailyResources - dailyResources[i][j]) * scale);
+		  	else {
+		  		dailyResourcesQ += (int) (maxdailyResources * scale);
+		  		height = -height;
+		  	}
+		  	graphics.setColor(colors[j%colors.length]);
+			  graphics.fillRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height); //TODO: fill red limits here
+			  graphics.setColor(Color.black);
+			  graphics.drawRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height);
 	  	}
-	  	graphics.setColor(Color.blue);
-		  graphics.fillRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height);
-		  graphics.setColor(Color.black);
-		  graphics.drawRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height);
-		  
-		  int labelWidth = labelFontMetrics.stringWidth(((Integer)j).toString());
-		  p = j * barWidth + (barWidth - labelWidth) / 2;
-		  graphics.drawString(((Integer)j).toString(), p, q);
+		  int labelWidth = labelFontMetrics.stringWidth(((Integer)i).toString());
+		  p = i * dayWidth + (dayWidth - labelWidth) / 2 + leftBoarder;
+		  graphics.drawString(((Integer)(i+1)).toString(), p, q);
 	  }
 	}
 }
