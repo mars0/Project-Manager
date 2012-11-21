@@ -6,6 +6,7 @@ public class Project {
 	private int maxNumOfResources;
 	private Calendar startDate;
 	private Calendar endDate;
+	private int length = -1; //current length of the project
 	private List<Activity> activities = new ArrayList<Activity>();
 	private MainWindow view;
 	private CriticalPath criticalPath;
@@ -56,6 +57,10 @@ public class Project {
 		return this.endDate;
 	}
 	
+	public int getLength() {
+		return this.length;
+	}
+	
 	public void resetDates() {
 		this.endDate = null;
 		this.startDate = null;
@@ -102,8 +107,8 @@ public class Project {
 			Iterator<Activity> it = activities.iterator();
 			while (it.hasNext()) {
 				Activity a = it.next();
-				a.setStartDate(projectCalendar.getNextWorkDay(startDate, a.getTimeMin()));
-				a.setEndDate(projectCalendar.getNextWorkDay(startDate,a.getTimeMin()+a.getDuration()));
+				a.setStartDate(projectCalendar.getNextWorkDay(startDate, a.getStartDay()));
+				a.setEndDate(projectCalendar.getNextWorkDay(startDate,a.getStartDay()+a.getDuration()));
 			}
 		}
 	}
@@ -112,7 +117,8 @@ public class Project {
 		if (startDate != null) {
 		//	criticalPath.computeCriticalPath();
 			if(criticalPath.getLength() > 0) {
-				this.endDate = projectCalendar.calculateEndDate(startDate, criticalPath.getLength());
+				this.length = criticalPath.getLength(); //TODO Currently the length is equal to the CP length... 
+				this.endDate = projectCalendar.calculateEndDate(startDate, this.length);
 				return this.endDate;
 			}
 		}

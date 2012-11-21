@@ -7,6 +7,7 @@ public class Activity {
 	private int resources[];
 	private int timeMin;
 	private int timeMax;
+//	private int startDay; // the working day this activity starts
 	private int freeFloat;
 	private int totalFloat;
 	private Calendar startDate;
@@ -51,6 +52,10 @@ public class Activity {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	public int getStartDay() {
+		return this.timeMin; //TODO: return start day!!!
+	}
+	
 	// get resource i
 	public int getResource(int i) {
 		if (i < this.resources.length)

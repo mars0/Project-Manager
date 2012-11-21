@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 
 public class ResourceManager implements ActionListener{
@@ -15,7 +16,23 @@ public class ResourceManager implements ActionListener{
   }
   
   public int[] calcDailyResources() {
-  	int[] res = {3, 1, 5, 4, 2, 6};
+  	int res[];
+  	int length = project.getLength();
+  	if (length > 0) { 
+  		res = new int[length];
+  		for (int day=0; day<length; day++) {
+  			Iterator<Activity> it = project.getActivities().iterator();
+  			while (it.hasNext()) {
+  				Activity a = it.next();
+  				if (a.getStartDay() < day && day < a.getStartDay()+a.getDuration()) {
+  					res[day] += a.getResource(0); //TODO for all resources 
+  				}
+  			}
+  		}
+  	}
+  	else {
+  		res = new int[0];
+  	}
   	return res;
   }
   
