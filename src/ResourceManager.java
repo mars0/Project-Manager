@@ -15,6 +15,12 @@ public class ResourceManager implements ActionListener{
 
   }
   
+  public int[] getResLimits() {
+  	// TODO: get res limits from user
+  	int[] rLimits = new int[]{2,3,4,5};
+  	return rLimits;
+  }
+  
   public int[][] calcDailyResources() {
   	int res[][];
   	int length = project.getLength();
@@ -26,7 +32,7 @@ public class ResourceManager implements ActionListener{
   				Activity a = it.next();
   				if (a.getStartDay() <= day && day < a.getStartDay()+a.getDuration()) {
   					for (int r=0; r<project.getUsedResources(); r++)
-  						res[day][r] += a.getResource(r); //TODO for all resources 
+  						res[day][r] += a.getResource(r);
   				}
   			}
   		}

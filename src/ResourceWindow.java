@@ -10,11 +10,11 @@ public class ResourceWindow {
 	public ResourceWindow(ResourceManager del) {
 		this.delegate = del;
 		initialize();
-		drawRecourses(delegate.calcDailyResources());
+		drawRecourses(delegate.calcDailyResources(), delegate.getResLimits());
 	}
 	
 	public void openWindow() {
-		drawRecourses(delegate.calcDailyResources());
+		drawRecourses(delegate.calcDailyResources(), delegate.getResLimits());
 		frmGraph.setVisible(true);	
 	}
 
@@ -27,9 +27,9 @@ public class ResourceWindow {
 		frmGraph.setBounds(100, 100, 450, 300);
 	}
 	
-  public void drawRecourses(int dailyResources[][]) { // [day][resource]
+  public void drawRecourses(int dailyResources[][], int resLimit[]) { // [day][resource]
   	frmGraph.getContentPane().removeAll();
-	  frmGraph.getContentPane().add(new ResourceChart(dailyResources, "Resource Usage"));
+	  frmGraph.getContentPane().add(new ResourceChart(dailyResources, resLimit, "Resource Usage"));
 	}
 
 }
