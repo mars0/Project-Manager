@@ -262,8 +262,20 @@ public class Project {
 				start = calStart.get(Calendar.DAY_OF_MONTH) + "/" + (calStart.get(Calendar.MONTH)+1) + "/" + calStart.get(Calendar.YEAR);
 				end = calEnd.get(Calendar.DAY_OF_MONTH) + "/" + (calEnd.get(Calendar.MONTH)+1) + "/" + calEnd.get(Calendar.YEAR);
  			}
+			// build Gantt for current activity
+			String ganttLine = "";
+			for (int t=0; t<this.length; t++){
+				if (t >= a.getStartDay() && t < a.getStartDay()+a.getDuration())
+					ganttLine += "X";
+				else if (t >= a.getTimeMin() && t < a.getTimeMax()+a.getDuration())
+					ganttLine += "-";
+				else 
+					ganttLine += " ";
+			}
+			// debug
+			view.printDebugln("Activity " + a.getName() + ": " + a.getTimeMin() + " " + a.getTimeMax());
 			// print row
-			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors});
+			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors, ganttLine});
 			for(int i=0; i<this.maxNumOfResources && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
 				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+view.getColumnOffset());
 			}

@@ -188,7 +188,8 @@ public class MainWindow {
 		tableModel.addColumn("Start");
 		tableModel.addColumn("End");
 		tableModel.addColumn("Predecessors");
-		this.columnOffset = 5;
+		tableModel.addColumn("Gantt");
+		this.columnOffset = 6;
 		tableModel.addColumn("R"+1);
 		
 		scrollPane = new JScrollPane();
@@ -196,6 +197,7 @@ public class MainWindow {
 		
 		table = new JTable(tableModel); 
 		scrollPane.setViewportView(table);
+		table.setFont(new Font("Courier New", Font.PLAIN, 14));
 		//table.setAutoCreateColumnsFromModel(false); //???
 		
 		scrollPane_1 = new JScrollPane();
