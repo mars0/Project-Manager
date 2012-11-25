@@ -101,6 +101,15 @@ public class Project {
 		return null;
 	}
 	
+	// sets the working start day of every activity to the earliest start day
+	public void resetActivityStartDays() {
+		Iterator<Activity> it = activities.iterator();
+		while (it.hasNext()) {
+			Activity a = it.next();
+			a.setStartDay(a.getTimeMin());
+		}
+	}
+	
 	public void setActivityDates() {
 		// check if time table is valid
 		if (startDate != null && endDate != null) { //TODO: check isValid...
