@@ -161,10 +161,12 @@ public class ProjectManager implements ActionListener{
     	myProject.getResourceManager().openResourceWindow();
     }
     else if("valid".equals(e.getActionCommand())) {
-    	if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
+    	/*if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
     		view.printDebugln("Graph is valid.");
     	else
-    		view.printDebugln("Graph is not valid.");
+    		view.printDebugln("Graph is not valid.");*/
+    	Sequencing seq = new Sequencing(myProject);
+    	seq.serialization();
     }
     myProject.printActivities();
   }

@@ -56,23 +56,26 @@ public class Sequencing {
 		return start;
 	}
 	
-	private void serialize(List<Activity> elected, List<Activity> completed, Map<Integer,int[]> availableRes) {
+	private void serialize(List<Activity> e, List<Activity> c, Map<Integer,int[]> availableRes) {
+		List<Activity> elected = new ArrayList<Activity>(e);
+		List<Activity> completed = new ArrayList<Activity>(c);
     Activity current = leastLFT(elected);
+		project.getView().printDebugln("A: " + current.getName());
 		elected.remove(current);
 		int startDay = latestFinishingTime(current.getPredecessors());
 		startDay = nextAvailable(current, startDay, availableRes);
 		current.setStartDay(startDay);
 		completed.add(current);
-		
+
 		//update resources
 		for (int r=0; r<project.getUsedResources(); r++) {
 			availableRes.get(startDay)[r] -= current.getResource(r);
 		}
 		int[] lastUsage = project.getResourceLimits();
 		for (int i=startDay; i<startDay+current.getDuration(); i++) {
-			if (availableRes.get(startDay) != null) {
+			if (availableRes.get(i) != null) {
 				for (int r=0; r<project.getUsedResources(); r++) {
-					lastUsage = availableRes.get(startDay);
+					lastUsage = availableRes.get(i);
 					availableRes.get(i)[r] -= current.getResource(r);
 				}
 			}
@@ -94,9 +97,9 @@ public class Sequencing {
 			if (add) elected.add(a); 
 		}
 		
-		// recursive call
+		/* recursive call
 		if (elected.size() > 0)
-			serialize(elected, completed, availableRes);
+			serialize(elected, completed, availableRes);*/
 	}
 	
 	public void serialization() {
