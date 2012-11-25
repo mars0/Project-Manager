@@ -5,12 +5,15 @@ public class Sequencing {
 	
 	//private int[][] availableResources;
 	private Project project;
+	private int numberOfRes;
 	
 	public Sequencing(Project p) {
-		this.project = p;	
+		this.project = p;
+		this.numberOfRes = project.getMaxNumOfResources();
 	}
 	
 	private Activity leastLFT(List<Activity> activities) {
+//		System.out.println("leastLFT");
 		int min = Integer.MAX_VALUE;
 		Activity res = null;
 		Iterator<Activity> it = activities.iterator();
@@ -25,6 +28,7 @@ public class Sequencing {
 	}
 	
 	private int latestFinishingTime(List<Activity> activities) {
+//		System.out.println("latestFinishingTime");
 		int time = 0;
 		Iterator<Activity> it = activities.iterator();
 		while(it.hasNext()) {
@@ -36,12 +40,14 @@ public class Sequencing {
 	}
 	
 	private int nextAvailable(Activity a, int start, Map<Integer,int[]> availableRes) {
+	//	System.out.println("nextAvailable");
 		int duration = a.getDuration();
 		int counter = 0;
+		int res[];
+
 		while (duration > 0) {
-			int[] res = availableRes.get(start);
-			counter++;
-			if (res != null) {
+			if (availableRes.get(start+counter) != null) {
+				res = availableRes.get(start+counter);
 				for (int r=0; r<project.getUsedResources(); r++) {
 					if (res[r]-a.getResource(r) < 0) {
 						start += counter;
@@ -50,8 +56,9 @@ public class Sequencing {
 						break;
 					}
 				}
-				duration--;
 			}
+			counter++;
+			duration--;
 		}
 		return start;
 	}
@@ -69,13 +76,17 @@ public class Sequencing {
 
 		//update resources
 		for (int r=0; r<project.getUsedResources(); r++) {
-			availableRes.get(startDay)[r] -= current.getResource(r);
+			if (availableRes.get(startDay) != null)
+				availableRes.get(startDay)[r] -= current.getResource(r);
+			else
+				System.out.println("Unknown start: " + startDay);
 		}
-		int[] lastUsage = project.getResourceLimits();
+		int[] lastUsage = new int[this.numberOfRes];
+		System.arraycopy(project.getResourceLimits(), 0, lastUsage, 0, this.numberOfRes);
 		for (int i=startDay; i<startDay+current.getDuration(); i++) {
 			if (availableRes.get(i) != null) {
 				for (int r=0; r<project.getUsedResources(); r++) {
-					lastUsage = availableRes.get(i);
+					System.arraycopy(availableRes.get(i), 0, lastUsage, 0, this.numberOfRes);
 					availableRes.get(i)[r] -= current.getResource(r);
 				}
 			}
@@ -97,16 +108,20 @@ public class Sequencing {
 			if (add) elected.add(a); 
 		}
 		
-		/* recursive call
+		// recursive call
 		if (elected.size() > 0)
-			serialize(elected, completed, availableRes);*/
+			serialize(elected, completed, availableRes);
 	}
 	
 	public void serialization() {
 		Map<Integer,int[]> availableRes = new HashMap<Integer,int[]>();
-		availableRes.put(0, project.getResourceLimits());
+		int resLimits[] = new int[this.numberOfRes];
+		System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
+		availableRes.put(0, resLimits);
 		if (project.getCriticalPath().computeCriticalPath()) {
 			serialize(project.getActivityByName("START").getSuccessors(), new ArrayList<Activity>(), availableRes);
+			project.calculateEndDate();
+			project.setActivityDates();
 		}
  	}
 

@@ -127,13 +127,11 @@ public class Project {
 	}
 	
 	public Calendar calculateEndDate() {
-		if (startDate != null) {
-		//	criticalPath.computeCriticalPath();
-			if(criticalPath.getLength() > 0) {
-				this.length = criticalPath.getLength(); //TODO Currently the length is equal to the CP length... 
-				this.endDate = projectCalendar.calculateEndDate(startDate, this.length);
-				return this.endDate;
-			}
+		Activity end = this.getActivityByName("END");
+		if(end != null) {
+			this.length = end.getStartDay(); 
+			this.endDate = projectCalendar.calculateEndDate(startDate, this.length);
+			return this.endDate;
 		}
 		return null;
 	}

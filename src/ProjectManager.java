@@ -27,18 +27,18 @@ public class ProjectManager implements ActionListener{
 		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case:
 		String[] preds = new String[0];
-		myProject.addActivity("A", 5, preds, new int[]{1, 2, 3, 4});
-		myProject.addActivity("B", 3, preds, new int[]{1, 2, 3, 4});
-		myProject.addActivity("C", 4, preds, new int[]{1, 2, 3, 4});
+		myProject.addActivity("A", 5, preds, new int[]{2, 2, 2, 2});
+		myProject.addActivity("B", 3, preds, new int[]{2, 2, 2, 2});
+		myProject.addActivity("C", 4, preds, new int[]{2, 2, 2, 2});
 		preds = new String[2];
 		preds[0] = "A";
 		preds[1] = "B";
-		myProject.addActivity("D", 2, preds, new int[]{1, 2, 3, 4});
+		myProject.addActivity("D", 2, preds, new int[]{2, 2, 2, 2});
 		preds = new String[1];
 		preds[0] = "C";
-		myProject.addActivity("E", 1, preds, new int[]{1, 2, 3, 4});
+		myProject.addActivity("E", 1, preds, new int[]{2, 2, 2, 2});
 		preds[0] = "A";
-		myProject.addActivity("F", 2, preds, new int[]{1, 2, 3, 4});
+		myProject.addActivity("F", 2, preds, new int[]{2, 2, 2, 2});
 		preds = new String[3];
 		preds[0] = "D";
 		preds[1] = "E";
