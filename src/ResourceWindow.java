@@ -10,11 +10,11 @@ public class ResourceWindow {
 	public ResourceWindow(ResourceManager del) {
 		this.delegate = del;
 		initialize();
-		drawRecourses(delegate.calcDailyResources(), delegate.getResLimits());
+		drawRecourses(delegate.calcDailyResources(), delegate.getProject().getResourceLimits());
 	}
 	
 	public void openWindow() {
-		drawRecourses(delegate.calcDailyResources(), delegate.getResLimits());
+		drawRecourses(delegate.calcDailyResources(), delegate.getProject().getResourceLimits());
 		frmGraph.setVisible(true);	
 	}
 

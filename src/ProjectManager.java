@@ -159,6 +159,12 @@ public class ProjectManager implements ActionListener{
     else if("showRes".equals(e.getActionCommand())) {
     	myProject.getResourceManager().openResourceWindow();
     }
+    else if("valid".equals(e.getActionCommand())) {
+    	if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
+    		view.printDebugln("Graph is valid.");
+    	else
+    		view.printDebugln("Graph is not valid.");
+    }
     myProject.printActivities();
   }
 	

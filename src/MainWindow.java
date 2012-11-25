@@ -49,6 +49,7 @@ public class MainWindow {
 	private JButton editActivityButton;
 	private JPanel panel_1;
 	private JMenuItem mntmResources;
+	private JButton btnValid;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -206,6 +207,11 @@ public class MainWindow {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
+		
+		btnValid = new JButton("Valid");
+		frmProjectManagerPro.getContentPane().add(btnValid, "2, 4");
+		btnValid.setActionCommand("valid");
+		btnValid.addActionListener(delegate);
 		
 		addActivityButton = new JButton("Add Activity");
 		frmProjectManagerPro.getContentPane().add(addActivityButton, "4, 4");

@@ -11,14 +11,12 @@ public class ResourceManager implements ActionListener{
 		this.project = p;
 	}
 	
+	public Project getProject() {
+		return this.project;
+	}
+	
   public void actionPerformed(ActionEvent e) {
 
-  }
-  
-  public int[] getResLimits() {
-  	// TODO: get res limits from user
-  	int[] rLimits = new int[]{2,3,4,5};
-  	return rLimits;
   }
   
   public int[][] calcDailyResources() {

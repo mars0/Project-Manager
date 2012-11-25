@@ -3,7 +3,7 @@ import java.util.*;
 public class Project {
 	private String name;
 	private int usedResources = 1;
-	private int maxNumOfResources;
+	private int[] resLimits;
 	private Calendar startDate;
 	private Calendar endDate;
 	private int length = -1; //current length of the project
@@ -25,7 +25,8 @@ public class Project {
 	public Project(String name, MainWindow view, int maxResources) {
 		this.name = name;
 		this.view = view;
-		this.maxNumOfResources = maxResources;
+		this.resLimits = new int[maxResources];
+		Arrays.fill(this.resLimits, 4); //TODO for debug later INTEGER.MAXVALUE
 		this.projectCalendar = new ProjectCalendar(this);
 		this.resourceManager = new ResourceManager(this);
 		criticalPath = new CriticalPath(this);
@@ -43,7 +44,10 @@ public class Project {
 		this.name = name;
 	}
 	public int getMaxNumOfResources() {
-		return this.maxNumOfResources;
+		return this.resLimits.length;
+	}
+	public int[] getResourceLimits() {
+		return this.resLimits;
 	}
 	public Calendar getStartDate() {
 		return this.startDate;
@@ -137,7 +141,7 @@ public class Project {
 	public Activity addActivity(String activityName, int activityDuration, String predecessors[], int activityResources[]) {
 		Activity newActivity = null;
 		if (this.isUnique(activityName)) {
-			newActivity = new Activity(activityName, activityDuration, activityResources, maxNumOfResources);
+			newActivity = new Activity(activityName, activityDuration, activityResources, this.getMaxNumOfResources());
 			// the predecessors of START are NULL
 			if (predecessors != null) {
 				if (predecessors.length == 0) {
@@ -227,7 +231,7 @@ public class Project {
 	}
 	
 	public void addResource() {
-		if(usedResources < maxNumOfResources) {
+		if(usedResources < this.resLimits.length) {
 			usedResources++;
 			view.addResource(usedResources);
 		}
@@ -244,6 +248,40 @@ public class Project {
 		else {
 			view.printDebugln("The project needs at least one resource.");
 		}
+	}
+	
+	public boolean isValidSubGraph(Activity start, List<Activity> visitedNodes) {
+		boolean res = true;
+		Iterator<Activity> it = start.getSuccessors().iterator();
+		List<Activity> vNodes;
+		if (visitedNodes != null)
+			vNodes = new ArrayList<Activity>(visitedNodes);
+		else
+			vNodes = new ArrayList<Activity>();
+		vNodes.add(start);
+		
+		// only the end node is allowed to have no successors
+		if (start.getSuccessors().size() == 0) {
+			if ("END".equals(start.getName()))
+				return true;
+			else 
+				return false;
+		}
+		
+		// iterate through all successors
+		while (it.hasNext()) {
+			Activity succ = it.next();
+			if ("END".equals(succ.getName()) && start.getSuccessors().size() != 1) {
+				return false;
+			}
+			if (!(vNodes.contains(succ))) {
+				res = res && isValidSubGraph(succ, vNodes);
+			}
+			else {
+				return false;
+			}
+		}
+		return res;
 	}
 		
 	public void printActivities() {
@@ -283,7 +321,7 @@ public class Project {
 			}
 			// print row
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors, ganttLine});
-			for(int i=0; i<this.maxNumOfResources && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
+			for(int i=0; i<this.getMaxNumOfResources() && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
 				view.getTableModel().setValueAt(a.getResource(i), currentRow, i+view.getColumnOffset());
 			}
 			currentRow++;
