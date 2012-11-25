@@ -249,11 +249,12 @@ public class Project {
 			view.printDebugln("The project needs at least one resource.");
 		}
 	}
-	
+		
 	public boolean isValidSubGraph(Activity start, List<Activity> visitedNodes) {
 		boolean res = true;
 		Iterator<Activity> it = start.getSuccessors().iterator();
 		List<Activity> vNodes;
+		
 		if (visitedNodes != null)
 			vNodes = new ArrayList<Activity>(visitedNodes);
 		else

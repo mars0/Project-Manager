@@ -151,7 +151,8 @@ public class ProjectManager implements ActionListener{
     	myProject.deleteResource();
     }
     else if ("criticalPath".equals(e.getActionCommand())) {
-    	myProject.getCriticalPath().computeCriticalPath();
+    	if(!myProject.getCriticalPath().computeCriticalPath())
+  			view.printDebugln("Cannot compute critical path: Activity graph is not valid.");
     }
     else if("showCal".equals(e.getActionCommand())) {
     	myProject.getProjectCalendar().openCalendarWindow();

@@ -136,11 +136,12 @@ public class CriticalPath {
 		}
 	}
 	
-	public void computeCriticalPath() {
+	public boolean computeCriticalPath() {
 		Activity s = project.getActivityByName("START");
 		Activity e = project.getActivityByName("END");
+		boolean success = false; 
 		// check if graph is complete
-		if (s != null && e != null) {
+		if (project.isValidSubGraph(s, null)) {
 			// init min and max times to -1
 			initTimes(); 
 			// call forwardPass for successors of START
@@ -169,12 +170,13 @@ public class CriticalPath {
 			project.getView().getTextArea().setText("");
 			printCriticalPath(s, "");
 			printFloats();
+			success = true;
 		}
 		else {
-			project.getView().printDebugln("Cannot compute critical path: END-activity is missing.");
 			this.length = -1;
 			project.resetDates();
 		}
+		return success;
 	}
 
 }
