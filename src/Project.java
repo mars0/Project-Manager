@@ -272,8 +272,6 @@ public class Project {
 				else 
 					ganttLine += " ";
 			}
-			// debug
-			view.printDebugln("Activity " + a.getName() + ": " + a.getTimeMin() + " " + a.getTimeMax());
 			// print row
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors, ganttLine});
 			for(int i=0; i<this.maxNumOfResources && (i+view.getColumnOffset())<view.getTableModel().getColumnCount(); i++) {
