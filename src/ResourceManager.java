@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class ResourceManager implements ActionListener{
 	private Project project;
 	private ResourceWindow rWindow;
+	private MaxResourceSetter maxResWindow;
 	
 	public ResourceManager(Project p) {
 		this.project = p;
@@ -16,6 +17,13 @@ public class ResourceManager implements ActionListener{
 	}
 	
   public void actionPerformed(ActionEvent e) {
+  	
+  	if("cancel".equals(e.getActionCommand())) {
+  		maxResWindow.close();
+  	}
+  	else if("ok".equals(e.getActionCommand())) {
+  		//TODO read new limits
+  	}
 
   }
   
@@ -51,6 +59,21 @@ public class ResourceManager implements ActionListener{
   	}
   	else {
   		rWindow.openWindow();
+  	}
+  }
+  
+  public void openMaxResWindow() {
+  	String currentLimits = "";
+  	for (int i=0; i<project.getUsedResources(); i++) {
+  		currentLimits += project.getResourceLimits()[i] + " ";
+  	}
+  	
+  	if (this.maxResWindow == null) {
+  		this.maxResWindow = new MaxResourceSetter(this);
+  		maxResWindow.openWindow(currentLimits);
+  	}
+  	else {
+  		maxResWindow.openWindow(currentLimits);
   	}
   }
 }

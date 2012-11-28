@@ -173,10 +173,15 @@ public class ProjectManager implements ActionListener{
     	myProject.getResourceManager().openResourceWindow();
     }
     else if("valid".equals(e.getActionCommand())) {
-    	/*if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
+    	if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
     		view.printDebugln("Graph is valid.");
     	else
-    		view.printDebugln("Graph is not valid.");*/
+    		view.printDebugln("Graph is not valid.");
+    }
+    else if("setRes".equals(e.getActionCommand())) {
+    	myProject.getResourceManager().openMaxResWindow();
+    }
+    else if("sequence".equals(e.getActionCommand())) {
     	Sequencing seq = new Sequencing(myProject);
     	seq.serialization();
     }

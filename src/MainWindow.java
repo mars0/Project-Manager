@@ -50,6 +50,8 @@ public class MainWindow {
 	private JPanel panel_1;
 	private JMenuItem mntmResources;
 	private JButton btnValid;
+	private JMenuItem mntmSetResources;
+	private JMenuItem mntmSequence;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -162,9 +164,9 @@ public class MainWindow {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(20dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(65dlu;default):grow"),
+				ColumnSpec.decode("max(48dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(70dlu;default):grow"),
+				ColumnSpec.decode("max(69dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(1dlu;default)"),},
 			new RowSpec[] {
@@ -208,7 +210,7 @@ public class MainWindow {
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
 		
-		btnValid = new JButton("Valid");
+		btnValid = new JButton("Valid Graph?");
 		frmProjectManagerPro.getContentPane().add(btnValid, "2, 4");
 		btnValid.setActionCommand("valid");
 		btnValid.addActionListener(delegate);
@@ -233,12 +235,12 @@ public class MainWindow {
 		panel_1.setLayout(null);
 		
 		addResourceButton = new JButton("+");
-		addResourceButton.setBounds(6, 0, 60, 29);
+		addResourceButton.setBounds(0, 3, 50, 23);
 		panel_1.add(addResourceButton);
 		addResourceButton.setActionCommand("addResource");
 		
 		deleteResourceButton = new JButton("-");
-		deleteResourceButton.setBounds(64, 0, 60, 29);
+		deleteResourceButton.setBounds(46, 3, 50, 23);
 		panel_1.add(deleteResourceButton);
 		deleteResourceButton.setActionCommand("deleteResource");
 		deleteResourceButton.addActionListener(delegate);
@@ -303,6 +305,16 @@ public class MainWindow {
 		
 		mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
+		
+		mntmSetResources = new JMenuItem("Set Resources");
+		mnEdit.add(mntmSetResources);
+		mntmSetResources.addActionListener(delegate);
+		mntmSetResources.setActionCommand("setRes");
+		
+		mntmSequence = new JMenuItem("Sequence");
+		mnEdit.add(mntmSequence);
+		mntmSequence.addActionListener(delegate);
+		mntmSequence.setActionCommand("sequence");
 		
 		mnShow = new JMenu("Show");
 		menuBar.add(mnShow);
