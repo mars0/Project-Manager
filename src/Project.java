@@ -27,6 +27,8 @@ public class Project {
 		this.view = view;
 		this.resLimits = new int[maxResources];
 		Arrays.fill(this.resLimits, 4); //TODO for debug later INTEGER.MAXVALUE
+		resLimits[0] = 6;
+		resLimits[1] = 5;
 		this.projectCalendar = new ProjectCalendar(this);
 		this.resourceManager = new ResourceManager(this);
 		criticalPath = new CriticalPath(this);

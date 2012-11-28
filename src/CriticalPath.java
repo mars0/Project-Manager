@@ -163,8 +163,8 @@ public class CriticalPath {
 			if (project.getStartDate() == null)
 				project.setStartDate(project.getProjectCalendar().getNextWorkDay(Calendar.getInstance(),0));
       project.resetActivityStartDays();
-			project.setActivityDates();
       project.calculateEndDate();
+			project.setActivityDates();
 			
 			// clear text area and print new results
 			project.getView().getTextArea().setText("");
