@@ -313,8 +313,8 @@ public class Project {
 			for (int t=0; t<this.length; t++){
 				if (t >= a.getStartDay() && t < a.getStartDay()+a.getDuration())
 					ganttLine += "X";
-				else if (t >= a.getTimeMin() && t < a.getTimeMax()+a.getDuration())
-					ganttLine += "-";
+				/*else if (t >= a.getTimeMin() && t < a.getTimeMax()+a.getDuration())
+					ganttLine += "-";*/
 				else 
 					ganttLine += " ";
 			}
