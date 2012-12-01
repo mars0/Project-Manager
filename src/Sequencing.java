@@ -48,7 +48,7 @@ public class Sequencing {
 				for (int r=0; r<project.getUsedResources(); r++) {
 					//System.out.println("Available: " + res[r]);
 					if (res[r]-a.getResource(r) < 0) {
-						//System.out.println("Confict: " + start);
+						//System.out.println("Conflict: " + start);
 						duration = a.getDuration();
 						success = false;
 						break;
@@ -109,6 +109,53 @@ public class Sequencing {
 			serialize(elected, completed, availableRes);
 	}
 	
+	private void process(List<Activity> ordered, Map<Integer,int[]> aRes, boolean delay) {
+		if (ordered == null || ordered.size() == 0) {
+			return;
+		}
+		else {
+			Map<Integer,int[]> availableRes = new HashMap<Integer,int[]>(aRes);
+			Activity current = ordered.get(ordered.size()-1);;
+			int startDay;
+			if (delay == true) {
+				startDay = latestFinishingTime(current.getSuccessors());
+			}
+			else {
+			  startDay = latestFinishingTime(current.getPredecessors());
+			}
+			//System.out.println("current " + current.getName());
+			//System.out.println("1) " + startDay);
+			startDay = nextAvailable(current, startDay, availableRes);
+			//System.out.println("2) " + startDay);
+			current.setStartDay(startDay);
+			
+			//update resources
+			int[] lastUsage = new int[this.numberOfRes];
+			System.arraycopy(availableRes.get(startDay), 0, lastUsage, 0, this.numberOfRes);
+			for (int i=startDay; i<startDay+current.getDuration(); i++) {
+				if (availableRes.get(i) != null) {
+					System.arraycopy(availableRes.get(i), 0, lastUsage, 0, this.numberOfRes);
+					for (int r=0; r<project.getUsedResources(); r++) {
+						availableRes.get(i)[r] -= current.getResource(r);
+					}
+				}
+			}
+			if (availableRes.get(startDay+current.getDuration()) == null) {
+				availableRes.put(startDay+current.getDuration(), lastUsage);
+			}
+			
+			//delete activity from list + recursive call
+			ordered.remove(ordered.size()-1);
+			process(ordered, availableRes, delay);
+		}
+	}
+	
+	public void updateProject() {
+		project.calculateEndDate();
+		project.setActivityDates();
+		project.getView().printDebugln("Serialized Project to new duration of " + project.getLength() + " working day(s).");
+	}
+	
 	public void serialization() {
 		Map<Integer,int[]> availableRes = new HashMap<Integer,int[]>();
 		int resLimits[] = new int[this.numberOfRes];
@@ -118,8 +165,43 @@ public class Sequencing {
 		start.setStartDay(0);
 		if (project.getCriticalPath().computeCriticalPath()) {
 			serialize(start.getSuccessors(), new ArrayList<Activity>(), availableRes);
-			project.calculateEndDate();
-			project.setActivityDates();
+			updateProject();
+			
+			availableRes = new HashMap<Integer,int[]>();
+			resLimits = new int[this.numberOfRes];
+			System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
+		  availableRes.put(0, resLimits);
+			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
+			Collections.sort(ordered);
+			for (int i=0; i<ordered.size(); i++) 
+				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
+			process(ordered, availableRes, true);
+			
+			availableRes = new HashMap<Integer,int[]>();
+			resLimits = new int[this.numberOfRes];
+			System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
+		  availableRes.put(0, resLimits);
+			ordered = new ArrayList<Activity>(project.getActivities());
+			Collections.sort(ordered);
+			// START must be the last activity
+			if(!ordered.get(ordered.size()-1).getName().equals("START")) {
+				for (int i=ordered.size()-1; i>=0; i--) {
+					if (ordered.get(i).getName().equals("START")) {
+						ordered.set(i, ordered.get(ordered.size()-1));
+						ordered.set(ordered.size()-1, start);
+					}
+				}
+			}
+			for (int i=0; i<ordered.size(); i++) 
+				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
+			process(ordered, availableRes, false);
+			ordered = new ArrayList<Activity>(project.getActivities());
+			Collections.sort(ordered);
+			for (int i=0; i<ordered.size(); i++) 
+				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
+			updateProject();
+			
+			
 		}
  	}
 

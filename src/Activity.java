@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Activity {
+public class Activity implements Comparable<Activity>{
 	// private attributes
 	private String name;
 	private int duration;
@@ -15,15 +15,6 @@ public class Activity {
 	private List<Activity> predecessors = new ArrayList<Activity>();
 	private List<Activity> successors = new ArrayList<Activity>();
 	
-	public boolean inList(List<Activity> activityList, String activityName) {
-		Iterator<Activity> it = activityList.iterator();
-		while(it.hasNext()){
-			if(activityName.equals(it.next().getName()))
-				return true;
-		}
-		return false;
-	}
-	
 	public Activity(String aName, int aDuration, int[] aResources, int maxResources) {
 		//this.pCal = pCalendar;
 		this.name = aName;
@@ -35,6 +26,15 @@ public class Activity {
 		this.startDay = -1;
 		this.totalFloat = -1;
 		this.freeFloat = -1;
+	}
+	
+	public int compareTo(Activity c) {
+		if ((this.getStartDay() + this.getDuration()) < (c.getStartDay() + c.getDuration()))
+			return -1;
+		else if ((this.getStartDay() + this.getDuration()) == (c.getStartDay() + c.getDuration()))
+			return 0;
+		else 
+			return 1;
 	}
 
 	// getters and setters
@@ -130,6 +130,15 @@ public class Activity {
 
 	public List<Activity> getSuccessors() {
 		return successors;
+	}
+	
+	public boolean inList(List<Activity> activityList, String activityName) {
+		Iterator<Activity> it = activityList.iterator();
+		while(it.hasNext()){
+			if(activityName.equals(it.next().getName()))
+				return true;
+		}
+		return false;
 	}
 
 	public void addPredecessor(Activity pred) {
