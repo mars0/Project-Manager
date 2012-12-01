@@ -48,6 +48,10 @@ public class Project {
 	public int getMaxNumOfResources() {
 		return this.resLimits.length;
 	}
+	public void setResLimit(int index, int value) {
+		if (index < getMaxNumOfResources() && value >= 0)
+			this.resLimits[index] = value;
+	}
 	public int[] getResourceLimits() {
 		return this.resLimits;
 	}
@@ -205,6 +209,10 @@ public class Project {
 		while(it.hasNext()){
 			// delete old arcs
 			removeArc(it.next().getName(), a.getName());
+		}
+	  // if no predecessors entered then add START
+		if (newPreds.length == 0 && !a.getName().equals("START")) {
+			addArc("START", a.getName());
 		}
 	}
 	

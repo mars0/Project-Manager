@@ -13,25 +13,15 @@ public class MaxResourceSetter extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private ResourceManager delegate;
-
-	/**
-	 * Launch the application.
-	 *
-	public static void main(String[] args) {
-		try {
-			MaxResourceSetter dialog = new MaxResourceSetter();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	public void openWindow(String currentLimits) {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		textField.setText(currentLimits);
+	}
+	
+	public JTextField getTextField() {
+		return this.textField;
 	}
 	
 	public void close() {
@@ -66,6 +56,7 @@ public class MaxResourceSetter extends JDialog {
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(delegate);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -73,7 +64,6 @@ public class MaxResourceSetter extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				cancelButton.addActionListener(delegate);
-				cancelButton.setActionCommand("cancel");
 				buttonPane.add(cancelButton);
 			}
 		}

@@ -138,7 +138,8 @@ public class ProjectManager implements ActionListener{
 	    		for (Activity c: a.getPredecessors()) {
 	    			preds += c.getName() + " "; 
 	    		}
-	    		preds = preds.substring(0, preds.length()-1); //delete last blank
+	    		if (preds.length() > 1)
+	    			preds = preds.substring(0, preds.length()-1); //delete last blank
 	    		view.getTxtPred().setText(preds);
 	    		String resString = "";
 	    		for (int i=view.getColumnOffset(); i<view.getTableModel().getColumnCount(); i++) {

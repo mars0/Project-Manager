@@ -134,12 +134,15 @@ public class ProjectCalendar implements ActionListener{
 	}
 	
 	public Calendar calculateEndDate(Calendar startDate, int length) {
-		Calendar endDate = Calendar.getInstance();
-		endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
-		while(length > 0) {
-		  endDate.add(Calendar.DAY_OF_MONTH, 1);
-			if(!isHoliday(((Integer)endDate.get(Calendar.DAY_OF_MONTH)).toString(), endDate))
-				length--;
+		Calendar endDate = null;
+		if (startDate != null) {
+			endDate = Calendar.getInstance();
+			endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
+			while(length > 0) {
+			  endDate.add(Calendar.DAY_OF_MONTH, 1);
+				if(!isHoliday(((Integer)endDate.get(Calendar.DAY_OF_MONTH)).toString(), endDate))
+					length--;
+			}
 		}
 		return endDate;
 	}

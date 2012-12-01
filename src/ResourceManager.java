@@ -18,11 +18,16 @@ public class ResourceManager implements ActionListener{
 	
   public void actionPerformed(ActionEvent e) {
   	
-  	if("cancel".equals(e.getActionCommand())) {
+  	if("Cancel".equals(e.getActionCommand())) {
   		maxResWindow.close();
   	}
-  	else if("ok".equals(e.getActionCommand())) {
-  		//TODO read new limits
+  	else if("OK".equals(e.getActionCommand())) {
+    	if (!(maxResWindow.getTextField().getText().equals(""))) {
+    		String[] rString = (maxResWindow.getTextField().getText()).split(" ");
+    		for(int i=0; i<rString.length && i<project.getMaxNumOfResources(); i++) 
+    			project.setResLimit(i, Integer.parseInt(rString[i]));
+    		maxResWindow.close();
+    	}
   	}
 
   }

@@ -71,7 +71,7 @@ public class Activity implements Comparable<Activity>{
 	}
   // set resource i to value
 	public void setResource(int i, int value) {
-		if (i < this.resources.length)
+		if (i < this.resources.length && value >= 0)
 			this.resources[i] = value;
 	}
 
