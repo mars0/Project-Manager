@@ -150,33 +150,36 @@ public class Sequencing {
 		}
 	}
 	
-	public void updateProject() {
+	private void updateProject() {
 		project.calculateEndDate();
 		project.setActivityDates();
 		project.getView().printDebugln("Serialized Project to new duration of " + project.getLength() + " working day(s).");
 	}
 	
 	public void serialization() {
+		// set variables
 		Map<Integer,int[]> availableRes = new HashMap<Integer,int[]>();
 		int resLimits[] = new int[this.numberOfRes];
 		System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
 		availableRes.put(0, resLimits);
+		
 		Activity start = project.getActivityByName("START");
 		start.setStartDay(0);
 		if (project.getCriticalPath().computeCriticalPath()) {
 			serialize(start.getSuccessors(), new ArrayList<Activity>(), availableRes);
 			updateProject();
 			
+			// reset variables
 			availableRes = new HashMap<Integer,int[]>();
 			resLimits = new int[this.numberOfRes];
 			System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
 		  availableRes.put(0, resLimits);
 			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
 			Collections.sort(ordered);
-			for (int i=0; i<ordered.size(); i++) 
-				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
+			
 			process(ordered, availableRes, true);
 			
+			// reset variables
 			availableRes = new HashMap<Integer,int[]>();
 			resLimits = new int[this.numberOfRes];
 			System.arraycopy(project.getResourceLimits(), 0, resLimits, 0, this.numberOfRes);
@@ -192,16 +195,8 @@ public class Sequencing {
 					}
 				}
 			}
-			for (int i=0; i<ordered.size(); i++) 
-				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
 			process(ordered, availableRes, false);
-			ordered = new ArrayList<Activity>(project.getActivities());
-			Collections.sort(ordered);
-			for (int i=0; i<ordered.size(); i++) 
-				System.out.println("## " + ordered.get(i).getName() + " end: " + (ordered.get(i).getStartDay()+ordered.get(i).getDuration()));
 			updateProject();
-			
-			
 		}
  	}
 

@@ -25,8 +25,42 @@ public class ProjectManager implements ActionListener{
 		myProject = new Project("Test Project", view, 4);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
 		//view.printDebugln("Today is " + pCal.getTime());
-		// Test case:
+		// Test case PRACTICA 6:
 		String[] preds = new String[0];
+		myProject.addActivity("A", 5, preds, new int[]{4, 6, 0, 0});
+		myProject.addActivity("B", 1, preds, new int[]{5, 0, 3, 0});
+		myProject.addActivity("C", 5, preds, new int[]{0, 5, 5, 0});
+		preds = new String[1];
+		preds[0] = "B";
+		myProject.addActivity("D", 6, preds, new int[]{2, 1, 0, 0});
+		preds = new String[2];
+		preds[0] = "A";
+		preds[1] = "C";
+		myProject.addActivity("E", 5, preds, new int[]{1, 5, 0, 0});
+		preds[1] = "B";
+		myProject.addActivity("F", 4, preds, new int[]{0, 3, 0, 6});
+		preds = new String[3];
+		preds[0] = "A";
+		preds[1] = "B";
+		preds[2] = "C";
+		myProject.addActivity("G", 7, preds, new int[]{0, 2, 5, 0});
+		preds = new String[4];
+		preds[0] = "D";
+		preds[1] = "E";
+		preds[2] = "F";
+		preds[3] = "G";
+		myProject.addActivity("H", 2, preds, new int[]{0, 0, 3, 3});
+		preds = new String[1];
+		preds[0] = "E";
+		myProject.addActivity("I", 2, preds, new int[]{3, 0, 0, 4});
+		preds[0] = "G";
+		myProject.addActivity("J", 2, preds, new int[]{2, 0, 0, 1});
+		preds = new String[3];
+		preds[0] = "H";
+		preds[1] = "I";
+		preds[2] = "J";
+		myProject.addActivity("END", 0, preds, null);
+		/*
 		myProject.addActivity("A", 5, preds, new int[]{3, 2, 0, 0});
 		myProject.addActivity("B", 5, preds, new int[]{2, 4, 0, 0});
 		preds = new String[1];
@@ -55,7 +89,7 @@ public class ProjectManager implements ActionListener{
 		preds = new String[2];
 		preds[0] = "H";
 		preds[1] = "K";
-		myProject.addActivity("END", 0, preds, null);
+		myProject.addActivity("END", 0, preds, null);*/
 		myProject.printActivities();
 	}
 	
