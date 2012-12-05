@@ -104,12 +104,12 @@ public class CalendarView {
 		splitPane = new JSplitPane();
 		frmProjectCalendar.getContentPane().add(splitPane, "5, 2, left, center");
 		
-		buttonPrev = new JButton("<-");
+		buttonPrev = new JButton("<<");
 		splitPane.setLeftComponent(buttonPrev);
 		buttonPrev.setActionCommand("prevMonth");
 		buttonPrev.addActionListener(delegate);
 		
-		buttonNext = new JButton("->");
+		buttonNext = new JButton(">>");
 		splitPane.setRightComponent(buttonNext);
 		buttonNext.setActionCommand("nextMonth");
 		buttonNext.addActionListener(delegate);

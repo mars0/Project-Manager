@@ -3,15 +3,16 @@
   <class id="1" corner="BOTTOM_RIGHT" language="java" name="ProjectManager" project="ProjectManager" 
     file="/ProjectManager/src/ProjectManager.java" binary="false">    
     <position height="-1" width="-1" x="247" y="240"/>    
-    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" visibility="true">      
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="false" private="true"/>    
     </display>  
   </class>  
   <class id="2" corner="BOTTOM_RIGHT" language="java" name="Project" project="ProjectManager" 
     file="/ProjectManager/src/Project.java" binary="false">    
-    <position height="-1" width="-1" x="739" y="244"/>    
-    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" visibility="true">      
+    <position height="715" width="317" x="586" y="-112"/>    
+    <display autosize="false" stereotype="false" package="false" initial-value="false" signature="true" 
+      visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="false" private="true"/>    
     </display>  
@@ -19,15 +20,15 @@
   <class id="3" corner="BOTTOM_RIGHT" language="java" name="Activity" project="ProjectManager" 
     file="/ProjectManager/src/Activity.java" binary="false">    
     <position height="-1" width="-1" x="1121" y="241"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="false" private="true"/>    
+      <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
   <class id="4" corner="BOTTOM_RIGHT" language="java" name="CriticalPath" project="ProjectManager" 
     file="/ProjectManager/src/CriticalPath.java" binary="false">    
     <position height="-1" width="-1" x="261" y="487"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="false" private="true"/>    
     </display>  
@@ -35,20 +36,17 @@
   <class id="5" corner="BOTTOM_RIGHT" language="java" name="Sequencing" project="ProjectManager" 
     file="/ProjectManager/src/Sequencing.java" binary="false">    
     <position height="-1" width="-1" x="298" y="-9"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="false" private="true"/>    
     </display>  
   </class>  
   <association id="6">    
-    <bendpoint x="1207" y="625"/>    
-    <bendpoint x="1262" y="629"/>    
-    <bendpoint x="1276" y="600"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="7" name="successors"/>      
-      <multiplicity id="8" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="7" name="project"/>      
+      <multiplicity id="8" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="9">    
@@ -63,7 +61,7 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    
-    <end type="SOURCE" refId="5" navigable="false">      
+    <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="13" name="project"/>      
       <multiplicity id="14" minimum="0" maximum="1"/>    
     </end>    
@@ -71,11 +69,14 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="15">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="16" name="criticalPath"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
+    <bendpoint x="1207" y="625"/>    
+    <bendpoint x="1262" y="629"/>    
+    <bendpoint x="1276" y="600"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="16" name="successors"/>      
+      <multiplicity id="17" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="18">    
@@ -87,11 +88,11 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="21">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="22" name="project"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="22" name="criticalPath"/>      
       <multiplicity id="23" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="24">    

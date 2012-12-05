@@ -52,6 +52,7 @@ public class MainWindow {
 	private JButton btnValid;
 	private JMenuItem mntmSetResources;
 	private JMenuItem mntmSequence;
+	private JMenuItem mntmEqualize;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -315,6 +316,11 @@ public class MainWindow {
 		mnEdit.add(mntmSequence);
 		mntmSequence.addActionListener(delegate);
 		mntmSequence.setActionCommand("sequence");
+		
+		mntmEqualize = new JMenuItem("Equalize");
+		mntmEqualize.addActionListener(delegate);
+		mntmEqualize.setActionCommand("equalize");
+		mnEdit.add(mntmEqualize);
 		
 		mnShow = new JMenu("Show");
 		menuBar.add(mnShow);

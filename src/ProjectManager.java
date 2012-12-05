@@ -220,6 +220,11 @@ public class ProjectManager implements ActionListener{
     	Sequencing seq = new Sequencing(myProject);
     	seq.serialization();
     }
+    else if("equalize".equals(e.getActionCommand())) {
+    	Equalizing eq = new Equalizing(myProject);
+    	eq.equalize();
+      view.printDebugln("Equalized resource usage.");
+    }
     myProject.printActivities();
   }
 	
