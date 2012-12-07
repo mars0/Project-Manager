@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -93,10 +92,16 @@ public class Equalizing {
 	public void equalize() {
 	// assuming that each activity starts at its earliest starting point
 		//System.out.println("Before varCoef: " + getCoefficientSum());
-		List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
-		Collections.sort(ordered);
-		equalizeFor(ordered);
-		//System.out.println("After varCoef: " + getCoefficientSum());
+		// TODO: check if schedule is valid
+		Activity s = project.getActivityByName("START");
+		if ((project.isValidSubGraph(s, null)) && (project.hasValidSchedule(s, null))) {
+			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
+			Collections.sort(ordered);
+			equalizeFor(ordered);
+		} 
+		else {
+			project.getView().printDebugln("Cannot equalize ressource usage: please check project schedule.");
+		}
 	}
 
 }

@@ -259,6 +259,36 @@ public class Project {
 			view.printDebugln("The project needs at least one resource.");
 		}
 	}
+	
+	public boolean hasValidSchedule(Activity start, List<Activity> visitedNodes) {
+		Iterator<Activity> it = start.getSuccessors().iterator();
+		List<Activity> vNodes;
+		boolean res = true;
+		
+		if (visitedNodes != null)
+			vNodes = new ArrayList<Activity>(visitedNodes);
+		else
+			vNodes = new ArrayList<Activity>();
+		vNodes.add(start);
+		
+		if ("END".equals(start.getName())) {
+			return true;
+		}
+		
+	// iterate through all successors
+		while (it.hasNext()) {
+			Activity succ = it.next();
+	    int earliestStart = start.getStartDay() + start.getDuration();
+			if (earliestStart > succ.getStartDay()) {
+				return false;
+			}
+			else if (!(vNodes.contains(succ))) {
+				res = res && hasValidSchedule(succ, vNodes);
+			}
+		}
+		
+		return res;
+	}
 		
 	public boolean isValidSubGraph(Activity start, List<Activity> visitedNodes) {
 		boolean res = true;
