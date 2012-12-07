@@ -18,6 +18,34 @@ public class ProjectCalendar implements ActionListener{
 		this.endDate = p.getEndDate();
 	}
 	
+	private boolean isEqual(Calendar c1, Calendar c2) {
+		if(c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private void saveOldStarts(Activity a, Map<String,Integer> starts) {
+		starts.put(a.getName(), a.getStartDay());
+		// recursive call
+		for (int i=0; i<a.getSuccessors().size(); i++) {
+			if (!(starts.containsKey(a.getSuccessors().get(i).getName()))) {
+				saveOldStarts(a.getSuccessors().get(i), starts);
+			}
+		}
+	}
+	
+	public void revertChanges(Map<String,Integer> starts) {
+		for (Map.Entry<String,Integer> entry : starts.entrySet()) {
+			project.getActivityByName(entry.getKey()).setStartDay(entry.getValue());
+		}
+		project.setActivityDates();
+		project.calculateEndDate();
+		project.printActivities();
+  	updateDates();
+  	printDays();
+	}
+	
 	public Calendar getNextWorkDay(Calendar date, int offset) {
 		Calendar workDay = Calendar.getInstance();
 		workDay.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
@@ -28,6 +56,30 @@ public class ProjectCalendar implements ActionListener{
 				offset--;
 		}
 		return workDay;
+	}
+	
+	public int getOffset(Calendar from, Calendar to) {
+		int offset = 0;
+		if(isEqual(to, from)) {
+			return offset;
+		}
+		else if(to.compareTo(from) < 0) {
+			// to is before from
+			while (!isEqual(to, from)) {
+				to.add(Calendar.DAY_OF_MONTH, 1);
+				if (!isHoliday(to))
+					offset--;
+			}
+		}
+		else {
+			// to is after from
+			while (!isEqual(to, from)) {
+				to.add(Calendar.DAY_OF_MONTH, -1);
+				if (!isHoliday(to))
+					offset++;
+			}
+		}
+		return offset;
 	}
 	
 	private void addCustomDay(Integer year, Integer month, Integer day, Boolean isHoliday) {
@@ -76,6 +128,18 @@ public class ProjectCalendar implements ActionListener{
   		this.startDate = subject.getStartDate();
   		this.endDate = subject.getEndDate();
   	}
+	}
+	
+	public boolean isHoliday(Calendar cal) {
+		boolean res = false;
+		Integer dateKey = getCustomDayKey(cal);
+		if (customDays.containsKey(dateKey)) {
+			res = customDays.get(dateKey);
+		}
+		else if (cal.get(Calendar.DAY_OF_WEEK) == 1 || cal.get(Calendar.DAY_OF_WEEK) == 7) {
+			res = true;
+		}
+		return res;
 	}
 	
 	public boolean isHoliday(String day, Calendar refCal) {
@@ -212,7 +276,21 @@ public class ProjectCalendar implements ActionListener{
 	      if(!isHoliday(day.toString(), null)) {
 	      	if ("START".equals(subject.getName()))
 	      		project.setStartDate(date);
-	      	// TODO else for other activities
+	      	else {
+	      		int newStart = subject.getStartDay() + getOffset(subject.getStartDate(), date);
+	      		if (newStart >= subject.getLowerBound() && newStart != subject.getStartDay()) {
+	      			//int oldStart = subject.getStartDay();
+	      			Map<String,Integer> oldStarts = new HashMap<String,Integer>();
+	      			saveOldStarts(subject, oldStarts);
+	      			int oldDuration = project.getLength();
+	      			//project.getView().printDebugln("1 Duration: " + project.getLength());
+	      			subject.recursivlySetStartDay(newStart);
+	      			project.setActivityDates();
+	      			project.calculateEndDate();
+	      			//project.getView().printDebugln("2 Duration: " + project.getLength());
+	      			new ChangeDateDialog(this, project.getLength()-oldDuration, true, oldStarts);
+	      		}
+	      	}
 	      }
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}

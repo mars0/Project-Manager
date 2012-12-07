@@ -98,6 +98,7 @@ public class Equalizing {
 			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
 			Collections.sort(ordered);
 			equalizeFor(ordered);
+			project.setActivityDates();
 			return true;
 		} 
 		else {
