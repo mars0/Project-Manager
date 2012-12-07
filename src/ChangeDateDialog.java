@@ -44,7 +44,12 @@ public class ChangeDateDialog extends JDialog implements ActionListener{
 		lblFeasableForResource.setBounds(17, 72, 190, 16);
 		contentPanel.add(lblFeasableForResource);
 		
-		JLabel lblOffset = new JLabel(((Integer)offset).toString());
+		String offsetS = ((Integer)offset).toString();
+		if (offset > 0) 
+			offsetS = "+" + offsetS;
+		else if (offset == 0) 
+			offsetS = "-";
+		JLabel lblOffset = new JLabel(offsetS);
 		lblOffset.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblOffset.setBounds(210, 44, 61, 16);
 		contentPanel.add(lblOffset);

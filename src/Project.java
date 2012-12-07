@@ -134,9 +134,20 @@ public class Project {
 		}
 	}
 	
+	private int maxActivityDuration() {
+		int max = 0;
+		for (int i=0; i<activities.size(); i++) {
+			int end = (activities.get(i).getStartDay() + activities.get(i).getDuration());
+			if (max < end && !"END".equals(activities.get(i).getName()))
+				max = end;
+		}
+		return max;
+	}
+	
 	public Calendar calculateEndDate() {
 		Activity end = this.getActivityByName("END");
 		if(end != null) {
+			end.setStartDay(maxActivityDuration());
 			this.length = end.getStartDay(); 
 			this.endDate = projectCalendar.calculateEndDate(startDate, this.length);
 			return this.endDate;
