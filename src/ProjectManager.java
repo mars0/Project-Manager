@@ -5,13 +5,6 @@
 //import java.awt.*;
 import java.awt.event.*;
 
-/*TODO
- * return true or false from compute critical path and optimize computation
- * graphical output?
- * multiprojects ??
- * import/export from text file ??
- */
-
 public class ProjectManager implements ActionListener{
 	
 	private Project myProject;
@@ -201,7 +194,7 @@ public class ProjectManager implements ActionListener{
   			view.printDebugln("Cannot compute critical path: Activity graph is not valid.");
     }
     else if ("showCal".equals(e.getActionCommand())) {
-    	myProject.getProjectCalendar().openCalendarWindow();
+    	myProject.getProjectCalendar().openCalendarWindow(myProject.getActivityByName("START"));
     }
     else if ("showRes".equals(e.getActionCommand())) {
     	myProject.getResourceManager().openResourceWindow();
@@ -237,12 +230,13 @@ public class ProjectManager implements ActionListener{
     		}
     		// start activity is a special case == start of the project
     		else if (aName.equals("START")){
-    			myProject.getProjectCalendar().openCalendarWindow();
+    			myProject.getProjectCalendar().openCalendarWindow(myProject.getActivityByName(aName));
     		}
     		// edit other activities only if successor relations are correct
     		else if (myProject.hasValidSchedule(myProject.getActivityByName("START"), null)) {
     			Activity a = myProject.getActivityByName(aName);
-    			// TODO: call "modified" calendar to set stat date
+    			// TODO: modify calendar to handle this
+    			myProject.getProjectCalendar().openCalendarWindow(a);
     		}
         else {
         	view.printDebugln("Cannot modifiy start date: please check project schedule.");

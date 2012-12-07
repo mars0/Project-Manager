@@ -3,14 +3,19 @@ import java.awt.event.*;
 
 public class ProjectCalendar implements ActionListener{
 	private static Calendar pCal;
+	private Calendar startDate;
+	private Calendar endDate;
 	private CalendarView cView;
 	private Project project;
+	private Activity subject;
 	private Map<Integer,Boolean> customDays;
 	
 	public ProjectCalendar(Project p) {
 		this.project = p;
 		pCal = Calendar.getInstance();
 		customDays = new HashMap<Integer,Boolean>();
+		this.startDate = p.getStartDate();
+		this.endDate = p.getEndDate();
 	}
 	
 	public Calendar getNextWorkDay(Calendar date, int offset) {
@@ -58,6 +63,21 @@ public class ProjectCalendar implements ActionListener{
 		return dateKey;
 	}
 	
+	private void updateDates() {
+  	this.startDate = null;
+		this.endDate = null;
+  	
+		if (subject.getName().equals("START")) {
+  		// we are considering the whole project
+  		this.startDate = project.getStartDate();
+  		this.endDate = project.getEndDate();
+  	}
+  	else if (!subject.getName().equals("END")) {
+  		this.startDate = subject.getStartDate();
+  		this.endDate = subject.getEndDate();
+  	}
+	}
+	
 	public boolean isHoliday(String day, Calendar refCal) {
 		Calendar currCal = Calendar.getInstance();
 		if(refCal == null)
@@ -82,7 +102,6 @@ public class ProjectCalendar implements ActionListener{
 	}
 	
 	public boolean isStartDate(String value) {
-		Calendar startDate = project.getStartDate();
 		if (startDate != null && 
 				Integer.parseInt(value) == startDate.get(Calendar.DAY_OF_MONTH) && 
 				pCal.get(Calendar.MONTH) == startDate.get(Calendar.MONTH) && 
@@ -92,7 +111,6 @@ public class ProjectCalendar implements ActionListener{
 	}
 	
 	public boolean isEndDate(String value) {
-		Calendar endDate = project.getEndDate();
 		if (endDate != null && 
 				Integer.parseInt(value) == endDate.get(Calendar.DAY_OF_MONTH) && 
 				pCal.get(Calendar.MONTH) == endDate.get(Calendar.MONTH) && 
@@ -167,7 +185,7 @@ public class ProjectCalendar implements ActionListener{
       	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
       	if(!isStartDate(day.toString())) {
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
-      		project.calculateEndDate();
+      		//project.calculateEndDate();
       	}
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}
@@ -179,7 +197,7 @@ public class ProjectCalendar implements ActionListener{
       	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
       	if(!isStartDate(day.toString())) {
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
-      		project.calculateEndDate();
+      		//project.calculateEndDate();
       	}
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}
@@ -192,44 +210,48 @@ public class ProjectCalendar implements ActionListener{
 	      Calendar date = Calendar.getInstance();
 	      date.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day);
 	      if(!isHoliday(day.toString(), null)) {
-	      	project.setStartDate(date);
-	      	//System.out.println("End date: " + project.calculateEndDate().getTime());
+	      	if ("START".equals(subject.getName()))
+	      		project.setStartDate(date);
+	      	// TODO else for other activities
 	      }
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}
 	  }
   	else if("showStart".equals(e.getActionCommand())) {
-  		Calendar sDate = project.getStartDate();
-  		if(sDate.get(Calendar.MONTH) == pCal.get(Calendar.MONTH) && sDate.get(Calendar.YEAR) == pCal.get(Calendar.YEAR)) {
+  		if(startDate.get(Calendar.MONTH) == pCal.get(Calendar.MONTH) && startDate.get(Calendar.YEAR) == pCal.get(Calendar.YEAR)) {
   			return;
   		}
-  		else if(pCal.get(Calendar.YEAR) < sDate.get(Calendar.YEAR) || (pCal.get(Calendar.YEAR) <= sDate.get(Calendar.YEAR) && pCal.get(Calendar.MONTH) < sDate.get(Calendar.MONTH))) {
+  		else if(pCal.get(Calendar.YEAR) < startDate.get(Calendar.YEAR) || (pCal.get(Calendar.YEAR) <= startDate.get(Calendar.YEAR) && pCal.get(Calendar.MONTH) < startDate.get(Calendar.MONTH))) {
   			do {
   	  		pCal.set(Calendar.MONTH, (pCal.get(Calendar.MONTH)+1)%12);
   	  		if(pCal.get(Calendar.MONTH) == 0 )
   	  			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)+1);
-  			} while (sDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || sDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
+  			} while (startDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || startDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
   		}
   		else {
   			do {
   	  		pCal.set(Calendar.MONTH, (pCal.get(Calendar.MONTH)+11)%12);
   	  		if(pCal.get(Calendar.MONTH) == 11 )
   	  			pCal.set(Calendar.YEAR, pCal.get(Calendar.YEAR)-1);
-  			} while (sDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || sDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
+  			} while (startDate.get(Calendar.MONTH) != pCal.get(Calendar.MONTH) || startDate.get(Calendar.YEAR) != pCal.get(Calendar.YEAR));
   		}
   	}
   	project.calculateEndDate();
   	project.setActivityDates();
   	project.printActivities();
+  	updateDates();
   	printDays();
   }
   
-  public void openCalendarWindow() {
+  public void openCalendarWindow(Activity a) {
+  	this.subject = a;
+  	updateDates();
+  	
   	if (this.cView == null)
   		this.cView = new CalendarView(this);
   	else {
   		cView.openWindow();
-  		//pCal = Calendar.getInstance(); // reset to current date
+  		pCal = Calendar.getInstance(); // reset to current date
   	}
   	project.calculateEndDate();
   	printDays();
