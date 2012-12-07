@@ -94,7 +94,7 @@ public class ProjectManager implements ActionListener{
 	
   public void actionPerformed(ActionEvent e)
   {
-    if("addActivity".equals(e.getActionCommand())) {
+    if ("addActivity".equals(e.getActionCommand())) {
     	String name = view.getTxtName().getText();
     	if (editActivity == true) {
     		// save changes
@@ -146,7 +146,7 @@ public class ProjectManager implements ActionListener{
 	    	}
     	}
     }
-    else if("editActivity".equals(e.getActionCommand())) {
+    else if ("editActivity".equals(e.getActionCommand())) {
     	if (editActivity == true) {
     		// abort editing
     		view.clearInputFields();
@@ -190,41 +190,66 @@ public class ProjectManager implements ActionListener{
 	    	}
     	}
     }
-    else if("addResource".equals(e.getActionCommand())) {
+    else if ("addResource".equals(e.getActionCommand())) {
     	myProject.addResource();
     }
-    else if("deleteResource".equals(e.getActionCommand())) {
+    else if ("deleteResource".equals(e.getActionCommand())) {
     	myProject.deleteResource();
     }
     else if ("criticalPath".equals(e.getActionCommand())) {
     	if(!myProject.getCriticalPath().computeCriticalPath())
   			view.printDebugln("Cannot compute critical path: Activity graph is not valid.");
     }
-    else if("showCal".equals(e.getActionCommand())) {
+    else if ("showCal".equals(e.getActionCommand())) {
     	myProject.getProjectCalendar().openCalendarWindow();
     }
-    else if("showRes".equals(e.getActionCommand())) {
+    else if ("showRes".equals(e.getActionCommand())) {
     	myProject.getResourceManager().openResourceWindow();
     }
-    else if("valid".equals(e.getActionCommand())) {
+    else if ("valid".equals(e.getActionCommand())) {
     	if (myProject.isValidSubGraph(myProject.getActivityByName("START"), null))
     		view.printDebugln("Graph is valid.");
     	else
     		view.printDebugln("Graph is not valid.");
     }
-    else if("setRes".equals(e.getActionCommand())) {
+    else if ("setRes".equals(e.getActionCommand())) {
     	myProject.getResourceManager().openMaxResWindow();
     }
-    else if("sequence".equals(e.getActionCommand())) {
+    else if ("sequence".equals(e.getActionCommand())) {
     	Sequencing seq = new Sequencing(myProject);
     	seq.serialization();
     }
-    else if("equalize".equals(e.getActionCommand())) {
+    else if ("equalize".equals(e.getActionCommand())) {
     	Equalizing eq = new Equalizing(myProject);
     	if (eq.equalize()) 
     		view.printDebugln("Equalized resource usage.");
     	else
   			view.printDebugln("Cannot equalize ressource usage: please check project schedule.");
+    }
+    else if ("changeDate".equals(e.getActionCommand())) {
+    	int[] selectedRows = view.getTable().getSelectedRows();
+    	// can only edit one activity date at a time
+    	if (selectedRows.length == 1) {
+    		selectedRow = view.getTable().convertRowIndexToModel(selectedRows[0]);
+    		String aName = (String)view.getTableModel().getValueAt(selectedRow, 0);
+    		if (aName.equals("END")) {
+    			view.printDebugln("Cannot edit date of END activity.");
+    		}
+    		// start activity is a special case == start of the project
+    		else if (aName.equals("START")){
+    			myProject.getProjectCalendar().openCalendarWindow();
+    		}
+    		// edit other activities only if successor relations are correct
+    		else if (myProject.hasValidSchedule(myProject.getActivityByName("START"), null)) {
+    			Activity a = myProject.getActivityByName(aName);
+    			// TODO: call "modified" calendar to set stat date
+    		}
+        else {
+        	view.printDebugln("Cannot modifiy start date: please check project schedule.");
+        }
+    	}
+    	else
+    		view.printDebugln("Please select exactly one activity from the table.");
     }
     myProject.printActivities();
   }

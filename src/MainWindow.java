@@ -53,6 +53,8 @@ public class MainWindow {
 	private JMenuItem mntmSetResources;
 	private JMenuItem mntmSequence;
 	private JMenuItem mntmEqualize;
+	private JMenu mnOptimize;
+	private JMenuItem mntmChangeStartDate;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -313,20 +315,15 @@ public class MainWindow {
 		mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
 		
-		mntmSetResources = new JMenuItem("Set Resources");
+		mntmSetResources = new JMenuItem("Resource Limits");
 		mnEdit.add(mntmSetResources);
 		mntmSetResources.addActionListener(delegate);
 		mntmSetResources.setActionCommand("setRes");
 		
-		mntmSequence = new JMenuItem("Sequence");
-		mnEdit.add(mntmSequence);
-		mntmSequence.addActionListener(delegate);
-		mntmSequence.setActionCommand("sequence");
-		
-		mntmEqualize = new JMenuItem("Equalize");
-		mntmEqualize.addActionListener(delegate);
-		mntmEqualize.setActionCommand("equalize");
-		mnEdit.add(mntmEqualize);
+		mntmChangeStartDate = new JMenuItem("Start Date");
+		mnEdit.add(mntmChangeStartDate);
+		mntmChangeStartDate.addActionListener(delegate);
+		mntmChangeStartDate.setActionCommand("changeDate");
 		
 		mnShow = new JMenu("Show");
 		menuBar.add(mnShow);
@@ -340,5 +337,18 @@ public class MainWindow {
 	  mnShow.add(mntmResources);
 		mntmResources.addActionListener(delegate);
 	  mntmResources.setActionCommand("showRes");
+	  
+	  mnOptimize = new JMenu("Optimize");
+	  menuBar.add(mnOptimize);
+	  
+	  mntmSequence = new JMenuItem("Sequence");
+	  mnOptimize.add(mntmSequence);
+	  mntmSequence.addActionListener(delegate);
+	  mntmSequence.setActionCommand("sequence");
+	  
+	  mntmEqualize = new JMenuItem("Equalize");
+	  mnOptimize.add(mntmEqualize);
+	  mntmEqualize.addActionListener(delegate);
+	  mntmEqualize.setActionCommand("equalize");
 	}
 }
