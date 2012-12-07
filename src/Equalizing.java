@@ -89,7 +89,7 @@ public class Equalizing {
 		}
 	}
 	
-	public void equalize() {
+	public boolean equalize() {
 	// assuming that each activity starts at its earliest starting point
 		//System.out.println("Before varCoef: " + getCoefficientSum());
 		// TODO: check if schedule is valid
@@ -98,9 +98,10 @@ public class Equalizing {
 			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());
 			Collections.sort(ordered);
 			equalizeFor(ordered);
+			return true;
 		} 
 		else {
-			project.getView().printDebugln("Cannot equalize ressource usage: please check project schedule.");
+			return false;
 		}
 	}
 

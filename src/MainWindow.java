@@ -186,7 +186,13 @@ public class MainWindow {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(2dlu;default)"),}));
 		
-		tableModel = new DefaultTableModel(); 
+		tableModel = new DefaultTableModel() {
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+	       //all cells false
+	       return false;
+	    }
+		};
 		tableModel.addColumn("Name"); 
 		tableModel.addColumn("Duration");
 		tableModel.addColumn("Start");

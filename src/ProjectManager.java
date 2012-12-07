@@ -14,7 +14,6 @@ import java.awt.event.*;
 
 public class ProjectManager implements ActionListener{
 	
-	//private static Calendar pCal;
 	private Project myProject;
 	private MainWindow view;
 	private boolean editActivity = false;
@@ -222,14 +221,15 @@ public class ProjectManager implements ActionListener{
     }
     else if("equalize".equals(e.getActionCommand())) {
     	Equalizing eq = new Equalizing(myProject);
-    	eq.equalize();
-      view.printDebugln("Equalized resource usage.");
+    	if (eq.equalize()) 
+    		view.printDebugln("Equalized resource usage.");
+    	else
+  			view.printDebugln("Cannot equalize ressource usage: please check project schedule.");
     }
     myProject.printActivities();
   }
 	
 	public static void main(String[] args) {
-	//	pCal = Calendar.getInstance();
 		new ProjectManager();
 	}
 
