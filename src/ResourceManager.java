@@ -47,14 +47,23 @@ public class ResourceManager implements ActionListener{
   				}
   			}
   		}
-  		/* debug output
-  		for (int j=0; j<res.length; j++)
-  			project.getView().printDebugln("res["+j+"] = " + res[j]); */
   	}
   	else {
   		res = new int[0][0];
   	}
   	return res;
+  }
+  
+  public boolean inResourceLimits() {
+  	int[][] dailyRes = calcDailyResources();
+  	for (int day=0; day<project.getLength(); day++) {
+  		for (int r=0; r<project.getUsedResources(); r++) {
+  			if (dailyRes[day][r] > project.getResourceLimits()[r])
+  				return false;
+  		}
+  	}
+  	
+  	return true;
   }
   
   public void openResourceWindow() {

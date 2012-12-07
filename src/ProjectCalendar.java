@@ -283,12 +283,12 @@ public class ProjectCalendar implements ActionListener{
 	      			Map<String,Integer> oldStarts = new HashMap<String,Integer>();
 	      			saveOldStarts(subject, oldStarts);
 	      			int oldDuration = project.getLength();
-	      			//project.getView().printDebugln("1 Duration: " + project.getLength());
+	      			project.getView().printDebugln("1 Duration: " + project.getLength());
 	      			subject.recursivlySetStartDay(newStart);
 	      			project.setActivityDates();
 	      			project.calculateEndDate();
-	      			//project.getView().printDebugln("2 Duration: " + project.getLength());
-	      			new ChangeDateDialog(this, project.getLength()-oldDuration, true, oldStarts);
+	      			project.getView().printDebugln("2 Duration: " + project.getLength());
+	      			new ChangeDateDialog(this, project.getLength()-oldDuration, project.getResourceManager().inResourceLimits(), oldStarts);
 	      		}
 	      	}
 	      }
