@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Activity implements Comparable<Activity>{
+public class Activity implements Comparable<Activity> {
 	// private attributes
 	private String name;
 	private int duration;

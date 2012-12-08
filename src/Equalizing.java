@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
 public class Equalizing {
 	
 	private Project project;

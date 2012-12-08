@@ -55,6 +55,7 @@ public class MainWindow {
 	private JMenuItem mntmEqualize;
 	private JMenu mnOptimize;
 	private JMenuItem mntmChangeStartDate;
+	private JMenuItem mntmSave;
 	
 
 	public MainWindow(ProjectManager del) {
@@ -308,9 +309,18 @@ public class MainWindow {
 		
 		mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
+		mntmOpen.addActionListener(delegate);
+	  mntmOpen.setActionCommand("openFile");
+		
+		mntmSave = new JMenuItem("Save");
+		mnFile.add(mntmSave);
+		mntmSave.addActionListener(delegate);
+	  mntmSave.setActionCommand("saveFile");
 		
 		mntmSaveAs = new JMenuItem("Save as..");
 		mnFile.add(mntmSaveAs);
+		mntmSaveAs.addActionListener(delegate);
+	  mntmSaveAs.setActionCommand("saveFileAs");
 		
 		mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);

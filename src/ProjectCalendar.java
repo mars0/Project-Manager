@@ -1,7 +1,7 @@
 import java.util.*;
 import java.awt.event.*;
 
-public class ProjectCalendar implements ActionListener{
+public class ProjectCalendar implements ActionListener {
 	private static Calendar pCal;
 	private Calendar startDate;
 	private Calendar endDate;

@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 
-public class ResourceManager implements ActionListener{
+public class ResourceManager implements ActionListener {
 	private Project project;
 	private ResourceWindow rWindow;
 	private MaxResourceSetter maxResWindow;

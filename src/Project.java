@@ -1,5 +1,5 @@
 import java.util.*;
-//TODO: add boolean isValid that indicates if current project can be correctly executed (check graph!!!)
+
 public class Project {
 	private String name;
 	private int usedResources = 1;
@@ -33,7 +33,7 @@ public class Project {
 		resLimits[3] = 6;
 		this.projectCalendar = new ProjectCalendar(this);
 		this.resourceManager = new ResourceManager(this);
-		criticalPath = new CriticalPath(this);
+		this.criticalPath = new CriticalPath(this);
 		// add start activity
 		Activity a = addActivity("START", 0, null, null);
 		a.setTimeMin(0);

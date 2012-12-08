@@ -1,11 +1,6 @@
-//import java.util.*;
-
-//GUI stuff
-//import javax.swing.*;
-//import java.awt.*;
 import java.awt.event.*;
 
-public class ProjectManager implements ActionListener{
+public class ProjectManager implements ActionListener {
 	
 	private Project myProject;
 	private MainWindow view;
@@ -14,7 +9,7 @@ public class ProjectManager implements ActionListener{
 	
 	public ProjectManager() {
 		this.view = new MainWindow(this);
-		myProject = new Project("Test Project", view, 4);
+		this.myProject = new Project("Test Project", view, 4);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
 		//view.printDebugln("Today is " + pCal.getTime());
 		// Test case PRACTICA 6:
