@@ -179,11 +179,20 @@ public class CalendarView {
 	  		else if (delegate.isEndDate(value)) {
 	  			cell.setBackground(Color.magenta);
 	  		}
-	  		else if (isSelected) {
+	  		else if (isSelected && !delegate.isDisabledDate(value)) {
 	  			cell.setBackground(Color.blue);
 	  		} 
 	  		else
 	  			cell.setBackground(Color.white);
+	  		// check disable invalid start dates
+	  		if (delegate.isDisabledDate(value)) {
+	  			Font newFont = new Font(cell.getFont().getName(),Font.ITALIC,cell.getFont().getSize());
+	  			cell.setFont(newFont);
+	  			cell.setForeground(Color.lightGray);
+	  		}
+	  		else {
+	  			cell.setForeground(Color.black);
+	  		}
 	  	}
 	  	else {
 	  		cell.setBackground(Color.white);

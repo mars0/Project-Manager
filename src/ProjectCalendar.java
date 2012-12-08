@@ -142,6 +142,16 @@ public class ProjectCalendar implements ActionListener{
 		return res;
 	}
 	
+	public boolean isDisabledDate(String day) {
+		if (!"START".equals(subject.getName())) {
+			Calendar currCal = Calendar.getInstance();
+			currCal.set(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), Integer.parseInt(day));
+			if (subject.getLowerBound() > getOffset(project.getStartDate(), currCal))
+				return true;
+		}
+		return false;
+	}
+	
 	public boolean isHoliday(String day, Calendar refCal) {
 		Calendar currCal = Calendar.getInstance();
 		if(refCal == null)
@@ -279,15 +289,12 @@ public class ProjectCalendar implements ActionListener{
 	      	else {
 	      		int newStart = subject.getStartDay() + getOffset(subject.getStartDate(), date);
 	      		if (newStart >= subject.getLowerBound() && newStart != subject.getStartDay()) {
-	      			//int oldStart = subject.getStartDay();
 	      			Map<String,Integer> oldStarts = new HashMap<String,Integer>();
 	      			saveOldStarts(subject, oldStarts);
 	      			int oldDuration = project.getLength();
-	      			project.getView().printDebugln("1 Duration: " + project.getLength());
 	      			subject.recursivlySetStartDay(newStart);
 	      			project.setActivityDates();
 	      			project.calculateEndDate();
-	      			project.getView().printDebugln("2 Duration: " + project.getLength());
 	      			new ChangeDateDialog(this, project.getLength()-oldDuration, project.getResourceManager().inResourceLimits(), oldStarts);
 	      		}
 	      	}

@@ -57,15 +57,16 @@ public class Activity implements Comparable<Activity>{
 	public void setStartDay(int day) {
 		this.startDay = day;
 	}
-	
+		
 	public void recursivlySetStartDay(int day) {
 		this.startDay = day;
 		// check recursivly successors
 		Iterator<Activity> it = successors.iterator();
 		while (it.hasNext()) {
 			Activity s = it.next();
-			if (s.getStartDay() < (day+this.duration))
-				s.recursivlySetStartDay(day+this.duration);
+			/*if (s.getStartDay() < (day+this.duration))
+				s.recursivlySetStartDay(day+this.duration);*/
+			s.recursivlySetStartDay(s.getLowerBound());
 		}
 	}
 	
@@ -173,10 +174,10 @@ public class Activity implements Comparable<Activity>{
 		int res = 0;
 		Iterator<Activity> it = predecessors.iterator();
 		while (it.hasNext()) {
-			Activity s = it.next();
+			Activity p = it.next();
 			// save maximum
-			if ((s.getStartDay() + s.getDuration()) > res)
-				res = (s.getStartDay() + s.getDuration());
+			if ((p.getStartDay() + p.getDuration()) > res)
+				res = (p.getStartDay() + p.getDuration());
 		}
 		return res;
 	}
