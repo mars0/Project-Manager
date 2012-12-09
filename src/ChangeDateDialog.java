@@ -25,7 +25,7 @@ public class ChangeDateDialog extends JDialog implements ActionListener{
 		this.delegate = del;
 		this.oldStarts = oldStarts;
 		setBounds(100, 100, 372, 170);
-		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -85,7 +85,7 @@ public class ChangeDateDialog extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("changeOK".equals(e.getActionCommand())) {
-			
+			delegate.getCalendarView().closeWindow();
 		}
 		else if ("changeCancel".equals(e.getActionCommand())) {
 			delegate.revertChanges(oldStarts);

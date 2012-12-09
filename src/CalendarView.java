@@ -59,6 +59,10 @@ public class CalendarView {
 		frmProjectCalendar.setVisible(true);	
 	}
 	
+	public void closeWindow() {
+		frmProjectCalendar.setVisible(false);
+	}
+	
 	public void renderCell() {
 		for (int i=0; i<7; i++) {
 		 tColumn = table.getColumnModel().getColumn(i);
