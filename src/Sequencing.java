@@ -45,9 +45,7 @@ public class Sequencing {
 				success = true;
 				res = availableRes.get(start);
 				for (int r=0; r<project.getUsedResources(); r++) {
-					//System.out.println("Available: " + res[r]);
 					if (res[r]-a.getResource(r) < 0) {
-						//System.out.println("Conflict: " + start);
 						duration = a.getDuration();
 						success = false;
 						break;
@@ -59,7 +57,6 @@ public class Sequencing {
 				duration--;
 			}
 		}
-		//System.out.println(a.getName() + " starts at " + (start-a.getDuration()));
 		return (start - a.getDuration());
 	}
 	

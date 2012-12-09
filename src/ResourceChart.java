@@ -34,8 +34,6 @@ public class ResourceChart extends JPanel {
 	  Dimension dim = getSize();
 	  int clientWidth = dim.width;
 	  int clientHeight = dim.height;
-	 // int leftBoarder = 0; // is this necessary ??
-	  //int barWidth = clientWidth / (dailyResources.length * dailyResources[0].length);
 	  int dayWidth = clientWidth / dailyResources.length;
 	  int barWidth = dayWidth / dailyResources[0].length;
 	  		
@@ -76,16 +74,10 @@ public class ResourceChart extends JPanel {
 		  			graphics.setColor(colors[j%colors.length]);
 		  		else
 		  			graphics.setColor(Color.red);
-		  		graphics.fillRect(dailyResourcesP, dailyResourcesQ + (int)(r*scale), barWidth - 2, (int)scale); //TODO: fill red limits here
+		  		graphics.fillRect(dailyResourcesP, dailyResourcesQ + (int)(r*scale), barWidth - 2, (int)scale);
 		  		graphics.setColor(Color.black);
 		  		graphics.drawRect(dailyResourcesP, dailyResourcesQ + (int)(r*scale), barWidth - 2, (int)scale);
 		  	}
-		  	/*
-	  	  graphics.setColor(colors[j%colors.length]);
-	  		graphics.fillRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height); //TODO: fill red limits here
-	  		graphics.setColor(Color.black);
-	  		graphics.drawRect(dailyResourcesP, dailyResourcesQ, barWidth - 2, height);
-	  	 */
 	  	}
 		  int labelWidth = labelFontMetrics.stringWidth(((Integer)i).toString());
 		  p = i * dayWidth + (dayWidth - labelWidth) / 2;

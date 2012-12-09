@@ -16,7 +16,6 @@ public class Activity implements Comparable<Activity> {
 	private List<Activity> successors = new ArrayList<Activity>();
 	
 	public Activity(String aName, int aDuration, int[] aResources, int maxResources) {
-		//this.pCal = pCalendar;
 		this.name = aName;
 		this.duration = aDuration;
 		this.resources = new int[maxResources];
@@ -64,8 +63,6 @@ public class Activity implements Comparable<Activity> {
 		Iterator<Activity> it = successors.iterator();
 		while (it.hasNext()) {
 			Activity s = it.next();
-			/*if (s.getStartDay() < (day+this.duration))
-				s.recursivlySetStartDay(day+this.duration);*/
 			s.recursivlySetStartDay(s.getLowerBound());
 		}
 	}

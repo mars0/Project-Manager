@@ -124,7 +124,7 @@ public class Project {
 	
 	public void setActivityDates() {
 		// check if time table is valid
-		if (startDate != null && endDate != null) { //TODO: check isValid...
+		if (hasValidSchedule(this.getActivityByName("START"), null)) {
 			Iterator<Activity> it = activities.iterator();
 			while (it.hasNext()) {
 				Activity a = it.next();
@@ -286,7 +286,7 @@ public class Project {
 			return true;
 		}
 		
-	// iterate through all successors
+	  // iterate through all successors
 		while (it.hasNext()) {
 			Activity succ = it.next();
 	    int earliestStart = start.getStartDay() + start.getDuration();
@@ -363,13 +363,20 @@ public class Project {
  			}
 			// build Gantt for current activity
 			String ganttLine = "";
-			for (int t=0; t<this.length; t++){
-				if (t >= a.getStartDay() && t < a.getStartDay()+a.getDuration())
-					ganttLine += "X";
-				/*else if (t >= a.getTimeMin() && t < a.getTimeMax()+a.getDuration())
-					ganttLine += "-";*/
-				else 
-					ganttLine += " ";
+			if ("START".equals(a.getName())) {
+				for (int t=1; t<=this.length; t++) {
+					if (t % 5 == 0)
+						ganttLine += "'";
+					else
+						ganttLine += " ";
+				}
+			} else {
+				for (int t=0; t<this.length; t++){
+					if (t >= a.getStartDay() && t < a.getStartDay()+a.getDuration())
+						ganttLine += "X";
+					else 
+						ganttLine += " ";
+				}
 			}
 			// print row
 			view.getTableModel().addRow(new Object[]{a.getName(), a.getDuration(), start, end, predecessors, ganttLine});

@@ -240,7 +240,6 @@ public class ProjectManager implements ActionListener {
     		// edit other activities only if successor relations are correct
     		else if (myProject.hasValidSchedule(myProject.getActivityByName("START"), null)) {
     			Activity a = myProject.getActivityByName(aName);
-    			// TODO: modify calendar to handle this
     			myProject.getProjectCalendar().openCalendarWindow(a);
     		}
         else {

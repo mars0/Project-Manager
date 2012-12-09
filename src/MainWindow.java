@@ -211,7 +211,6 @@ public class MainWindow {
 		table = new JTable(tableModel); 
 		scrollPane.setViewportView(table);
 		table.setFont(new Font("Courier New", Font.PLAIN, 14));
-		//table.setAutoCreateColumnsFromModel(false); //???
 		
 		scrollPane_1 = new JScrollPane();
 		frmProjectManagerPro.getContentPane().add(scrollPane_1, "12, 2, fill, fill");

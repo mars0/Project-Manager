@@ -203,8 +203,7 @@ public class ProjectCalendar implements ActionListener {
 		pCal.set(Calendar.DAY_OF_MONTH, 1);
 		// set label
 		Integer year = pCal.get(Calendar.YEAR);
-		cView.getLblMonth().setText(pCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) +
-				"   " + year.toString());
+		cView.getLblMonth().setText(pCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) +	"   " + year.toString());
 		// Sunday == 1, Monday == 2 etc.
 		int column = (pCal.get(Calendar.DAY_OF_WEEK) + 5) % 7;
 		int row = 0;
@@ -263,7 +262,6 @@ public class ProjectCalendar implements ActionListener {
       	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
       	if(!isStartDate(day.toString())) {
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, true);
-      		//project.calculateEndDate();
       	}
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}
@@ -275,7 +273,6 @@ public class ProjectCalendar implements ActionListener {
       	Integer day = (Integer)cView.getTableModel().getValueAt(cView.getTable().convertRowIndexToModel(row), cView.getTable().convertColumnIndexToModel(col));
       	if(!isStartDate(day.toString())) {
       		addCustomDay(pCal.get(Calendar.YEAR), pCal.get(Calendar.MONTH), day, false);
-      		//project.calculateEndDate();
       	}
       } catch (ClassCastException excep) {}
       catch (ArrayIndexOutOfBoundsException excep) {}
