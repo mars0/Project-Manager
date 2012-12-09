@@ -96,8 +96,13 @@ public class ProjectManager implements ActionListener {
     			myProject.updatePredecessors(a, new String[0]);
 	    	if (!(view.getTxtResources().getText().equals(""))) {
 	    		String[] rString = (view.getTxtResources().getText().split(" "));
-	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) 
-	    		  a.setResource(i, Integer.parseInt(rString[i]));
+	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) {
+	    			int res = Integer.parseInt(rString[i]);
+	    			if (res >= 0 && res <= myProject.getResourceLimits()[i])
+	    				a.setResource(i, res);
+	    			else
+	    				view.printDebugln("Cannot edit resource " + (i+1) + ": please check resource limits.");
+	    		}
 	    	}
 	    	
     		view.clearInputFields();
@@ -116,8 +121,13 @@ public class ProjectManager implements ActionListener {
 	    	int[] resources = new int[myProject.getMaxNumOfResources()];
 	    	if (!(view.getTxtResources().getText().equals(""))) {
 	    		String[] rString = (view.getTxtResources().getText().split(" "));
-	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) 
-	    			resources[i] = Integer.parseInt(rString[i]);
+	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) { 
+	    			int res = Integer.parseInt(rString[i]);
+	    			if (res >= 0 && res <= myProject.getResourceLimits()[i])
+	    				resources[i] = res;
+	    			else
+	    				view.printDebugln("Cannot add resource " + (i+1) + ": please check resource limits.");
+	    		}
 	    	}
 	    	myProject.addActivity(name, duration, predecessors, resources);
     	}

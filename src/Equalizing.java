@@ -27,7 +27,6 @@ public class Equalizing {
 			sd[r] /= (double)resPerDay.length;
 			sd[r] = Math.sqrt(sd[r] - (mean[r]*mean[r]));
 			this.varCoefficients[r] = sd[r] / mean[r];
-      //System.out.println("Mean/SD for " + (r+1) + ": " + varCoefficients[r]);
 		}
 	}
 	
@@ -74,6 +73,7 @@ public class Equalizing {
 		if (orderedList.size() > 0) { 
 			Activity current = orderedList.get(orderedList.size()-1);
 			if (!("END".equals(current.getName()) || "START".equals(current.getName()))) {
+				// try to change start day of this activity
 				int freeFloat = computeFreeFloat(current);
 				tryDelay(project.getActivityByName(current.getName()), freeFloat);		
 			}
@@ -89,8 +89,6 @@ public class Equalizing {
 	
 	public boolean equalize() {
 	// assuming that each activity starts at its earliest starting point
-		//System.out.println("Before varCoef: " + getCoefficientSum());
-		// TODO: check if schedule is valid
 		Activity s = project.getActivityByName("START");
 		if ((project.isValidSubGraph(s, null)) && (project.hasValidSchedule(s, null))) {
 			List<Activity> ordered = new ArrayList<Activity>(project.getActivities());

@@ -74,7 +74,7 @@ public class CriticalPath {
 		
 		// check if we should compute this node
 		if (maxTimesDone(successors) && a.getTimeMax() < 0) {
-			//search for minimum;
+			// search for minimum;
 			Iterator<Activity> it = successors.iterator();
 			int min = Integer.MAX_VALUE;
 			while(it.hasNext()) {

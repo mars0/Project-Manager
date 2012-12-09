@@ -66,12 +66,13 @@ public class Sequencing {
 	private void serialize(List<Activity> e, List<Activity> c, Map<Integer,int[]> availableRes) {
 		List<Activity> elected = new ArrayList<Activity>(e);
 		List<Activity> completed = new ArrayList<Activity>(c);
+		// get activity with least LFT
     Activity current = leastLFT(elected);
 		elected.remove(current);
+		// get earliest start day respecting predecessor relations
 		int startDay = latestFinishingTime(current.getPredecessors());
-		//project.getView().printDebugln(current.getName() + " earliest start day: " + startDay);
+		// get next day with feasible resource availability 
 		startDay = nextAvailable(current, startDay, availableRes);
-		//project.getView().printDebugln(current.getName() + " start day: " + startDay);
 		current.setStartDay(startDay);
 		completed.add(current);
 
@@ -110,22 +111,23 @@ public class Sequencing {
 	
 	private void process(List<Activity> ordered, Map<Integer,int[]> aRes, boolean delay) {
 		if (ordered == null || ordered.size() == 0) {
+			// base case of recursion
 			return;
 		}
 		else {
 			Map<Integer,int[]> availableRes = new HashMap<Integer,int[]>(aRes);
-			Activity current = ordered.get(ordered.size()-1);;
+			// process list from end to beginning
+			Activity current = ordered.get(ordered.size()-1);
 			int startDay;
 			if (delay == true) {
+				// we are executing the delay process
 				startDay = latestFinishingTime(current.getSuccessors());
 			}
 			else {
+				// we are executing the advance process
 			  startDay = latestFinishingTime(current.getPredecessors());
 			}
-			//System.out.println("current " + current.getName());
-			//System.out.println("1) " + startDay);
 			startDay = nextAvailable(current, startDay, availableRes);
-			//System.out.println("2) " + startDay);
 			current.setStartDay(startDay);
 			
 			//update resources
