@@ -29,7 +29,6 @@ public class ResourceManager implements ActionListener {
     		maxResWindow.close();
     	}
   	}
-
   }
   
   public int[][] calcDailyResources() {
@@ -37,11 +36,14 @@ public class ResourceManager implements ActionListener {
   	int length = project.getLength();
   	if (length > 0) { 
   		res = new int[length][project.getUsedResources()];
+  		// for each day and each activity
   		for (int day=0; day<length; day++) {
   			Iterator<Activity> it = project.getActivities().iterator();
   			while (it.hasNext()) {
   				Activity a = it.next();
+  				// check if activity is in execution on that day
   				if (a.getStartDay() <= day && day < a.getStartDay()+a.getDuration()) {
+  					// add resources
   					for (int r=0; r<project.getUsedResources(); r++)
   						res[day][r] += a.getResource(r);
   				}
@@ -55,14 +57,16 @@ public class ResourceManager implements ActionListener {
   }
   
   public boolean inResourceLimits() {
+  	// get daily usage of resources (sum)
   	int[][] dailyRes = calcDailyResources();
+  	// for each day and each resource
   	for (int day=0; day<project.getLength(); day++) {
   		for (int r=0; r<project.getUsedResources(); r++) {
+  			// check limits
   			if (dailyRes[day][r] > project.getResourceLimits()[r])
   				return false;
   		}
   	}
-  	
   	return true;
   }
   
