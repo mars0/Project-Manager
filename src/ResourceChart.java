@@ -39,7 +39,7 @@ public class ResourceChart extends JPanel {
 	  		
 	  Font titleFont = new Font("Book Antiqua", Font.BOLD, 15);
 	  FontMetrics titleFontMetrics = graphics.getFontMetrics(titleFont);
-	  Font labelFont = new Font("Book Antiqua", Font.PLAIN, 10);
+	  Font labelFont = new Font("Book Antiqua", Font.BOLD, 15);
 	  FontMetrics labelFontMetrics = graphics.getFontMetrics(labelFont);
 	  
 	  int titleWidth = titleFontMetrics.stringWidth(title);
@@ -81,7 +81,7 @@ public class ResourceChart extends JPanel {
 	  	}
 		  int labelWidth = labelFontMetrics.stringWidth(((Integer)i).toString());
 		  p = i * dayWidth + (dayWidth - labelWidth) / 2;
-		  graphics.drawString(((Integer)(i+1)).toString(), p, q);
+		  graphics.drawString(" "+((Integer)(i+1)).toString()+" ", p, q);
 	  }
 	}
 }

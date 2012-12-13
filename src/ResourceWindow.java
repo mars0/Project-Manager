@@ -29,7 +29,7 @@ public class ResourceWindow {
 	
   public void drawRecourses(int dailyResources[][], int resLimit[]) { // [day][resource]
   	frmGraph.getContentPane().removeAll();
-	  frmGraph.getContentPane().add(new ResourceChart(dailyResources, resLimit, "Resource Usage"));
+	  frmGraph.getContentPane().add(new ResourceChart(dailyResources, resLimit, " "));
 	}
 
 }
