@@ -197,6 +197,11 @@ public class ProjectManager implements ActionListener {
     else if ("criticalPath".equals(e.getActionCommand())) {
     	if(!myProject.getCriticalPath().computeCriticalPath())
   			view.printDebugln("Cannot compute critical path: Activity graph is not valid.");
+    	/*print times
+    	for (int i=0; i<myProject.getActivities().size(); i++) {
+    		Activity a = ((ArrayList<Activity>)myProject.getActivities()).get(i);
+    		view.printDebugln(a.getName() + ": " + a.getTimeMin() + ", " + a.getTimeMax());
+    	}*/
     }
     else if ("showCal".equals(e.getActionCommand())) {
     	myProject.getProjectCalendar().openCalendarWindow(myProject.getActivityByName("START"));

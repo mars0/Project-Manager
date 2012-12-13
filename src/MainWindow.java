@@ -209,6 +209,7 @@ public class MainWindow {
 		frmProjectManagerPro.getContentPane().add(scrollPane, "2, 2, 9, 1, fill, fill");
 		
 		table = new JTable(tableModel); 
+		table.setFocusable(false);
 		scrollPane.setViewportView(table);
 		table.setFont(new Font("Courier New", Font.PLAIN, 14));
 		
@@ -217,6 +218,7 @@ public class MainWindow {
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		textArea.setFocusable(false);
 		scrollPane_1.setViewportView(textArea);
 		
 		btnValid = new JButton("Valid Graph?");
@@ -276,6 +278,7 @@ public class MainWindow {
 		debugOutput.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		debugOutput.setBackground(Color.BLACK);
 		debugOutput.setEditable(false);
+		debugOutput.setFocusable(false);
 		
 		JLabel lblDuration = new JLabel(" Duration");
 		frmProjectManagerPro.getContentPane().add(lblDuration, "2, 8");

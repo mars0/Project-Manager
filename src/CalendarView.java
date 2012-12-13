@@ -100,8 +100,14 @@ public class CalendarView {
 				RowSpec.decode("max(16dlu;default)"),}));
 		
 		String[] colText = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-		tableModel = new DefaultTableModel(null, colText); 
-		
+		tableModel = new DefaultTableModel(null, colText) {
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+	       //all cells false
+	       return false;
+	    }
+		};
+				
 		lblMonth = new JLabel("");
 		frmProjectCalendar.getContentPane().add(lblMonth, "3, 2, center, default");
 		
