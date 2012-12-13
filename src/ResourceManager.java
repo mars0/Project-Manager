@@ -24,8 +24,16 @@ public class ResourceManager implements ActionListener {
   	else if("OK".equals(e.getActionCommand())) {
     	if (!(maxResWindow.getTextField().getText().equals(""))) {
     		String[] rString = (maxResWindow.getTextField().getText()).split(" ");
-    		for(int i=0; i<rString.length && i<project.getMaxNumOfResources(); i++) 
-    			project.setResLimit(i, Integer.parseInt(rString[i]));
+    		for(int i=0; i<rString.length && i<project.getMaxNumOfResources(); i++) {
+    			int resLimit;
+    			try {
+    				resLimit = new Integer(rString[i]);
+    			} catch (NumberFormatException ex) {
+    				resLimit = project.getResourceLimits()[i];
+    				project.getView().printDebugln("Cannot change resource limit " + (i+1) + ": wrong number format.");
+    			}
+    			project.setResLimit(i, resLimit);
+    		}
     		maxResWindow.close();
     	}
   	}

@@ -89,7 +89,11 @@ public class ProjectManager implements ActionListener {
     		String aName = (String)view.getTableModel().getValueAt(selectedRow, 0);
     		Activity a = myProject.getActivityByName(aName);
     		a.setName(name);
-    		a.setDuration(Integer.parseInt(view.getTxtDuration().getText()));
+    		try {
+    			a.setDuration(new Integer(view.getTxtDuration().getText()));
+    		} catch (NumberFormatException ex) {
+    			view.printDebugln("Cannot change duration of Activity " + name + ": wrong number format.");
+    		}
     		if (!(view.getTxtPred().getText().equals("")))
     	    myProject.updatePredecessors(a, (view.getTxtPred().getText()).split(" "));
     		else
@@ -97,7 +101,13 @@ public class ProjectManager implements ActionListener {
 	    	if (!(view.getTxtResources().getText().equals(""))) {
 	    		String[] rString = (view.getTxtResources().getText().split(" "));
 	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) {
-	    			int res = Integer.parseInt(rString[i]);
+	    			int res;
+	    			try {
+	    				res = new Integer(rString[i]);
+	      		} catch (NumberFormatException ex) {
+	      			res = a.getResource(i);
+	      			view.printDebugln("Cannot change resource "+ (i+1) + " of Activity " + name + ": wrong number format.");
+	      		}
 	    			if (res >= 0 && res <= myProject.getResourceLimits()[i])
 	    				a.setResource(i, res);
 	    			else
@@ -112,7 +122,12 @@ public class ProjectManager implements ActionListener {
     	}
     	else {
 	    	view.printDebugln("Add activity " + name + ".");
-	    	int duration = Integer.parseInt(view.getTxtDuration().getText());
+	    	int duration = 0;
+	    	try {
+	    		duration = new Integer(view.getTxtDuration().getText());
+	    	} catch (NumberFormatException ex) {
+	    		view.printDebugln("Cannot set duration of Activity " + name + ": wrong number format.");
+	    	}
 	    	String[] predecessors;
 	    	if (!(view.getTxtPred().getText().equals("")))
 	    		predecessors = (view.getTxtPred().getText()).split(" ");
@@ -122,7 +137,12 @@ public class ProjectManager implements ActionListener {
 	    	if (!(view.getTxtResources().getText().equals(""))) {
 	    		String[] rString = (view.getTxtResources().getText().split(" "));
 	    		for(int i=0; i<rString.length && i<myProject.getMaxNumOfResources(); i++) { 
-	    			int res = Integer.parseInt(rString[i]);
+	    			int res = 0;
+	    			try {
+	    				res = new Integer(rString[i]);
+	    			} catch (NumberFormatException ex) {
+	      			view.printDebugln("Cannot set resource "+ (i+1) + " of Activity " + name + ": wrong number format.");
+	      		}	
 	    			if (res >= 0 && res <= myProject.getResourceLimits()[i])
 	    				resources[i] = res;
 	    			else
