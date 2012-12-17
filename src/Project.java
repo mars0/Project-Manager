@@ -27,10 +27,12 @@ public class Project {
 		this.view = view;
 		this.resLimits = new int[maxResources];
 		//Arrays.fill(this.resLimits, 4); //TODO for debug later INTEGER.MAXVALUE
-		resLimits[0] = 5;
+		/*resLimits[0] = 5;
 		resLimits[1] = 8;
 		resLimits[2] = 7;
-		resLimits[3] = 6;
+		resLimits[3] = 6;*/
+		resLimits[0] = 9;
+		resLimits[1] = 7;
 		this.projectCalendar = new ProjectCalendar(this);
 		this.resourceManager = new ResourceManager(this);
 		this.criticalPath = new CriticalPath(this);

@@ -12,7 +12,7 @@ public class ProjectManager implements ActionListener {
 		this.myProject = new Project("Test Project", view, 4);
 		view.printDebugln("### Welcome to Project Manager PRO ###");
 		//view.printDebugln("Today is " + pCal.getTime());
-		// Test case PRACTICA 6:
+		/* Test case PRACTICA 6:
 		String[] preds = new String[0];
 		myProject.addActivity("A", 5, preds, new int[]{4, 6, 0, 0});
 		myProject.addActivity("B", 1, preds, new int[]{5, 0, 3, 0});
@@ -47,7 +47,7 @@ public class ProjectManager implements ActionListener {
 		preds[1] = "I";
 		preds[2] = "J";
 		myProject.addActivity("END", 0, preds, null);
-		/*
+		//
 		myProject.addActivity("A", 5, preds, new int[]{3, 2, 0, 0});
 		myProject.addActivity("B", 5, preds, new int[]{2, 4, 0, 0});
 		preds = new String[1];
@@ -77,6 +77,87 @@ public class ProjectManager implements ActionListener {
 		preds[0] = "H";
 		preds[1] = "K";
 		myProject.addActivity("END", 0, preds, null);*/
+		// TEST case 30:
+		String[] preds = new String[0];
+		myProject.addActivity("A1", 3, preds, new int[]{4, 2, 0, 0});
+		myProject.addActivity("A2", 2, preds, new int[]{1, 0, 0, 0});
+		myProject.addActivity("A3", 4, preds, new int[]{3, 3, 0, 0});
+		myProject.addActivity("A4", 5, preds, new int[]{7, 5, 0, 0});
+		preds = new String[1];
+		preds[0] = "A1";
+		myProject.addActivity("A5", 2, preds, new int[]{1, 3, 0, 0});
+		myProject.addActivity("A6", 1, preds, new int[]{5, 2, 0, 0});
+		preds = new String[2];
+		preds[0] = "A2";
+		preds[1] = "A3";
+		myProject.addActivity("A7", 1, preds, new int[]{0, 3, 0, 0});
+		preds = new String[1];
+		preds[0] = "A4";
+		myProject.addActivity("A8", 5, preds, new int[]{2, 4, 0, 0});
+		preds[0] = "A5";
+		myProject.addActivity("A9", 2, preds, new int[]{1, 1, 0, 0});
+		preds = new String[2];
+		preds[0] = "A6";
+		preds[1] = "A7";
+		myProject.addActivity("A10", 3, preds, new int[]{8, 3, 0, 0});
+		preds = new String[1];
+		preds[0] = "A7";
+		myProject.addActivity("A11", 2, preds, new int[]{2, 6, 0, 0});
+		myProject.addActivity("A12", 1, preds, new int[]{0, 2, 0, 0});
+		preds[0] = "A9";
+		myProject.addActivity("A13", 1, preds, new int[]{2, 4, 0, 0});
+		preds = new String[2];
+		preds[0] = "A9";
+		preds[1] = "A10";
+		myProject.addActivity("A14", 2, preds, new int[]{4, 1, 0, 0});
+		preds = new String[1];
+		preds[0] = "A11";
+		myProject.addActivity("A15", 3, preds, new int[]{3, 0, 0, 0});
+		preds = new String[2];
+		preds[0] = "A8";
+		preds[1] = "A12";
+		myProject.addActivity("A16", 1, preds, new int[]{1, 1, 0, 0});
+		preds = new String[1];
+		preds[0] = "A13";
+		myProject.addActivity("A17", 2, preds, new int[]{3, 2, 0, 0});
+		preds[0] = "A14";
+		myProject.addActivity("A18", 2, preds, new int[]{5, 4, 0, 0});
+		preds[0] = "A15";
+		myProject.addActivity("A19", 3, preds, new int[]{5, 3, 0, 0});
+		myProject.addActivity("A20", 2, preds, new int[]{4, 1, 0, 0});
+		preds[0] = "A16";
+		myProject.addActivity("A21", 4, preds, new int[]{0, 2, 0, 0});
+		preds[0] = "A18";
+		myProject.addActivity("A22", 1, preds, new int[]{6, 1, 0, 0});
+		preds = new String[2];
+		preds[0] = "A18";
+		preds[1] = "A19";
+		myProject.addActivity("A23", 1, preds, new int[]{4, 2, 0, 0});
+		preds = new String[1];
+		preds[0] = "A20";
+		myProject.addActivity("A24", 2, preds, new int[]{0, 4, 0, 0});
+		preds[0] = "A17";
+		myProject.addActivity("A25", 4, preds, new int[]{0, 3, 0, 0});
+		myProject.addActivity("A26", 2, preds, new int[]{3, 4, 0, 0});
+		preds = new String[2];
+		preds[0] = "A23";
+		preds[1] = "A24";
+		myProject.addActivity("A27", 3, preds, new int[]{5, 2, 0, 0});
+		preds = new String[1];
+		preds[0] = "A21";
+		myProject.addActivity("A28", 1, preds, new int[]{6, 3, 0, 0});
+		preds[0] = "A22";
+		myProject.addActivity("A29", 4, preds, new int[]{2, 1, 0, 0});
+		preds = new String[2];
+		preds[0] = "A27";
+		preds[1] = "A28";
+		myProject.addActivity("A30", 1, preds, new int[]{3, 2, 0, 0});
+		preds = new String[4];
+		preds[0] = "A25";
+		preds[1] = "A26";
+		preds[2] = "A29";
+		preds[3] = "A30";
+		myProject.addActivity("END", 0, preds, null);
 		myProject.printActivities();
 	}
 	
